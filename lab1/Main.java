@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-class Main {
+class Main{
     public static void main (String[] args) {
 
         Scanner nomeRobo = new Scanner (System.in);
@@ -16,10 +16,6 @@ class Main {
 
         System.out.println("Informe o tamanho Y inicial do tabuleiro");
         posicaoY = lerNextInt ();
-
-
-
-
 
     }
 
