@@ -3,19 +3,26 @@ import java.util.Scanner;
 class Main{
     public static void main (String[] args) {
 
-        Scanner nomeRobo = new Scanner (System.in);
-        Scanner posicaoX = new Scanner (System.in);
-        Scanner posicaoY = new Scanner (System.in);
+        String nomeRobo;
+        int x, y;
+        Robo r1=new Robo();
 
+        Scanner entrada=new Scanner(System.in);
+        
+        System.out.println("Nome:");
+            nomeRobo=entrada.nextLine();
 
-        System.out.println("Informe o nome do robo: ");
-        nomeRobo = lerNext();
+        System.out.println("posicao X:");
+            x=entrada.nextInt();
+        
+        System.out.println("posicao Y:");
+            y=entrada.nextInt();
+        
+        r1.construtor(nomeRobo, x, y);
 
-        System.out.println("Informe o tamanho X inicial do tabuleiro: ");
-        posicaoX = lerNextInt();
+        System.out.print(entrada);
 
-        System.out.println("Informe o tamanho Y inicial do tabuleiro");
-        posicaoY = lerNextInt ();
+        r1.exibirPosicao();
 
     }
 
