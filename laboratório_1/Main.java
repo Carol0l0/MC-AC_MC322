@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-class main {
+class Main {
     public static void main (String[] args) {
 
         Scanner nomeRobo = new Scanner (System.in);
