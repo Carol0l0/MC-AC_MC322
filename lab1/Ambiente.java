@@ -4,19 +4,13 @@ public class Ambiente{
     private int larguraX;
 
     public Ambiente(int alturaY, int larguraX){
-
         this.alturaY = alturaY;
         this.larguraX = larguraX;
     }
 
 
-    public boolean XdentroDosLimites (int alturaY, int posicaoY){
-        return (posicaoY <= alturaY);
-
-    }
-
-    public boolean YdentroDosLimites (int larguraX, int posicaoX){
-        return (larguraX <= posicaoX);
+    public boolean dentroDosLimites (int y, int x){
+        return x>=0 && x<this.larguraX && y>=0 && y<this.alturaY;
     }
 
 }
