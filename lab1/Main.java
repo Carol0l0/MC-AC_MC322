@@ -3,18 +3,18 @@ import java.util.Scanner;
 class Main{
     public static void main (String[] args) {
 
-        String nomeRobo;
+        String nomeRobo, checar;
         int x, y, alt, larg, movX, movY;
         Robo r1;
         Ambiente a1;
 
         Scanner entrada=new Scanner(System.in);
         
-        System.out.println("Altura:");
-            alt=entrada.nextInt();
-
         System.out.println("Largura:");
             larg=entrada.nextInt();
+        
+        System.out.println("Altura:");
+            alt=entrada.nextInt();
 
         a1=new Ambiente(alt, larg);
 
@@ -30,17 +30,26 @@ class Main{
         r1=new Robo(nomeRobo, x, y);
         r1.exibirPosicao();
 
-        System.out.println(a1.dentroDosLimites(r1.posicaoY, r1.posicaoX));
-        if(a1.dentroDosLimites(r1.posicaoY, r1.posicaoX)){
+        while(a1.dentroDosLimites(r1.posicaoY, r1.posicaoX)){
             System.out.println("andar X:");
-                movX=entrada.nextInt();
+                checar=entrada.next();
+                try{
+                    movX=Integer.parseInt(checar);
+                }
+                catch(NumberFormatException e){
+                    System.out.println("jogo terminado!");
+                    break;
+                }
         
             System.out.println("andar Y:");
                 movY=entrada.nextInt();
-            r1.mover(movX, movY, a1);
+            if(r1.mover(movX, movY, a1)){
+                break;
+            }
             r1.exibirPosicao();
         }
 
+        entrada.close();
 
     }
 

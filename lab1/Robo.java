@@ -11,14 +11,15 @@ public class Robo{
         this.posicaoY = posicaoY;
     }
 
-    public void mover(int deltaX, int deltaY, Ambiente a){
+    public boolean mover(int deltaX, int deltaY, Ambiente a){
         if(a.dentroDosLimites(this.posicaoY+deltaY, this.posicaoX+deltaX)){
             this.posicaoX+=deltaX;
             this.posicaoY+=deltaY;
+            return false;
         }
-        else{
-            System.out.println("vc excedeu os limites");
-        }
+        System.out.println("vc excedeu os limites");
+        return true;
+
     }
 
     public String exibirPosicao(){
