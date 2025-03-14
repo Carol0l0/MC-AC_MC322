@@ -8,7 +8,6 @@ public class Ambiente{
         this.larguraX = larguraX;
     }
 
-
     public boolean dentroDosLimites (int y, int x){
         return x>=0 && x<this.larguraX && y>=0 && y<this.alturaY;
     }

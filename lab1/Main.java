@@ -4,7 +4,7 @@ class Main{
     public static void main (String[] args) {
 
         String nomeRobo, checar;
-        int x, y, alt, larg, movX, movY;
+        int x, y, larg, alt, movX, movY;
         Robo r1;
         Ambiente a1;
 
