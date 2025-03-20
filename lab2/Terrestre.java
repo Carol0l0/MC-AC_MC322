@@ -12,7 +12,8 @@ public class Terrestre extends Robo {
         if(deltaX+deltaY>this.v_max){
             return false;
         }
-        
+
         return super.mover(deltaX, deltaY, a);
     }
+    
 }
