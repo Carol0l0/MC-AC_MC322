@@ -2,8 +2,8 @@ public class Terrestre extends Robo {
     
     int v_max;
     
-    public Terrestre (String nome, int posicaoX, int posicaoY, int v_max){
-        super(nome, posicaoX, posicaoY);
+    public Terrestre (String nome, int posicaoX, int posicaoY, int posicaoZ, int v_max){
+        super(nome, posicaoX, posicaoY, posicaoZ);
         this.v_max=v_max;
     }
 
@@ -15,5 +15,5 @@ public class Terrestre extends Robo {
 
         return super.mover(deltaX, deltaY, a);
     }
-    
+
 }
