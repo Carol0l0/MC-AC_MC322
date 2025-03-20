@@ -27,7 +27,7 @@ class Main{
         System.out.println("posicao Y:");
             y=entrada.nextInt();
         
-        r1=new Robo(nomeRobo, x, y);
+        r1=new Robo(nomeRobo, x, y, 0);
         r1.exibirPosicao();
 
         while(a1.dentroDosLimites(r1.posicaoY, r1.posicaoX)){
