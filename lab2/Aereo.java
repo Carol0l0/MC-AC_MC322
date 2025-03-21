@@ -4,11 +4,11 @@ class Aereo extends Robo{
     int altitudeMax;
     int metros;
 
-    public Aereo(String nome, int posicaoX, int posicaoY, int altitude, int altitudeMax){
-    super(nome, posicaoX,posicaoY);
-
-    this.altitude = altitude;
-    this.altitudeMax = altitudeMax;
+    public Aereo(String nome, int posicaoX, int posicaoY, int posicaoZ, int altitude, int altitudeMax){
+        super(nome, posicaoX, posicaoY, posicaoZ);
+        this.altitude = altitude;
+        this.altitudeMax = altitudeMax;
+    }
 
     public void subir(int metros){
         if (altitude + metros <= altitudeMax) {
@@ -26,6 +26,4 @@ class Aereo extends Robo{
             altitude = 0;
         }
     }
-}
-
 }
