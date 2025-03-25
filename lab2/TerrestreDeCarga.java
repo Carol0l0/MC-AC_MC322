@@ -1,3 +1,6 @@
+//esse robo tem uma carga máxima q ele consegue levar, toda vez que a pessoa pedir pra mover ela vai ter que adicionar (ou nao) uma carga,
+//se essa carga exceder o máximo, ele para. Além disso tbm tem o atributo da bateria, que toda vex que ele se movimentar vai diminuir 10% da carga
+
 public class TerrestreDeCarga extends Terrestre {
 
     private int cargaMaxima; 
@@ -22,6 +25,10 @@ public class TerrestreDeCarga extends Terrestre {
         }
     }
 
+    public void abastecer(){
+        this.nivelBateria=100;
+    }
+
     @Override
     public boolean mover(int deltaX, int deltaY, Ambiente a) {
         boolean conseguiuMover = super.mover(deltaX, deltaY, a);
@@ -35,13 +42,13 @@ public class TerrestreDeCarga extends Terrestre {
             nivelBateria -= 10;
         } else {
             nivelBateria = 0;
-            System.out.println(getNome() + " esta sem bateria! Precisa recarregar.");
+            System.out.println(getNome() + " esta sem bateria! Jogo terminado! Preciso recarregar!.");
         }
-    
+        
         System.out.println(getNome() + " Posicao: (" + posicaoX + ", " + posicaoY + "). Nivel de bateria: " + nivelBateria + "%");
     
         return true;
     }
     
-
 }
+

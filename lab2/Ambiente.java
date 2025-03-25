@@ -20,7 +20,7 @@ public class Ambiente{
 
     public void adicionarRobo(Robo r){
         listadeRobos.add(r);
-        System.out.print("Robo "+r.getNome(r)+" adicionado!");
+        System.out.print("Robo "+r.getNome()+" adicionado!");
     }
 
 }

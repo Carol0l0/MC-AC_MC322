@@ -1,22 +1,59 @@
 import java.util.Scanner;
 
-class Main{
-    public static void main (String[] args) {
+//criei essa main aq pra testa o blindado q nao ta indo aaaaaaaaaaaaaa
+//ele ta pedindo x e y e depois voce escolhe qual dos dois (ficou meio redundande dps mudar)
 
-        String nomeRobo, checar;
+
+
+class Main {
+    public static void main(String[] args) {
+
+        String nomeRobo;
         int x, y, larg, alt, movX, movY;
-        Robo r1;
         Ambiente a1;
+        Scanner entrada = new Scanner(System.in);
 
-        Scanner entrada=new Scanner(System.in);
-        
+        //ambiente
         System.out.println("Largura:");
-            larg=entrada.nextInt();
-        
-        System.out.println("Altura:");
-            alt=entrada.nextInt();
+        larg = entrada.nextInt();
 
-        a1=new Ambiente(alt, larg);
+        System.out.println("Altura:");
+        alt = entrada.nextInt();
+
+        a1 = new Ambiente(alt, larg);
+
+        //blindado
+        System.out.println("Nome do Robô Blindado:");
+        nomeRobo = entrada.next();
+
+        System.out.println("Posição X do Blindado:");
+        x = entrada.nextInt();
+
+        System.out.println("Posição Y do Blindado:");
+        y = entrada.nextInt();
+
+        TerrestreBlindado blindado = new TerrestreBlindado(nomeRobo, x, y, 0);
+
+        System.out.println("Nome do Robô Blindado:");
+        nomeRobo = entrada.next();
+
+        System.out.println("Posição X do Blindado:");
+        x = entrada.nextInt();
+
+        System.out.println("Posição Y do Blindado:");
+        y = entrada.nextInt();
+
+        //adc ele
+        a1.listadeRobos.add(blindado);
+
+        //cria um robo como obstaculo base
+        Robo obstaculo = new Robo("Obstaculo", x + 2, y, 0);
+        a1.listadeRobos.add(obstaculo);
+
+        System.out.println("Blindado criado em (" + blindado.posicaoX + ", " + blindado.posicaoY + ")");
+        System.out.println("Obstáculo criado em (" + obstaculo.posicaoX + ", " + obstaculo.posicaoY + ")");
+
+        blindado.exibirPosicao();
 
         System.out.println("Nome:");
             nomeRobo=entrada.next();
@@ -27,7 +64,7 @@ class Main{
         System.out.println("posicao Y:");
             y=entrada.nextInt();
         
-        r1=new Robo(nomeRobo, x, y, 0);
+        r1=new Robo(nomeRobo, x, y);
         r1.exibirPosicao();
 
         while(a1.dentroDosLimites(r1.posicaoY, r1.posicaoX)){
@@ -50,7 +87,5 @@ class Main{
         }
 
         entrada.close();
-
     }
-
 }
