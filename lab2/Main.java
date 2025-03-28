@@ -8,66 +8,45 @@ import java.util.Scanner;
 class Main {
     public static void main(String[] args) {
 
-        String nomeRobo;
-        int x, y, larg, alt, movX, movY;
+        String nomeRobo, checar;
+        int x, y, z, aX, aY, aZ, movX, movY, a_max;
         Ambiente a1;
+        AereoXY aero;
         Scanner entrada = new Scanner(System.in);
 
         //ambiente
-        System.out.println("Largura:");
-        larg = entrada.nextInt();
+        System.out.println("eixo X:");
+        aX = entrada.nextInt();
 
-        System.out.println("Altura:");
-        alt = entrada.nextInt();
+        System.out.println("eixo Y:");
+        aY = entrada.nextInt();
 
-        a1 = new Ambiente(alt, larg);
+        System.out.println("eixo Z:");
+        aZ = entrada.nextInt();
 
-        //blindado
-        System.out.println("Nome do Robô Blindado:");
-        nomeRobo = entrada.next();
-
-        System.out.println("Posição X do Blindado:");
-        x = entrada.nextInt();
-
-        System.out.println("Posição Y do Blindado:");
-        y = entrada.nextInt();
-
-        TerrestreBlindado blindado = new TerrestreBlindado(nomeRobo, x, y, 0);
-
-        System.out.println("Nome do Robô Blindado:");
-        nomeRobo = entrada.next();
-
-        System.out.println("Posição X do Blindado:");
-        x = entrada.nextInt();
-
-        System.out.println("Posição Y do Blindado:");
-        y = entrada.nextInt();
-
-        //adc ele
-        a1.listadeRobos.add(blindado);
-
-        //cria um robo como obstaculo base
-        Robo obstaculo = new Robo("Obstaculo", x + 2, y, 0);
-        a1.listadeRobos.add(obstaculo);
-
-        System.out.println("Blindado criado em (" + blindado.posicaoX + ", " + blindado.posicaoY + ")");
-        System.out.println("Obstáculo criado em (" + obstaculo.posicaoX + ", " + obstaculo.posicaoY + ")");
-
-        blindado.exibirPosicao();
+        a1 = new Ambiente(aX, aY, aZ);
 
         System.out.println("Nome:");
             nomeRobo=entrada.next();
+
+        System.out.println("altitude máxima:");
+            a_max=entrada.nextInt();
 
         System.out.println("posicao X:");
             x=entrada.nextInt();
         
         System.out.println("posicao Y:");
             y=entrada.nextInt();
-        
-        r1=new Robo(nomeRobo, x, y);
-        r1.exibirPosicao();
 
-        while(a1.dentroDosLimites(r1.posicaoY, r1.posicaoX)){
+        System.out.println("posicao Z:");
+            z=entrada.nextInt();
+
+        aero=new AereoXY(nomeRobo, x, y, z, a_max, "vermelho");
+        a1.listadeRobos.add(aero);
+        System.out.println(aero.getCor());
+
+
+        while(a1.dentroDosLimites(aero.posicaoY, aero.posicaoX, aero.posicaoZ)){
             System.out.println("andar X:");
                 checar=entrada.next();
                 try{
@@ -80,10 +59,10 @@ class Main {
         
             System.out.println("andar Y:");
                 movY=entrada.nextInt();
-            if(r1.mover(movX, movY, a1)){
+            if(aero.mover(movX, movY, a1)){
                 break;
             }
-            r1.exibirPosicao();
+            aero.exibirPosicao();
         }
 
         entrada.close();

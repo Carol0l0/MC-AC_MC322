@@ -111,17 +111,6 @@ public class TerrestreBlindado extends Robo {
         return true;
     }
 
-    @Override
-    public Boolean identificarObstaculo(Ambiente a, int x, int y, int z) {
-        for (Robo robo : a.listadeRobos) {
-            if (robo.posicaoX == x && robo.posicaoY == y && robo.posicaoZ == z && robo != this) {
-                System.out.println("Obstáculo detectado!");
-                return true;
-            }
-        }
-        return false;
-    }
-
     public int getResistencia() {
         return resistencia;
     }

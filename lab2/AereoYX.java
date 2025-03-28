@@ -1,7 +1,7 @@
 public class AereoYX extends Aereo{//anda na direção Y depois na direção X
 
     public AereoYX(String nome, int posicaoX, int posicaoY, int posicaoZ, int altitude, int altitudeMax){
-        super(nome, posicaoX, posicaoY, posicaoZ, altitude, altitudeMax);
+        super(nome, posicaoX, posicaoY, posicaoZ, altitudeMax);
     }
 
     @Override

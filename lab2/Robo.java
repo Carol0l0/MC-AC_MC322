@@ -18,7 +18,7 @@ public class Robo{
     }
 
     public boolean mover(int deltaX, int deltaY, Ambiente a){
-        if(a.dentroDosLimites(this.posicaoY+deltaY, this.posicaoX+deltaX) && identificarObstaculo(a, this.posicaoX+deltaX, this.posicaoY+deltaY, this.posicaoZ)){
+        if(a.dentroDosLimites(this.posicaoX+deltaX, this.posicaoY+deltaY, 0) && identificarObstaculo(a, this.posicaoX+deltaX, this.posicaoY+deltaY, this.posicaoZ)){
             this.posicaoX+=deltaX;
             this.posicaoY+=deltaY;
             return true;
@@ -40,7 +40,7 @@ public class Robo{
     }
     
     public String exibirPosicao(){
-        System.out.println(this.nome+" esta na posicao ("+this.posicaoX+", "+this.posicaoY+").");
+        System.out.println(this.nome+" esta na posicao ("+this.posicaoX+", "+this.posicaoY+", "+this.posicaoZ+").");
         return this.posicaoX+" "+this.posicaoY;
     }
 

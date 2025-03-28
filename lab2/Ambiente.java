@@ -2,24 +2,25 @@ import java.util.ArrayList;
 
 public class Ambiente{
     
-    private int alturaY;
-    private int larguraX;
+    private int aX;
+    private int aY;
+    private int aZ;
     public ArrayList<Robo> listadeRobos;
 
-    public Ambiente(int alturaY, int larguraX){
-        this.alturaY = alturaY;
-        this.larguraX = larguraX;
+    public Ambiente(int aX, int aY, int aZ){
+        this.aX = aX;
+        this.aY = aY;
+        this.aZ = aZ;
         this.listadeRobos=new ArrayList<Robo>();
     }
 
-    public boolean dentroDosLimites (int y, int x){
-        return x>=0 && x<this.larguraX && y>=0 && y<this.alturaY;
+    public boolean dentroDosLimites (int x, int y, int z){
+        return x>=0 && x<this.aX && y>=0 && y<this.aY && z>=0 && z<this.aZ;
     
     }
-    ArrayList<Robo> listaderobos = new ArrayList<>();
 
     public void adicionarRobo(Robo r){
-        listadeRobos.add(r);
+        this.listadeRobos.add(r);
         System.out.print("Robo "+r.getNome()+" adicionado!");
     }
 

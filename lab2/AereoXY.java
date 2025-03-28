@@ -1,12 +1,19 @@
 public class AereoXY extends Aereo{//anda na direção X depois na direção Y
 
-    public AereoXY(String nome, int posicaoX, int posicaoY, int posicaoZ, int altitude, int altitudeMax){
-        super(nome, posicaoX, posicaoY, posicaoZ, altitude, altitudeMax);
+    public String cor;
+
+    public AereoXY(String nome, int posicaoX, int posicaoY, int posicaoZ, int altitudeMax, String cor){
+        super(nome, posicaoX, posicaoY, posicaoZ, altitudeMax);
+        this.cor=cor;
+    }
+
+    public String getCor(){
+        return this.cor;
     }
 
     @Override
     public boolean mover(int deltaX, int deltaY, Ambiente a) {
-        if(super.mover(deltaX, deltaY, a)){
+        if(a.dentroDosLimites(this.posicaoX+deltaX, this.posicaoY+deltaY, this.posicaoZ)){
             for(int i=this.posicaoX; i!=this.posicaoX+deltaX; i+= (deltaX>0) ? 1:-1){
                 if(!identificarObstaculo(a, i, this.posicaoY, this.posicaoZ)){
                     System.out.println("Movimentacao cancelada!");
