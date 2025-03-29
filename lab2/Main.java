@@ -14,18 +14,20 @@ public class Main {
         r1.mover(0, -1, a);
         r1.exibirPosicao();
         r1.subir(5, a);
-        r1.exibirPosicao();
         r1.mover(0, -1, a);
         r1.exibirPosicao();
 
-        /* 
-        //Criando robôs terrestres
+        //Criando robôs
         RoboTerrestreDeCarga robo1 = new RoboTerrestreDeCarga("Robo1", 0, 0, 0, 5, 10, 100);
         RoboTerrestreBlindado robo2 = new RoboTerrestreBlindado("Robo2", 5, 5, 0);
+        RoboAereoXY robo3 = new RoboAereoXY("Robo3", 3, 3, 3, 7, null);
+        RoboAereoYX robo4= new RoboAereoYX("Robo 4", 3, 3, 2, 9);
 
         // Adicionando robôs ao ambiente
         a.adicionarRobo(robo1);
         a.adicionarRobo(robo2);
+        a.adicionarRobo(robo3);
+        a.adicionarRobo(robo4);
 
         //Caso terrestres excedam os limites do ambiente
         System.out.println("\nExcedendo limite de velocidade e ambiente do 1 e 3");
@@ -35,24 +37,24 @@ public class Main {
         System.out.println("\nSobrecarregando 1 com 11kg:");
         robo1.carregarPeso(11);
 
-        //Caso TerrestreDeCarga fique sem bateria
-        System.out.println("\nMovimentando TerrestreDeCarga até bateria acabar:");
-        robo1.mover(1, 1, a);
-        robo1.getNivelBateria();
-        robo1.mover(1, 1, a);
-        robo1.getNivelBateria();
-        robo1.mover(1, 1, a);
-        robo1.getNivelBateria();
-        robo1.mover(1, 1, a);
-        robo1.getNivelBateria();
-        robo1.mover(-1, -1, a);
-        robo1.getNivelBateria();
-        robo1.mover(-1, -1, a);
+        //Caso AereoYX fique sem bateria
+        System.out.println("\nMovimentando AereoYX até bateria acabar:");
+        robo4.mover(1, 1, a);
+        robo4.getNivelBateria();
+        robo4.mover(1, 1, a);
+        robo4.getNivelBateria();
+        robo4.mover(1, 1, a);
+        robo4.getNivelBateria();
+        robo4.mover(1, 1, a);
+        robo4.getNivelBateria();
+        robo4.mover(-1, -1, a);
+        robo4.getNivelBateria();
+        robo4.mover(-1, -1, a);
 
-        //Caso queira recarregar TerrestreDeCarga
-        System.out.println("\nRecarregando TerrestreDeCarga:");
-        robo1.carregarBateria();
-        robo1.getNivelBateria();
+        //Caso queira recarregar AereoYX
+        System.out.println("\nRecarregando AereoYX:");
+        robo4.carregarBateria();
+        robo4.getNivelBateria();
 
         //movimento TerrestreBlindado
         System.out.println("\nMovendo em X:");
