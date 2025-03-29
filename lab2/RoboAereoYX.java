@@ -1,6 +1,6 @@
-public class AereoYX extends Aereo{//anda na direção Y depois na direção X
+public class RoboAereoYX extends RoboAereo{
 
-    public AereoYX(String nome, int posicaoX, int posicaoY, int posicaoZ, int altitude, int altitudeMax){
+    public RoboAereoYX(String nome, int posicaoX, int posicaoY, int posicaoZ, int altitude, int altitudeMax){
         super(nome, posicaoX, posicaoY, posicaoZ, altitudeMax);
     }
 

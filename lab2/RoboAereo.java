@@ -1,10 +1,10 @@
-class Aereo extends Robo{
+class RoboAereo extends Robo{
 
     int altitude;
     int altitudeMax;
     int metros;
 
-    public Aereo(String nome, int posicaoX, int posicaoY, int posicaoZ, int altitudeMax){
+    public RoboAereo(String nome, int posicaoX, int posicaoY, int posicaoZ, int altitudeMax){
         super(nome, posicaoX, posicaoY, posicaoZ);
         this.altitudeMax = altitudeMax;
     }
@@ -13,7 +13,7 @@ class Aereo extends Robo{
         if (posicaoZ + metros <= altitudeMax) {
             posicaoZ += metros;
         } else {
-            System.out.println("voce excedeu os limites");
+            System.out.println("Você excedeu os limites");
         }
     }
 
@@ -21,7 +21,7 @@ class Aereo extends Robo{
         if (posicaoZ - metros >= 0) {
             posicaoZ -= metros;
         } else {
-            System.out.println("voce excedeu os limites");
+            System.out.println("Você excedeu os limites");
             posicaoZ = 0;
         }
     }
