@@ -15,6 +15,7 @@ public class Robo{
     //Construtor para inicializar um robô em uma posição específica
     public Robo(String nome, int posicaoX, int posicaoY, int posicaoZ){
         this.nome = nome;
+        this.direcao="Norte";
         this.posicaoX = posicaoX;
         this.posicaoY = posicaoY;
         this.posicaoZ = posicaoZ;
@@ -46,7 +47,7 @@ public class Robo{
     
     //Método para exibir a posição atual do robô
     public String exibirPosicao(){
-        System.out.println(this.nome+" esta na posicao ("+this.posicaoX+", "+this.posicaoY+", "+this.posicaoZ+").");
+        System.out.println(this.nome+" esta na posicao ("+this.posicaoX+", "+this.posicaoY+", "+this.posicaoZ+"). Direção "+this.direcao);
         return this.posicaoX+" "+this.posicaoY;
     }
 

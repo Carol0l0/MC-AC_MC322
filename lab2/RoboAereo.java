@@ -9,11 +9,13 @@ class RoboAereo extends Robo{
         this.altitudeMax = altitudeMax;
     }
 
-    public void subir(int metros){
-        if (posicaoZ + metros <= altitudeMax) {
-            posicaoZ += metros;
-        } else {
-            System.out.println("Você excedeu os limites");
+    public void subir(int metros, Ambiente a){
+        if(!identificarObstaculo(a, this.posicaoX, this.posicaoY, this.posicaoZ+metros)){
+            if (posicaoZ + metros <= altitudeMax) {
+                posicaoZ += metros;
+            } else {
+                System.out.println("Você excedeu os limites");
+            }
         }
     }
 

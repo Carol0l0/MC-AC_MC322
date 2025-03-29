@@ -4,7 +4,21 @@ public class Main {
 
         //Criando o ambiente
         Ambiente a = new Ambiente(10, 10, 10);
-        
+
+        RoboAereoYX r1 =new RoboAereoYX("bob", 2, 3, 0, 5);
+        a.adicionarRobo(r1);
+        r1.exibirPosicao();
+        Robo obs=new Robo("obstaculo", 2, 2, 0);
+        a.adicionarRobo(obs);
+        obs.exibirPosicao();
+        r1.mover(0, -1, a);
+        r1.exibirPosicao();
+        r1.subir(5, a);
+        r1.exibirPosicao();
+        r1.mover(0, -1, a);
+        r1.exibirPosicao();
+
+        /* 
         //Criando robôs terrestres
         RoboTerrestreDeCarga robo1 = new RoboTerrestreDeCarga("Robo1", 0, 0, 0, 5, 10, 100);
         RoboTerrestreBlindado robo2 = new RoboTerrestreBlindado("Robo2", 5, 5, 0);
@@ -88,6 +102,6 @@ public class Main {
         boolean movPosExtremo = robo1.mover(20, 20, a);
         System.out.println("Resultado: " + movPosExtremo);
         robo1.getNivelBateria();
-
+        */
     }
 }

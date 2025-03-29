@@ -15,19 +15,33 @@ public class RoboAereoXY extends RoboAereo{
     public boolean mover(int deltaX, int deltaY, Ambiente a) {
         if(a.dentroDosLimites(this.posicaoX+deltaX, this.posicaoY+deltaY, this.posicaoZ)){
             for(int i=this.posicaoX; i!=this.posicaoX+deltaX; i+= (deltaX>0) ? 1:-1){
-                if(!identificarObstaculo(a, i, this.posicaoY, this.posicaoZ)){
+                if(this.identificarObstaculo(a, i, this.posicaoY, this.posicaoZ)){
                     System.out.println("Movimentacao cancelada!");
                     return false;
                 }
             }
-            this.posicaoX+=deltaX;
+            if(!this.identificarObstaculo(a, this.posicaoX+deltaX, this.posicaoY, this.posicaoZ)){
+                this.posicaoX+=deltaX;
+            }
+            else{
+                System.out.println("Movimentacao cancelada!");
+                return false;
+            }
+
             for(int i=this.posicaoY; i!=this.posicaoY+deltaY; i+= (deltaY>0) ? 1:-1){
-                if(!identificarObstaculo(a, this.posicaoX, i, this.posicaoZ)){
+                if(this.identificarObstaculo(a, this.posicaoX, i, this.posicaoZ)){
                     System.out.println("Movimentacao cancelada!");
                     return false;
                 }
             }
-            this.posicaoY+=deltaY;
+            if(!this.identificarObstaculo(a, this.posicaoX, this.posicaoY+deltaY, this.posicaoZ)){
+                this.posicaoY+=deltaY;
+            }
+            else{
+                System.out.println("Movimentacao cancelada!");
+                return false;
+            }
+
             if(deltaY>0){
                 this.direcao="Norte";
             }

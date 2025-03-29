@@ -25,7 +25,7 @@ public class Ambiente{
     //Método para adicionar um robô ao ambiente
     public void adicionarRobo(Robo r){
         this.listadeRobos.add(r);
-        System.out.print("\nRobo "+r.getNome()+" adicionado!");
+        System.out.println("\nRobo "+r.getNome()+" adicionado!");
     }
 
 }

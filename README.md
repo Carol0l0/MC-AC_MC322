@@ -1,2 +1,3 @@
 # MC-AC_MC322
-oi
+Ana Carolina Vieira Araújo (248734)
+Maria Clara Martinez Oliveira (281315)
