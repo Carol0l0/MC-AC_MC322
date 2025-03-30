@@ -6,8 +6,8 @@ public class Main {
         Ambiente a = new Ambiente(10, 10, 10);
 
         //Criando robôs
-        RoboTerrestreDeCarga rCarga = new RoboTerrestreDeCarga("Robo de Carga", 0, 0, 0, 5, 10, 100);
-        RoboTerrestreBlindado rBlindado = new RoboTerrestreBlindado("Robo Blindado", 5, 5, 0);
+        RoboTerrestreDeCarga rCarga = new RoboTerrestreDeCarga("Robo de Carga", 3, 5, 0, 5, 10);
+        RoboTerrestreBlindado rBlindado = new RoboTerrestreBlindado("Robo Blindado", 5, 0, 0, 7);
         RoboAereoXY r_XY = new RoboAereoXY("Robo Aereo XY", 3, 3, 3, 7, null);
         RoboAereoYX r_YX= new RoboAereoYX("Robo Aereo YX", 3, 3, 2, 9);
 
@@ -46,8 +46,9 @@ public class Main {
         r_YX.getNivelBateria();
 
         //Caso terrestres excedam os limites do ambiente
-        System.out.println("\nExcedendo limite de velocidade e ambiente do 1 e 3");
-        rCarga.mover(11, 3, a);  
+        System.out.println("\nExcedendo limite de velocidade e ambiente do Robô de Carga e do Robô Blindado");
+        rCarga.mover(11, 3, a);
+        rBlindado.mover(8, "Y", a);
 
         //Caso ultrapasse a cargaMáxima do RoboTerrestreDeCarga
         System.out.println("\nSobrecarregando 1 com 11kg:");
@@ -58,49 +59,64 @@ public class Main {
         rBlindado.mover(-2, "X", a);
         rBlindado.exibirPosicao();
         System.out.println("\nMovendo em Y:");
-        rBlindado.mover(-1, "Y", a);
+        rBlindado.mover(2, "Y", a);
         rBlindado.exibirPosicao();
 
         //Caso encontra um obstáculo + recebendo dano + caso Resistencia > 0 continuando
         System.out.println("\nRobo de Carga no caminho do Robo Blindado:");
-        rBlindado.mover(-2, "Y", a);
+        rCarga.exibirPosicao();
+        rBlindado.exibirPosicao();
+        rBlindado.mover(5, "Y", a);
+        rBlindado.exibirPosicao();
+        rBlindado.mover(-5, "Y", a);
+        rBlindado.exibirPosicao();
 
         //Caso encontra +1 obstáculo no meio do caminho
         System.out.println("\nCriando +1 obstáculo no caminho");
-        RoboTerrestreDeCarga robo5 = new RoboTerrestreDeCarga("Robo5", 4, 2, 0, 5, 10, 100);
-        RoboTerrestreDeCarga robo6 = new RoboTerrestreDeCarga("Robo6", 5, 2, 0, 5, 10, 100);
-        a.adicionarRobo(robo6);
-        a.adicionarRobo(robo5);
-        rBlindado.mover(4, "X", a);
+        RoboTerrestre obs = new RoboTerrestre("obstaculo", 3, 6, 0, 6);
+        a.adicionarRobo(obs);
+        rBlindado.mover(5, "Y", a);
 
         //Caso encontra um obstáculo + recebendo dano + caso Resistencia = 0 parando no destino
-        System.out.println("\nSofrendo 2 de dano:");
-        rBlindado.sofreDano(3);
+        System.out.println("\nSofrendo 1 de dano:");
+        rBlindado.sofreDano(1);
 
         //Verificando que após sua destruição ele não se move mais
         System.out.println("\nTentando move-lo depois de sua destruição:");
         rBlindado.exibirPosicao();
         rBlindado.mover(1, "X", a);
-        System.out.println("Mantém posição\n");
+        System.out.println("Mantém posição");
 
         //movendo Robôs aéreos
         //testando colisão para subir
+        System.out.println("\nColisão de robôs aéreos tentando subir:");
         r_XY.exibirPosicao();
         r_YX.exibirPosicao();
         r_YX.subir(2, a);
-        System.out.print("\n");
 
         //subindo além da altitude máxima
+        System.out.println("\nSubindo acima da altitude máxima:");
         r_XY.subir(5, a);
 
         //mudança direção no Aéreo XY
+        System.out.println("\nMovimentação de direção do Aéreo XY:");
         r_XY.mover(1, 1, a);
         r_XY.exibirPosicao();
         r_XY.mover(-1, -1, a);
         r_XY.exibirPosicao();
         r_XY.mover(1, -1, a);
         r_XY.exibirPosicao();
-        r_XY.mover(-1, 1, a);
+        r_XY.mover(-2, 1, a);
+        r_XY.exibirPosicao();
+
+        //colisão robôs aéreos
+        System.out.println("\nColisão de robôs aéreos:");
+        r_YX.subir(2, a);
+        r_YX.exibirPosicao();
+        r_XY.mover(1, 2, a);
+        r_YX.mover(0, -2, a);
+        r_YX.exibirPosicao();
+        r_XY.mover(1, -2, a);
         r_XY.exibirPosicao();
 
         // Teste de valores extremos
@@ -109,8 +125,8 @@ public class Main {
         
         // Caso 1: Movimento com delta zero (sem deslocamento)
         System.out.println("\nTentando movimento com delta 0,0 (sem deslocamento):");
-        boolean movZero = rCarga.mover(0, 0, a);
-        System.out.println("Resultado: " + movZero);
+        r_YX.mover(0, 0, a);
+        r_YX.descer(0, a);
 
         // Caso 2: Movimento com delta negativo exagerado (além dos limites do ambiente)
         System.out.println("\nTentando movimento com delta negativo exagerado:");

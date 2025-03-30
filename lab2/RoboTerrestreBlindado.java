@@ -1,12 +1,12 @@
 // Classe que representa um robô terrestre blindado
-public class RoboTerrestreBlindado extends Robo {
+public class RoboTerrestreBlindado extends RoboTerrestre {
 
     private int resistencia;        // Define a resistência do robô antes de ser destruído
     private boolean funcionando;    // Indica se o robô ainda pode operar
     
     //Construtor da classe RoboTerrestreBlindado
-    public RoboTerrestreBlindado(String nome, int posicaoX, int posicaoY, int posicaoZ) {
-        super(nome, posicaoX, posicaoY, posicaoZ); // Chama o construtor da classe base (Robo)
+    public RoboTerrestreBlindado(String nome, int posicaoX, int posicaoY, int posicaoZ, int v_max) {
+        super(nome, posicaoX, posicaoY, posicaoZ, v_max); // Chama o construtor da classe base (RoboTerrestre)
         this.resistencia = 5; // Define a resistência inicial do robô
         this.funcionando = true; // Define que o robô inicia funcionando normalmente
     }
@@ -14,37 +14,37 @@ public class RoboTerrestreBlindado extends Robo {
     //Método para mover o robô em uma determinada direção (X ou Y)
     public boolean mover(int delta, String direcao, Ambiente a) {
         if (!funcionando) {
-            System.out.println(getNome() + " está destruído! Ele não pode mais se mover.");
+            System.out.println(this.getNome() + " está destruído! Ele não pode mais se mover.");
             return false; // Se o robô foi destruído, ele não pode se mover
         }
 
         boolean conseguiuMover = false;
 
-        //Verifica a direção do movimento e chama a função auxiliar correta
-        if (direcao.equalsIgnoreCase("Y")) {
-            conseguiuMover = moverEmDirecao(a, 0, delta);
-            if(delta>0){
-                this.direcao="Norte";
+        if(delta<this.v_max){
+            //Verifica a direção do movimento e chama a função auxiliar correta
+            if (direcao.equalsIgnoreCase("Y")) {
+                conseguiuMover = moverEmDirecao(a, 0, delta);
+                if(delta>0){
+                    this.direcao="Norte";
+                }
+                else{
+                    this.direcao="Sul";
+                }
+            } else if (direcao.equalsIgnoreCase("X")) {
+                conseguiuMover = moverEmDirecao(a, delta, 0);
+                if(delta>0){
+                    this.direcao="Leste";
+                }
+                else{
+                    this.direcao="Oeste";
+                }
+            } else {
+                System.out.println("Direção inválida! Escolha 'X' ou 'Y'.");
+                return false;
             }
-            else{
-                this.direcao="Sul";
-            }
-        } else if (direcao.equalsIgnoreCase("X")) {
-            conseguiuMover = moverEmDirecao(a, delta, 0);
-            if(delta>0){
-                this.direcao="Leste";
-            }
-            else{
-                this.direcao="Oeste";
-            }
-        } else {
-            System.out.println("Direção inválida! Escolha 'X' ou 'Y'.");
-            return false;
         }
-
-        //Exibe a nova posição se o movimento for bem-sucedido
-        if (conseguiuMover) {
-            System.out.println(getNome() + " se moveu para (" + posicaoX + ", " + posicaoY + ")");
+        else{
+            System.out.println("Velocidade máxima excedida! " + getNome() + " não conseguiu se mover!");
         }
 
         return conseguiuMover;

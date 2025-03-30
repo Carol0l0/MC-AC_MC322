@@ -10,6 +10,7 @@ class RoboAereo extends Robo{
     }
 
     public void subir(int metros, Ambiente a){
+        metros=Math.abs(metros);
         if(!identificarObstaculo(a, this.posicaoX, this.posicaoY, this.posicaoZ+metros)){
             if (posicaoZ + metros <= altitudeMax) {
                 posicaoZ += metros;
@@ -23,6 +24,7 @@ class RoboAereo extends Robo{
     }
 
     public void descer(int metros, Ambiente a) {
+        metros=Math.abs(metros);
         if(!identificarObstaculo(a, this.posicaoX, this.posicaoY, this.posicaoZ-metros)){
             if (posicaoZ - metros <= altitudeMax) {
                 posicaoZ -= metros;

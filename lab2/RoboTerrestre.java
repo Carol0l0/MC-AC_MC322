@@ -12,6 +12,7 @@ public class RoboTerrestre extends Robo {
     @Override
     public boolean mover(int deltaX, int deltaY, Ambiente a) {
         if(Math.abs(deltaX) + Math.abs(deltaY) > v_max){
+            System.out.println("Velocidade máxima excedida! " + getNome() + " não conseguiu se mover!");
             return false;
         }
 

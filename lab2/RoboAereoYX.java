@@ -23,12 +23,17 @@ public class RoboAereoYX extends RoboAereo{
     @Override
     public void subir(int metros, Ambiente a){
         //Reduz a bateria a cada movimento
-        if (nivelBateria >= 10) {
-            nivelBateria -= 10;
-        } else {
-            nivelBateria = 0;
-            System.out.println(getNome() + " está sem bateria! Precisa recarregar!");
-            return;
+        if(metros!=0){
+            if (nivelBateria >= 10 && metros>0) {
+                nivelBateria -= 10;
+            } else {
+                nivelBateria = 0;
+                System.out.println(getNome() + " está sem bateria! Precisa recarregar!");
+                return;
+            }
+        }
+        else{
+            System.out.println("Movimento nulo!");
         }
 
         super.subir(metros, a);
@@ -37,12 +42,17 @@ public class RoboAereoYX extends RoboAereo{
     @Override
     public void descer(int metros, Ambiente a){
         //Reduz a bateria a cada movimento
-        if (nivelBateria >= 10) {
-            nivelBateria -= 10;
-        } else {
-            nivelBateria = 0;
-            System.out.println(getNome() + " está sem bateria! Precisa recarregar!");
-            return;
+        if(metros!=0){
+            if (nivelBateria >= 10) {
+                nivelBateria -= 10;
+            } else {
+                nivelBateria = 0;
+                System.out.println(getNome() + " está sem bateria! Precisa recarregar!");
+                return;
+            }
+        }
+        else{
+            System.out.println("Movimento nulo!");
         }
 
         super.descer(metros, a);
@@ -51,49 +61,54 @@ public class RoboAereoYX extends RoboAereo{
     //O robô se move na direção Y depois da direção X, checando se têm obstáculos no meio do caminho
     @Override
     public boolean mover(int deltaX, int deltaY, Ambiente a) {
-        if (nivelBateria >= 10) {
-            nivelBateria -= 10;
-        } else {
-            nivelBateria = 0;
-            System.out.println(getNome() + " está sem bateria! Precisa recarregar!");
-            return false;
+        if(Math.abs(deltaX)+Math.abs(deltaY)!=0){
+            if (nivelBateria >= 10) {
+                nivelBateria -= 10;
+            } else {
+                nivelBateria = 0;
+                System.out.println(getNome() + " está sem bateria! Precisa recarregar!");
+                return false;
+            }
+
+            if(a.dentroDosLimites(this.posicaoX+deltaX, this.posicaoY+deltaY, this.posicaoZ)){
+                for(int i=this.posicaoY; i!=this.posicaoY+deltaY; i+= (deltaY>0) ? 1:-1){
+                    if(this.identificarObstaculo(a, this.posicaoX, i, this.posicaoZ)){
+                        System.out.println("Movimentacao cancelada!");
+                        return false;
+                    }
+                }
+                if(!this.identificarObstaculo(a, this.posicaoX, this.posicaoY+deltaY, this.posicaoZ)){
+                    this.posicaoY+=deltaY;
+                }
+                else{
+                    return false;
+                }
+
+                for(int i=this.posicaoX; i!=this.posicaoX+deltaX; i+= (deltaX>0) ? 1:-1){
+                    if(this.identificarObstaculo(a, i, this.posicaoY, this.posicaoZ)){
+                        System.out.println("Movimentacao cancelada!");
+                        return false;
+                    }
+                }
+                if(!this.identificarObstaculo(a, this.posicaoX+deltaX, this.posicaoY, this.posicaoZ)){
+                    this.posicaoX+=deltaX;
+                }
+                else{
+                    System.out.println("Movimentacao cancelada!");
+                    return false;
+                }
+                
+                if(deltaX>0){
+                    this.direcao="Leste";
+                }
+                else{
+                    this.direcao="Oeste";
+                }
+                return true;
+            }
         }
-
-        if(a.dentroDosLimites(this.posicaoX+deltaX, this.posicaoY+deltaY, this.posicaoZ)){
-            for(int i=this.posicaoY; i!=this.posicaoY+deltaY; i+= (deltaY>0) ? 1:-1){
-                if(this.identificarObstaculo(a, this.posicaoX, i, this.posicaoZ)){
-                    System.out.println("Movimentacao cancelada!");
-                    return false;
-                }
-            }
-            if(!this.identificarObstaculo(a, this.posicaoX, this.posicaoY+deltaY, this.posicaoZ)){
-                this.posicaoY+=deltaY;
-            }
-            else{
-                return false;
-            }
-
-            for(int i=this.posicaoX; i!=this.posicaoX+deltaX; i+= (deltaX>0) ? 1:-1){
-                if(this.identificarObstaculo(a, i, this.posicaoY, this.posicaoZ)){
-                    System.out.println("Movimentacao cancelada!");
-                    return false;
-                }
-            }
-            if(!this.identificarObstaculo(a, this.posicaoX+deltaX, this.posicaoY, this.posicaoZ)){
-                this.posicaoX+=deltaX;
-            }
-            else{
-                System.out.println("Movimentacao cancelada!");
-                return false;
-            }
-            
-            if(deltaX>0){
-                this.direcao="Leste";
-            }
-            else{
-                this.direcao="Oeste";
-            }
-            return true;
+        else{
+            System.out.println("Movimento nulo!");
         }
 
         return false;
