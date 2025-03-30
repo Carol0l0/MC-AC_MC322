@@ -29,7 +29,7 @@ Classe base que representa um robô genérico com características como nome, di
 
         mover: Move o robô dentro do ambiente, verificando se a nova posição está dentro dos limites e se não há obstáculos.
         identificarObstaculo: Verifica se há outro robô na posição de destino.
-        exibirPosicao: Exibe a posição atual do robô.
+        exibirPosicao: Exibe a posição e direção atual do robô.
 
 3. RoboTerrestre
 
@@ -50,7 +50,6 @@ Classe derivada de RoboTerrestre, representando um robô terrestre que pode tran
     Métodos:
 
         carregarPeso: Permite carregar um peso, verificando se não excede a capacidade máxima.
-        mover: Move o robô, verificando a velocidade máxima e exibindo a nova posição.
 
 5. RoboTerrestreBlindado
 
@@ -75,6 +74,18 @@ Classe derivada de Robo, representando um robô aéreo com capacidade de subir e
         subir: Aumenta a altitude do robô até o limite máximo.
         descer: Diminui a altitude do robô, mas garante que ele não ultrapasse o limite inferior.
 
+7. RoboAereoXY
+
+Classe derivada de RoboAereo, representando um robô aéreo com cor que se movimenta na direção X depois na direção Y.
+
+    Construtor: Inicializa o robô com nome, posição, altura máxima e cor.
+
+    Métodos:
+
+        setCor: define a cor.
+        getCor: retorna a cor atual.
+        mover: Move o robô na direção X e Y, verificando obstáculos no caminho e consumindo a bateria.
+
 7. RoboAereoYX
 
 Classe derivada de RoboAereo, representando um robô aéreo com nível de bateria.
@@ -86,12 +97,13 @@ Classe derivada de RoboAereo, representando um robô aéreo com nível de bateri
         carregarBateria: Recarrega a bateria do robô.
         getNivelBateria: Retorna o nível atual da bateria.
         subir e descer: Movimenta o robô, reduzindo a bateria a cada movimento.
-        mover: Move o robô na direção X e Y, verificando obstáculos no caminho e consumindo a bateria.
+        mover: Move o robô na direção Y e X, verificando obstáculos no caminho e consumindo a bateria.
+
 
 Interação entre as classes
 
     O ambiente contém uma lista de robôs e interage com suas movimentações.
-    Os robôs podem ser adicionados ao ambiente e se mover de acordo com suas características (como velocidade, capacidade de carga, resistência e bateria).
+    Os robôs podem ser adicionados ao ambiente e se mover de acordo com suas características (como velocidade, capacidade de carga, resistência, cor e bateria).
     Movimentos de robôs são limitados por obstáculos e limites do ambiente. Quando um robô colide com um obstáculo, ele pode sofrer danos (para robôs blindados) ou ser impedido de se mover.
 
 
