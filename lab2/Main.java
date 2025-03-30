@@ -142,6 +142,7 @@ public class Main {
         //Caso4: número de obstáculos maior que o dano permitido
         System.out.println("\nMais obstáculos no meio do caminho do que a resistência");
         rBlindado.recuperaDano(2);
+        rBlindado.exibirPosicao();
         RoboTerrestre obs2 = new RoboTerrestre("obstaculo 2", 3, 4, 0, 6);
         a.adicionarRobo(obs2);
         rBlindado.mover(-4, "Y", a);

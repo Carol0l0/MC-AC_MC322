@@ -65,6 +65,10 @@ public class RoboTerrestreBlindado extends RoboTerrestre {
         int dano = contarObstaculos(a, posicaoX, posicaoY, novoX, novoY);
 
         //Se houver dano, reduz a resistência do robô
+        if(this.resistencia-dano<0){//se a resistência final for menor que 0, ele cancela o movimento
+            System.out.println("Movimentação cancelada! Resistência abaixo do necessário p/ execução do movimento");
+            return false;
+        }
         if (dano > 0) {
             sofreDano(dano);
         }
@@ -110,6 +114,7 @@ public class RoboTerrestreBlindado extends RoboTerrestre {
         //Se a resistência chegar a zero ou menos, o robô é destruído
         if (resistencia <= 0) {
             resistencia=0;
+            
             funcionando = false;
             System.out.println(getNome() + " foi destruído após múltiplas colisões!");
         }
