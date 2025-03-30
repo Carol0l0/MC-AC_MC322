@@ -51,7 +51,6 @@ public class RoboAereoYX extends RoboAereo{
     //O robô se move na direção Y depois da direção X, checando se têm obstáculos no meio do caminho
     @Override
     public boolean mover(int deltaX, int deltaY, Ambiente a) {
-        /* 
         if (nivelBateria >= 10) {
             nivelBateria -= 10;
         } else {
@@ -59,7 +58,7 @@ public class RoboAereoYX extends RoboAereo{
             System.out.println(getNome() + " está sem bateria! Precisa recarregar!");
             return false;
         }
-        */
+
         if(a.dentroDosLimites(this.posicaoX+deltaX, this.posicaoY+deltaY, this.posicaoZ)){
             for(int i=this.posicaoY; i!=this.posicaoY+deltaY; i+= (deltaY>0) ? 1:-1){
                 if(this.identificarObstaculo(a, this.posicaoX, i, this.posicaoZ)){

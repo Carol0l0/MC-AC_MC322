@@ -14,17 +14,21 @@ class RoboAereo extends Robo{
             if (posicaoZ + metros <= altitudeMax) {
                 posicaoZ += metros;
             } else {
-                System.out.println("Você excedeu os limites");
+                System.out.println("Você excedeu os limites de altitude");
             }
+        }
+        else{
+            System.out.println("Não foi possível subir. Obstáculo detectado em ("+this.posicaoX+", "+this.posicaoY+", "+(this.posicaoZ+metros)+")");
         }
     }
 
-    public void descer(int metros) {
-        if (posicaoZ - metros >= 0) {
-            posicaoZ -= metros;
-        } else {
-            System.out.println("Você excedeu os limites");
-            posicaoZ = 0;
+    public void descer(int metros, Ambiente a) {
+        if(!identificarObstaculo(a, this.posicaoX, this.posicaoY, this.posicaoZ-metros)){
+            if (posicaoZ - metros <= altitudeMax) {
+                posicaoZ -= metros;
+            } else {
+                System.out.println("Você excedeu os limites de altitude");
+            }
         }
     }
 }

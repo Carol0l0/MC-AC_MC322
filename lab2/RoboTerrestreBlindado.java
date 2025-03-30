@@ -23,8 +23,20 @@ public class RoboTerrestreBlindado extends Robo {
         //Verifica a direção do movimento e chama a função auxiliar correta
         if (direcao.equalsIgnoreCase("Y")) {
             conseguiuMover = moverEmDirecao(a, 0, delta);
+            if(delta>0){
+                this.direcao="Norte";
+            }
+            else{
+                this.direcao="Sul";
+            }
         } else if (direcao.equalsIgnoreCase("X")) {
             conseguiuMover = moverEmDirecao(a, delta, 0);
+            if(delta>0){
+                this.direcao="Leste";
+            }
+            else{
+                this.direcao="Oeste";
+            }
         } else {
             System.out.println("Direção inválida! Escolha 'X' ou 'Y'.");
             return false;
