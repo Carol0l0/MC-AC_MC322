@@ -109,8 +109,18 @@ public class RoboTerrestreBlindado extends RoboTerrestre {
 
         //Se a resistência chegar a zero ou menos, o robô é destruído
         if (resistencia <= 0) {
+            resistencia=0;
             funcionando = false;
             System.out.println(getNome() + " foi destruído após múltiplas colisões!");
+        }
+    }
+
+    public void recuperaDano(int dano) {
+        resistencia += dano; //Reduz a resistência do robô
+        System.out.println(getNome() + " Consertou " + dano + " dano(s)! Resistência atual: " + resistencia);
+
+        if(resistencia>0){
+            funcionando=true;
         }
     }
 

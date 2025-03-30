@@ -73,8 +73,8 @@ public class Main {
 
         //Caso encontra +1 obstáculo no meio do caminho
         System.out.println("\nCriando +1 obstáculo no caminho");
-        RoboTerrestre obs = new RoboTerrestre("obstaculo", 3, 6, 0, 6);
-        a.adicionarRobo(obs);
+        RoboTerrestre obs1 = new RoboTerrestre("obstaculo 1", 3, 6, 0, 6);
+        a.adicionarRobo(obs1);
         rBlindado.mover(5, "Y", a);
 
         //Caso encontra um obstáculo + recebendo dano + caso Resistencia = 0 parando no destino
@@ -86,6 +86,7 @@ public class Main {
         rBlindado.exibirPosicao();
         rBlindado.mover(1, "X", a);
         System.out.println("Mantém posição");
+        rBlindado.exibirPosicao();
 
         //movendo Robôs aéreos
         //testando colisão para subir
@@ -137,6 +138,14 @@ public class Main {
         System.out.println("\nTentando movimento com delta positivo exagerado:");
         boolean movPosExtremo = rCarga.mover(20, 20, a);
         System.out.println("Resultado: " + movPosExtremo);
+
+        //Caso4: número de obstáculos maior que o dano permitido
+        System.out.println("\nMais obstáculos no meio do caminho do que a resistência");
+        rBlindado.recuperaDano(2);
+        RoboTerrestre obs2 = new RoboTerrestre("obstaculo 2", 3, 4, 0, 6);
+        a.adicionarRobo(obs2);
+        rBlindado.mover(-4, "Y", a);
+        rBlindado.exibirPosicao();
 
     }
 }

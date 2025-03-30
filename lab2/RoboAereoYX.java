@@ -33,7 +33,7 @@ public class RoboAereoYX extends RoboAereo{
             }
         }
         else{
-            System.out.println("Movimento nulo!");
+            System.out.println("Movimento nulo!");//não gasta bateria se o movimento é delta 0
         }
 
         super.subir(metros, a);
@@ -52,7 +52,7 @@ public class RoboAereoYX extends RoboAereo{
             }
         }
         else{
-            System.out.println("Movimento nulo!");
+            System.out.println("Movimento nulo!");//não gasta bateria se o movimento é delta 0
         }
 
         super.descer(metros, a);
@@ -71,7 +71,7 @@ public class RoboAereoYX extends RoboAereo{
             }
 
             if(a.dentroDosLimites(this.posicaoX+deltaX, this.posicaoY+deltaY, this.posicaoZ)){
-                for(int i=this.posicaoY; i!=this.posicaoY+deltaY; i+= (deltaY>0) ? 1:-1){
+                for(int i=this.posicaoY; i!=this.posicaoY+deltaY; i+= (deltaY>0) ? 1:-1){//conferindo se tem obstáculos no meio do caminho
                     if(this.identificarObstaculo(a, this.posicaoX, i, this.posicaoZ)){
                         System.out.println("Movimentacao cancelada!");
                         return false;
@@ -84,7 +84,7 @@ public class RoboAereoYX extends RoboAereo{
                     return false;
                 }
 
-                for(int i=this.posicaoX; i!=this.posicaoX+deltaX; i+= (deltaX>0) ? 1:-1){
+                for(int i=this.posicaoX; i!=this.posicaoX+deltaX; i+= (deltaX>0) ? 1:-1){//conferindo se tem obstáculos no meio do caminho
                     if(this.identificarObstaculo(a, i, this.posicaoY, this.posicaoZ)){
                         System.out.println("Movimentacao cancelada!");
                         return false;
@@ -108,7 +108,7 @@ public class RoboAereoYX extends RoboAereo{
             }
         }
         else{
-            System.out.println("Movimento nulo!");
+            System.out.println("Movimento nulo!");//não gasta bateria se o movimento é delta 0
         }
 
         return false;
