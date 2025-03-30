@@ -104,6 +104,6 @@ public class Main {
         boolean movPosExtremo = robo1.mover(20, 20, a);
         System.out.println("Resultado: " + movPosExtremo);
         robo1.getNivelBateria();
-        */
+
     }
 }
