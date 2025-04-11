@@ -149,11 +149,5 @@ public class Main {
         rBlindado.exibirPosicao();
 
 
-        //tentando criar obstaculos
-        System.out.println("será que criou o obstaculo?");
-        Obstaculo parede = new Obstaculo(2, 2, 4, 4, TipoObstaculo.PAREDE);
-
-
-
     }
 }

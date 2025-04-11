@@ -1,7 +1,7 @@
 public enum TipoObstaculo {
 
     //priemiro parametro qual até qual altura ele bloqueia
-    PAREDE(3, true),
+    CAIXADESOM(3, true),
     ARVORE(5, true),
     PREDIO(10, true),
     BURACO(0, true),

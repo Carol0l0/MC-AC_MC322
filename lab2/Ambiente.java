@@ -8,6 +8,8 @@ public class Ambiente{
     private int aZ;
     public ArrayList<Robo> listadeRobos;
     public ArrayList<Obstaculo> listadeObstaculos;
+    public int som[aX][aY][aZ];
+    
 
     //Construtor para inicializar o ambiente com as dimensões específicas
     public Ambiente(int aX, int aY, int aZ){
@@ -16,6 +18,7 @@ public class Ambiente{
         this.aZ = aZ;
         this.listadeRobos=new ArrayList<Robo>();
         this.listadeObstaculos = new ArrayList<Obstaculo>();
+        this.som=0000;
     }
 
     //Método para verificar se uma posição está dentro dos limites do ambiente
@@ -43,8 +46,6 @@ public class Ambiente{
         System.out.println("Obstáculo do tipo " + o.getTipo() + " adicionado.");
     }
 
-    //Verificar colisoes entre robos e obstáculos
-    public void detectarColisoes(){
-
-    }
 }
+
+
