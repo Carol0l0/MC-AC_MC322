@@ -2,7 +2,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        //*Criando o ambiente
+        //Criando o ambiente
         Ambiente a = new Ambiente(10, 10, 10);
 
         //Criando robôs
@@ -147,7 +147,6 @@ public class Main {
         a.adicionarRobo(obs2);
         rBlindado.mover(-4, "Y", a);
         rBlindado.exibirPosicao();
-
 
     }
 }

@@ -2,9 +2,22 @@ public class Main {
 
     public static void main(String[] args) {
 
-        //Criando o ambiente
+        //*Criando o ambiente
         Ambiente a = new Ambiente(10, 10, 10);
+        CaixaDeSom c = new CaixaDeSom(4, 5, 0, 0, TipoObstaculo.CAIXADESOM, 3);
+        System.err.println(c.getTipo());
+        a.adicionaCaixaDeSom(c);
+        for (int i = 0; i < a.som.length; i++) {
+            // Loop interno para iterar sobre as colunas
+            for (int j = 0; j < a.som[i].length; j++) {
+                // Acessar e imprimir o elemento atual
+                System.out.print(a.som[i][j][0] + " ");
+            }
+            // Quebra de linha após imprimir cada linha
+            System.out.println();
+        }
 
+        /* 
         //Criando robôs
         RoboTerrestreDeCarga rCarga = new RoboTerrestreDeCarga("Robo de Carga", 3, 5, 0, 5, 10);
         RoboTerrestreBlindado rBlindado = new RoboTerrestreBlindado("Robo Blindado", 5, 0, 0, 7);
@@ -147,6 +160,8 @@ public class Main {
         a.adicionarRobo(obs2);
         rBlindado.mover(-4, "Y", a);
         rBlindado.exibirPosicao();
+        */
+
 
     }
 }

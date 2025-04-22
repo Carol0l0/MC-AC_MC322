@@ -51,17 +51,4 @@ public class Robo{
         return this.posicaoX+" "+this.posicaoY;
     }
 
-    public int getPosicaoX() {
-        return posicaoX;
-    }
-
-    public int getPosicaoY() {
-        return posicaoY;
-    }
-
-    public int getPosicaoZ() {
-        return posicaoZ;
-    }
-
-    
 }
