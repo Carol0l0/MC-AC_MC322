@@ -27,12 +27,38 @@ public class Ambiente{
     
     }
 
-    //Método para adicionar um robô ao ambiente
-    public void adicionarRobo(Robo r){
-        this.listadeRobos.add(r);
-        System.out.println("\nRobo "+r.getNome()+" adicionado com sucesso!");
+
+// Método para adicionar um robô ao ambiente
+    public void adicionarRobo(Robo r) {
+    int x = r.getPosicaoX();
+    int y = r.getPosicaoY();
+    int z = r.getPosicaoZ();
+
+    // Verifica se o robô está dentro dos limites
+    if (!dentroDosLimites(x, y, z)) {
+        System.out.println("Erro: Posição do robô " + r.getNome() + " está fora dos limites do ambiente.");
+        return;
     }
 
+    // Verifica se já existe um robô na mesma posição
+    for (Robo roboExistente : listadeRobos) {
+        if (roboExistente.getPosicaoX() == x &&
+            roboExistente.getPosicaoY() == y &&
+            roboExistente.getPosicaoZ() == z) {
+            System.out.println("Erro: Já existe um robô na posição (" + x + ", " + y + ", " + z + "). ESte robô não foi adicionado!");
+            return;
+        }
+    }
+
+    // Adiciona o robô à lista
+    this.listadeRobos.add(r);
+    System.out.println("\nRobo " + r.getNome() + " adicionado com sucesso!");
+}
+
+    public ArrayList<Obstaculo> getListadeObstaculos() {
+    return listadeObstaculos;
+    }
+    
     //Método para remover um robô do ambiente
     public void removerRobo(Robo r){
         this.listadeRobos.remove(r);
@@ -46,6 +72,15 @@ public class Ambiente{
         System.out.println("Obstáculo do tipo " + o.getTipo() + " adicionado.");
     }
 
+    public Robo buscarRoboPorNome(String nome) {
+        for (Robo r : listadeRobos) {
+            if (r.getNome().equalsIgnoreCase(nome)) {
+                return r;
+            }
+        }
+        return null;
+    }    
+ 
     //Adiciona caixa de som
     public void adicionaCaixaDeSom(CaixaDeSom c){
         adicionarObstaculo(c);
@@ -59,6 +94,47 @@ public class Ambiente{
         }
     }
 
+    // Método genérico para verificar se há obstáculos no destino usando deltaX, deltaY e deltaZ
+    public boolean verificarSeTemObstaculoNoDestino(Robo r, int deltaX, int deltaY, int deltaZ) {
+    // Calcula a posição final com base nos deltas
+    int xFinal = r.getPosicaoX() + deltaX;
+    int yFinal = r.getPosicaoY() + deltaY;
+    int zFinal = r.getPosicaoZ() + deltaZ;
+    
+    // Percorre todos os obstáculos no ambiente
+    for (Obstaculo o : listadeObstaculos) {
+        int o1x = o.getPosicaoX1();
+        int o2x = o.getPosicaoX2();
+        int o1y = o.getPosicaoY1();
+        int o2y = o.getPosicaoY2();
+        int altura = o.getTipo().getAlturaPadrao();
+
+        // Garante que o1x <= o2x e o1y <= o2y
+        int minX = Math.min(o1x, o2x);
+        int maxX = Math.max(o1x, o2x);
+        int minY = Math.min(o1y, o2y);
+        int maxY = Math.max(o1y, o2y);
+
+        // Verifica se a posição final está dentro da área e da altura do obstáculo
+        if (xFinal >= minX && xFinal <= maxX &&
+            yFinal >= minY && yFinal <= maxY &&
+            zFinal <= altura) {
+
+            // Se o robô não puder passar, bloqueia o movimento
+            if (!o.getTipo().podePassar(r)) {
+                System.out.println("Movimento bloqueado: Obstáculo " + o.getTipo() + " impede a passagem.");
+                return true;
+            }
+        }
+    }
+    
+    return false;
 }
+
+
+}
+
+
+
 
 

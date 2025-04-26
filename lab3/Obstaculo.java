@@ -6,7 +6,6 @@ public class Obstaculo {
     private int altura;
     private TipoObstaculo tipo;
 
-    //criar a posiçe os obstáculos irão ocupar
     public Obstaculo(int x1, int y1, int x2, int y2, TipoObstaculo tipo) {
         this.posicaoX1 = x1;
         this.posicaoY1 = y1;

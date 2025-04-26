@@ -1,167 +1,233 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
 public class Main {
 
-    public static void main(String[] args) {
+    private static Scanner scanner = new Scanner(System.in);
 
-        //*Criando o ambiente
-        Ambiente a = new Ambiente(10, 10, 10);
-        CaixaDeSom c = new CaixaDeSom(4, 5, 0, 0, TipoObstaculo.CAIXADESOM, 3);
-        System.err.println(c.getTipo());
-        a.adicionaCaixaDeSom(c);
-        for (int i = 0; i < a.som.length; i++) {
-            // Loop interno para iterar sobre as colunas
-            for (int j = 0; j < a.som[i].length; j++) {
-                // Acessar e imprimir o elemento atual
-                System.out.print(a.som[i][j][0] + " ");
+    public static void main(String[] args) {
+        Ambiente a = new Ambiente(50,50,50);
+        BancoDeCharadas banco = new BancoDeCharadas();
+        Robo robo = null;
+        Obstaculo obstaculo = null;
+
+        while (true) {
+            System.out.println("\nEscolha uma opção:");
+            System.out.println("1. Criar Robô Terrestre Blindado");
+            System.out.println("2. Criar Robô Terrestre de Carga");
+            System.out.println("3. Criar Robô Aéreo XY");
+            System.out.println("4. Criar Robô Aéreo YX");
+            System.out.println("5. Criar obstáculo");
+            System.out.println("6. Mover Robô");
+            System.out.println("7. Usar Sensor de Som");
+            System.out.println("7. Usar Sensor de Proximidade");
+            System.out.println("8. Sair");
+            System.out.print("Opção: ");
+            int opcao = scanner.nextInt();
+            scanner.nextLine(); 
+
+            switch (opcao) {
+                case 1:
+                    robo = criarRoboTerrestreBlindado(a);
+                    break;
+                case 2:
+                    robo = criarRoboTerrestreDeCarga(a);
+                    break;
+                case 3:
+                    robo = criarRoboAereoXY(a);
+                    break;
+                case 4:
+                    robo = criarRoboAereoYX(a);
+                    break;
+                case 5:
+                    obstaculo = criarobstaculo(a);
+                    break;
+                case 6:
+                System.out.println("Digite o nome do robô que deseja mover:");
+                String nomeRoboMover = scanner.nextLine();
+                Robo roboSelecionado = a.buscarRoboPorNome(nomeRoboMover);
+            
+                if (roboSelecionado == null) {
+                    System.out.println("Robô não encontrado.");
+                    break;
+                }
+                        
+                if (roboSelecionado instanceof RoboTerrestreBlindado) {
+                    System.out.print("Digite a direção: ");
+                    String direcao = scanner.nextLine(); 
+                    System.out.print("Digite o delta: ");
+                    int delta = scanner.nextInt();  
+
+                    ((RoboTerrestreBlindado)roboSelecionado).mover(delta, direcao, a);
+                    System.out.println("Robô movido para " + roboSelecionado.getPosicaoX() + "," + roboSelecionado.getPosicaoY() + "com sucesso!");
+
+                } else if (roboSelecionado instanceof RoboTerrestreDeCarga) {
+                    System.out.print("Digite o deltaY: ");
+                    int deltaY = scanner.nextInt(); 
+                    System.out.println("Digite o deltaX: ");
+                    int deltaX = scanner.nextInt();  
+
+                    if(!a.verificarSeTemObstaculoNoDestino(roboSelecionado, deltaX, deltaY, 0)){
+                        ((RoboTerrestreDeCarga)roboSelecionado).mover(deltaX, deltaY, a);
+                        System.out.println("Robô movido para " + roboSelecionado.getPosicaoX() + "," + roboSelecionado.getPosicaoY() + "com sucesso!");
+                    }
+                    else
+                        System.out.println("otáculo no caminho! Robô não se moveu.");
+
+                } else if (roboSelecionado instanceof RoboAereoXY) {
+                    System.out.print("Digite o deltaX: ");
+                    int deltaX = scanner.nextInt(); 
+                    System.out.print("Digite o deltaY: ");
+                    int deltaY = scanner.nextInt();  
+
+                    ((RoboAereoXY)roboSelecionado).mover(deltaX, deltaY, a);
+                    System.out.println("Robô movido para " + roboSelecionado.getPosicaoX() + "," + roboSelecionado.getPosicaoY() + "com sucesso!");
+
+                } else if(roboSelecionado instanceof RoboAereoYX) {
+                    System.out.print("Digite o deltaX: ");
+                    int deltaX = scanner.nextInt(); 
+                    System.out.print("Digite o deltaY: ");
+                    int deltaY = scanner.nextInt();  
+
+                    ((RoboAereoYX)roboSelecionado).mover(deltaX, deltaY, a);
+                    System.out.println("Robô movido para " + roboSelecionado.getPosicaoX() + "," + roboSelecionado.getPosicaoY() + "com sucesso!");
+                
+                }
             }
-            // Quebra de linha após imprimir cada linha
-            System.out.println();
         }
 
-        /* 
-        //Criando robôs
-        RoboTerrestreDeCarga rCarga = new RoboTerrestreDeCarga("Robo de Carga", 3, 5, 0, 5, 10);
-        RoboTerrestreBlindado rBlindado = new RoboTerrestreBlindado("Robo Blindado", 5, 0, 0, 7);
-        RoboAereoXY r_XY = new RoboAereoXY("Robo Aereo XY", 3, 3, 3, 7, null);
-        RoboAereoYX r_YX= new RoboAereoYX("Robo Aereo YX", 3, 3, 2, 9);
-
-        // Adicionando robôs ao ambiente
-        a.adicionarRobo(rCarga);
-        a.adicionarRobo(rBlindado);
-        a.adicionarRobo(r_XY);
-        a.adicionarRobo(r_YX);
-
-        //Definindo cor do Robô aéreo XY
-        r_XY.setCor("Azul");
-        System.out.println("A cor do "+r_XY.getNome()+" é "+r_XY.getCor());
-
-        //Caso AereoYX fique sem bateria e demonstrando a mudança de direção
-        System.out.println("\nMovimentando AereoYX até bateria acabar:");
-        r_YX.mover(1, 1, a);
-        r_YX.exibirPosicao();
-        r_YX.getNivelBateria();
-        r_YX.mover(-1, -1, a);
-        r_YX.exibirPosicao();
-        r_YX.getNivelBateria();
-        r_YX.mover(1, -1, a);
-        r_YX.exibirPosicao();
-        r_YX.getNivelBateria();
-        r_YX.mover(-1, 1, a);
-        r_YX.exibirPosicao();
-        r_YX.getNivelBateria();
-        r_YX.descer(1, a);
-        r_YX.exibirPosicao();
-        r_YX.getNivelBateria();
-        r_YX.subir(1, a);
-
-        //Caso queira recarregar AereoYX
-        System.out.println("\nRecarregando AereoYX:");
-        r_YX.carregarBateria();
-        r_YX.getNivelBateria();
-
-        //Caso terrestres excedam os limites do ambiente
-        System.out.println("\nExcedendo limite de velocidade e ambiente do Robô de Carga e do Robô Blindado");
-        rCarga.mover(11, 3, a);
-        rBlindado.mover(8, "Y", a);
-
-        //Caso ultrapasse a cargaMáxima do RoboTerrestreDeCarga
-        System.out.println("\nSobrecarregando 1 com 11kg:");
-        rCarga.carregarPeso(11);
-
-        //movimento TerrestreBlindado
-        System.out.println("\nMovendo em X:");
-        rBlindado.mover(-2, "X", a);
-        rBlindado.exibirPosicao();
-        System.out.println("\nMovendo em Y:");
-        rBlindado.mover(2, "Y", a);
-        rBlindado.exibirPosicao();
-
-        //Caso encontra um obstáculo + recebendo dano + caso Resistencia > 0 continuando
-        System.out.println("\nRobo de Carga no caminho do Robo Blindado:");
-        rCarga.exibirPosicao();
-        rBlindado.exibirPosicao();
-        rBlindado.mover(5, "Y", a);
-        rBlindado.exibirPosicao();
-        rBlindado.mover(-5, "Y", a);
-        rBlindado.exibirPosicao();
-
-        //Caso encontra +1 obstáculo no meio do caminho
-        System.out.println("\nCriando +1 obstáculo no caminho");
-        RoboTerrestre obs1 = new RoboTerrestre("obstaculo 1", 3, 6, 0, 6);
-        a.adicionarRobo(obs1);
-        rBlindado.mover(5, "Y", a);
-
-        //Caso encontra um obstáculo + recebendo dano + caso Resistencia = 0 parando no destino
-        System.out.println("\nSofrendo 1 de dano:");
-        rBlindado.sofreDano(1);
-
-        //Verificando que após sua destruição ele não se move mais
-        System.out.println("\nTentando move-lo depois de sua destruição:");
-        rBlindado.exibirPosicao();
-        rBlindado.mover(1, "X", a);
-        System.out.println("Mantém posição");
-        rBlindado.exibirPosicao();
-
-        //movendo Robôs aéreos
-        //testando colisão para subir
-        System.out.println("\nColisão de robôs aéreos tentando subir:");
-        r_XY.exibirPosicao();
-        r_YX.exibirPosicao();
-        r_YX.subir(2, a);
-
-        //subindo além da altitude máxima
-        System.out.println("\nSubindo acima da altitude máxima:");
-        r_XY.subir(5, a);
-
-        //mudança direção no Aéreo XY
-        System.out.println("\nMovimentação de direção do Aéreo XY:");
-        r_XY.mover(1, 1, a);
-        r_XY.exibirPosicao();
-        r_XY.mover(-1, -1, a);
-        r_XY.exibirPosicao();
-        r_XY.mover(1, -1, a);
-        r_XY.exibirPosicao();
-        r_XY.mover(-2, 1, a);
-        r_XY.exibirPosicao();
-
-        //colisão robôs aéreos
-        System.out.println("\nColisão de robôs aéreos:");
-        r_YX.subir(2, a);
-        r_YX.exibirPosicao();
-        r_XY.mover(1, 2, a);
-        r_YX.mover(0, -2, a);
-        r_YX.exibirPosicao();
-        r_XY.mover(1, -2, a);
-        r_XY.exibirPosicao();
-
-        // Teste de valores extremos
-        
-        System.out.println("\n=== Teste de Valores Extremos ===");
-        
-        // Caso 1: Movimento com delta zero (sem deslocamento)
-        System.out.println("\nTentando movimento com delta 0,0 (sem deslocamento):");
-        r_YX.mover(0, 0, a);
-        r_YX.descer(0, a);
-
-        // Caso 2: Movimento com delta negativo exagerado (além dos limites do ambiente)
-        System.out.println("\nTentando movimento com delta negativo exagerado:");
-        boolean movNegExtremo = rCarga.mover(-100, -100, a);
-        System.out.println("Resultado: " + movNegExtremo);
-
-        // Caso 3: Movimento com delta positivo exagerado (além dos limites do ambiente)
-        System.out.println("\nTentando movimento com delta positivo exagerado:");
-        boolean movPosExtremo = rCarga.mover(20, 20, a);
-        System.out.println("Resultado: " + movPosExtremo);
-
-        //Caso4: número de obstáculos maior que o dano permitido
-        System.out.println("\nMais obstáculos no meio do caminho do que a resistência");
-        rBlindado.recuperaDano(2);
-        rBlindado.exibirPosicao();
-        RoboTerrestre obs2 = new RoboTerrestre("obstaculo 2", 3, 4, 0, 6);
-        a.adicionarRobo(obs2);
-        rBlindado.mover(-4, "Y", a);
-        rBlindado.exibirPosicao();
-        */
-
-
     }
-}
+
+        private static RoboTerrestreBlindado criarRoboTerrestreBlindado(Ambiente a) {
+            System.out.println("Criando Robo Terrestre Blindado...");
+            System.out.print("Nome: ");
+            String nome = scanner.nextLine();
+            System.out.print("Posição X: ");
+            int posicaoX = scanner.nextInt();
+            System.out.print("Posição Y: ");
+            int posicaoY = scanner.nextInt();
+            int posicaoZ = 0;
+            System.out.print("Velocidade Máxima: ");
+            int v_max = scanner.nextInt();
+            scanner.nextLine(); 
+    
+            RoboTerrestreBlindado roboTerrestreBlindado = new RoboTerrestreBlindado(nome, posicaoX, posicaoY, posicaoZ, v_max);
+            a.adicionarRobo(roboTerrestreBlindado);
+            System.out.println("Robô adicionado em " + roboTerrestreBlindado.getPosicaoX() + "," + roboTerrestreBlindado.getPosicaoY() + "com sucesso!");
+            return null;
+        }
+    
+        private static RoboTerrestreDeCarga criarRoboTerrestreDeCarga(Ambiente a) {
+            System.out.println("Criando Robo Terrestre de Carga...");
+            System.out.print("Nome: ");
+            String nome = scanner.nextLine();
+            System.out.print("Posição Y: ");
+            int posicaoY = scanner.nextInt();
+            System.out.print("Posição X: ");
+            int posicaoX = scanner.nextInt();
+            int posicaoZ = 0;
+            System.out.print("Velocidade Máxima: ");
+            int v_max = scanner.nextInt();
+            System.out.print("Carga Máxima: ");
+            int cargaMaxima = scanner.nextInt();
+            scanner.nextLine();
+    
+            RoboTerrestreDeCarga roboTerrestreDeCarga = new RoboTerrestreDeCarga(nome, posicaoY, posicaoX, posicaoZ, v_max, cargaMaxima);
+            a.adicionarRobo(roboTerrestreDeCarga);
+            System.out.println("Robô adicionado em " + roboTerrestreDeCarga.getPosicaoX() + "," + roboTerrestreDeCarga.getPosicaoY() + "com sucesso!");
+            return null;
+        }
+    
+        private static RoboAereoXY criarRoboAereoXY(Ambiente a) {
+            System.out.println("Criando Robo Aéreo...");
+            System.out.print("Nome: ");
+            String nome = scanner.nextLine();
+            System.out.print("Posição X: ");
+            int posicaoX = scanner.nextInt();
+            System.out.print("Posição Y: ");
+            int posicaoY = scanner.nextInt();
+            System.out.print("Posição Z: ");
+            int posicaoZ = scanner.nextInt();
+            System.out.print("Altitude Máxima: ");
+            int altitudeMax = scanner.nextInt();
+            System.out.print("Cor: ");
+            String cor = scanner.nextLine();
+            scanner.nextLine(); 
+    
+            RoboAereoXY roboAereoXY = new RoboAereoXY(nome, posicaoX, posicaoY, posicaoZ, altitudeMax, cor);
+            a.adicionarRobo(roboAereoXY);
+            System.out.println("Robô adicionado em " + roboAereoXY.getPosicaoX() + "," + roboAereoXY.getPosicaoY() + "com sucesso!");
+            return null;
+        }
+    
+        private static RoboAereoYX criarRoboAereoYX(Ambiente a) {
+            System.out.println("Criando Robo Aéreo...");
+            System.out.print("Nome: ");
+            String nome = scanner.nextLine();
+            System.out.print("Posição X: ");
+            int posicaoX = scanner.nextInt();
+            System.out.print("Posição Y: ");
+            int posicaoY = scanner.nextInt();
+            System.out.print("Posição Z: ");
+            int posicaoZ = scanner.nextInt();
+            System.out.print("Altitude Máxima: ");
+            int altitudeMax = scanner.nextInt();
+            scanner.nextLine(); 
+    
+            RoboAereoYX roboAereoYX = new RoboAereoYX(nome, posicaoX, posicaoY, posicaoZ, altitudeMax);
+            a.adicionarRobo(roboAereoYX);
+            System.out.println("Robô adicionado em " + roboAereoYX.getPosicaoX() + "," + roboAereoYX.getPosicaoY() + "com sucesso!");
+            return null;
+    
+        }
+    
+        private static Obstaculo criarobstaculo(Ambiente a) {
+            System.out.println("Escolha o tipo de otáculo:");
+            System.out.println("1. Caixa de Som");
+            System.out.println("2. Lago de Ácido");
+            System.out.println("3. Forte Ventania");
+            System.out.println("4. Firewall Malicioso");
+            System.out.println("5. Sábio Mágico");
+            int opcao = scanner.nextInt();
+            scanner.nextLine();
+        
+            System.out.print("Posição X1: ");
+            int x1 = scanner.nextInt();
+            System.out.print("Posição X2: ");
+            int x2 = scanner.nextInt();
+            System.out.print("Posição Y1: ");
+            int y1 = scanner.nextInt();
+            System.out.print("Posição Y2: ");
+            int y2 = scanner.nextInt();
+            scanner.nextLine();
+        
+            TipoObstaculo tipo = switch (opcao) {
+                case 1 -> TipoObstaculo.CAIXADESOM;
+                case 2 -> TipoObstaculo.LAGODEACIDO;
+                case 3 -> TipoObstaculo.FORTEVENTANIA;
+                case 4 -> TipoObstaculo.FIREWALLMALICIOSO;
+                case 5 -> TipoObstaculo.SABIOMAGICO;
+                default -> null;
+            };
+        
+            if (tipo == null) {
+                System.out.println("Tipo inválido.");
+                return null;
+            }
+        
+            Obstaculo o = new Obstaculo(x1, y1, x2, y2, tipo);
+            a.adicionarObstaculo(o);
+            System.out.print("otaculo criado em: " +o.posicaoX1 +","+o.posicaoY1+","+o.posicaoX2+","+o.posicaoY2);
+            return null;
+
+        }
+        
+    }
+
+
+
+
+
+
+
+

@@ -58,10 +58,9 @@ public class RoboAereoYX extends RoboAereo{
         super.descer(metros, a);
     }
 
-    //O robô se move na direção Y depois da direção X, checando se têm obstáculos no meio do caminho
     @Override
     public boolean mover(int deltaX, int deltaY, Ambiente a) {
-        if(Math.abs(deltaX)+Math.abs(deltaY)!=0){
+        if (Math.abs(deltaX) + Math.abs(deltaY) != 0) {
             if (nivelBateria >= 10) {
                 nivelBateria -= 10;
             } else {
@@ -69,48 +68,60 @@ public class RoboAereoYX extends RoboAereo{
                 System.out.println(getNome() + " está sem bateria! Precisa recarregar!");
                 return false;
             }
-
-            if(a.dentroDosLimites(this.posicaoX+deltaX, this.posicaoY+deltaY, this.posicaoZ)){
-                for(int i=this.posicaoY; i!=this.posicaoY+deltaY; i+= (deltaY>0) ? 1:-1){//conferindo se tem obstáculos no meio do caminho
-                    if(this.identificarObstaculo(a, this.posicaoX, i, this.posicaoZ)){
+    
+            if (a.dentroDosLimites(this.posicaoX + deltaX, this.posicaoY + deltaY, this.posicaoZ)) {
+                // Movimentação no eixo Y
+                for (int i = this.posicaoY; i != this.posicaoY + deltaY; i += (deltaY > 0) ? 1 : -1) {
+                    if (this.identificarObstaculo(a, this.posicaoX, i, this.posicaoZ) ||
+                        a.verificarSeTemObstaculoNoDestino(this, 0, (deltaY > 0) ? 1 : -1, 0)) {
                         System.out.println("Movimentacao cancelada!");
                         return false;
                     }
                 }
-                if(!this.identificarObstaculo(a, this.posicaoX, this.posicaoY+deltaY, this.posicaoZ)){
-                    this.posicaoY+=deltaY;
-                }
-                else{
-                    return false;
-                }
-
-                for(int i=this.posicaoX; i!=this.posicaoX+deltaX; i+= (deltaX>0) ? 1:-1){//conferindo se tem obstáculos no meio do caminho
-                    if(this.identificarObstaculo(a, i, this.posicaoY, this.posicaoZ)){
-                        System.out.println("Movimentacao cancelada!");
-                        return false;
-                    }
-                }
-                if(!this.identificarObstaculo(a, this.posicaoX+deltaX, this.posicaoY, this.posicaoZ)){
-                    this.posicaoX+=deltaX;
-                }
-                else{
+                if (!this.identificarObstaculo(a, this.posicaoX, this.posicaoY + deltaY, this.posicaoZ) &&
+                    !a.verificarSeTemObstaculoNoDestino(this, 0, (deltaY > 0) ? 1 : -1, 0)) {
+                    this.posicaoY += deltaY;
+                } else {
                     System.out.println("Movimentacao cancelada!");
                     return false;
                 }
-                
-                if(deltaX>0){
-                    this.direcao="Leste";
+    
+                // Movimentação no eixo X
+                for (int i = this.posicaoX; i != this.posicaoX + deltaX; i += (deltaX > 0) ? 1 : -1) {
+                    if (this.identificarObstaculo(a, i, this.posicaoY, this.posicaoZ) ||
+                        a.verificarSeTemObstaculoNoDestino(this, (deltaX > 0) ? 1 : -1, 0, 0)) {
+                        System.out.println("Movimentacao cancelada!");
+                        return false;
+                    }
                 }
-                else{
-                    this.direcao="Oeste";
+                if (!this.identificarObstaculo(a, this.posicaoX + deltaX, this.posicaoY, this.posicaoZ) &&
+                    !a.verificarSeTemObstaculoNoDestino(this, (deltaX > 0) ? 1 : -1, 0, 0)) {
+                    this.posicaoX += deltaX;
+                } else {
+                    System.out.println("Movimentacao cancelada!");
+                    return false;
+                }
+    
+                if (deltaX > 0) {
+                    this.direcao = "Leste";
+                } else {
+                    this.direcao = "Oeste";
                 }
                 return true;
             }
+        } else {
+            System.out.println("Movimento nulo!"); // não gasta bateria se o movimento é delta 0
         }
-        else{
-            System.out.println("Movimento nulo!");//não gasta bateria se o movimento é delta 0
-        }
-
+    
         return false;
     }
+    
+    
+    
+    
+    
 }
+
+
+
+

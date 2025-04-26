@@ -1,81 +1,98 @@
 // Classe que representa um robô terrestre blindado
 public class RoboTerrestreBlindado extends RoboTerrestre {
 
-    private int resistencia;        // Define a resistência do robô antes de ser destruído
-    private boolean funcionando;    // Indica se o robô ainda pode operar
+    private int resistênciaContraOutrosRobos;        // Define a resistência do robô a outros robôs antes de ser destruído
+    private boolean funcionando;                     // Indica se o robô ainda pode operar
     
     //Construtor da classe RoboTerrestreBlindado
     public RoboTerrestreBlindado(String nome, int posicaoX, int posicaoY, int posicaoZ, int v_max) {
         super(nome, posicaoX, posicaoY, posicaoZ, v_max); // Chama o construtor da classe base (RoboTerrestre)
-        this.resistencia = 5; // Define a resistência inicial do robô
+        this.resistênciaContraOutrosRobos = 5; // Define a resistência inicial do robô
         this.funcionando = true; // Define que o robô inicia funcionando normalmente
     }
 
-    //Método para mover o robô em uma determinada direção (X ou Y)
-    public boolean mover(int delta, String direcao, Ambiente a) {
-        if (!funcionando) {
-            System.out.println(this.getNome() + " está destruído! Ele não pode mais se mover.");
-            return false; // Se o robô foi destruído, ele não pode se mover
-        }
+// Método para mover o robô em uma determinada direção (X ou Y)
+public boolean mover(int delta, String direcao, Ambiente a) {
+    if (!funcionando) {
+        System.out.println(this.getNome() + " está destruído! Ele não pode mais se mover.");
+        return false; // Se o robô foi destruído, ele não pode se mover
+    }
 
-        boolean conseguiuMover = false;
+    boolean conseguiuMover = false;
 
-        if(delta<this.v_max){
-            //Verifica a direção do movimento e chama a função auxiliar correta
-            if (direcao.equalsIgnoreCase("Y")) {
-                conseguiuMover = moverEmDirecao(a, 0, delta);
-                if(delta>0){
-                    this.direcao="Norte";
-                }
-                else{
-                    this.direcao="Sul";
-                }
-            } else if (direcao.equalsIgnoreCase("X")) {
-                conseguiuMover = moverEmDirecao(a, delta, 0);
-                if(delta>0){
-                    this.direcao="Leste";
-                }
-                else{
-                    this.direcao="Oeste";
-                }
+    if (delta < this.v_max) {
+        // Verifica a direção do movimento e chama a função auxiliar correta
+        if (direcao.equalsIgnoreCase("Y")) {
+            conseguiuMover = moverEmDirecao(a, 0, delta);
+            if (delta > 0) {
+                this.direcao = "Norte";
             } else {
-                System.out.println("Direção inválida! Escolha 'X' ou 'Y'.");
-                return false;
+                this.direcao = "Sul";
             }
-        }
-        else{
-            System.out.println("Velocidade máxima excedida! " + getNome() + " não conseguiu se mover!");
-        }
-
-        return conseguiuMover;
-    }
-
-    //Método auxiliar para mover o robô na direção desejada, verificando obstáculos e aplicando danos
-    private boolean moverEmDirecao(Ambiente a, int deltaX, int deltaY) {
-        int novoX = posicaoX + deltaX;
-        int novoY = posicaoY + deltaY;
-
-        //Verifica se a nova posição está dentro dos limites do ambiente
-        if (!a.dentroDosLimites(novoX, novoY, posicaoZ)) {
-            System.out.println("Movimento inválido! " + getNome() + " tentou sair dos limites do ambiente.");
+        } else if (direcao.equalsIgnoreCase("X")) {
+            conseguiuMover = moverEmDirecao(a, delta, 0);
+            if (delta > 0) {
+                this.direcao = "Leste";
+            } else {
+                this.direcao = "Oeste";
+            }
+        } else {
+            System.out.println("Direção inválida! Escolha 'X' ou 'Y'.");
             return false;
         }
+    } else {
+        System.out.println("Velocidade máxima excedida! " + getNome() + " não conseguiu se mover!");
+    }
 
-        //Verifica se há obstáculos no caminho e calcula o dano sofrido
-        int dano = contarObstaculos(a, posicaoX, posicaoY, novoX, novoY);
+    return conseguiuMover;
+}
 
-        //Se houver dano, reduz a resistência do robô
-        if(this.resistencia-dano<0){//se a resistência final for menor que 0, ele cancela o movimento
-            System.out.println("Movimentação cancelada! Resistência abaixo do necessário p/ execução do movimento");
+// Método auxiliar para mover o robô na direção desejada, verificando obstáculos e aplicando danos
+private boolean moverEmDirecao(Ambiente a, int deltaX, int deltaY) {
+    int novoX = posicaoX + deltaX;
+    int novoY = posicaoY + deltaY;
+
+    // Verifica se a nova posição está dentro dos limites do ambiente
+    if (!a.dentroDosLimites(novoX, novoY, posicaoZ)) {
+        System.out.println("Movimento inválido! " + getNome() + " tentou sair dos limites do ambiente.");
+        return false;
+    }
+
+    // Novo trecho: verificar obstáculos no meio do caminho usando verificarSeTemObstaculoNoDestino
+    int passos = Math.max(Math.abs(deltaX), Math.abs(deltaY));
+    int passoX = (deltaX != 0) ? (deltaX > 0 ? 1 : -1) : 0;
+    int passoY = (deltaY != 0) ? (deltaY > 0 ? 1 : -1) : 0;
+
+    for (int i = 0; i != passos; i++) {
+        if (a.verificarSeTemObstaculoNoDestino(this, passoX, passoY, 0)) {
+            System.out.println("Movimentação cancelada! Obstáculo detectado no meio do caminho.");
             return false;
         }
-        if (dano > 0) {
-            sofreDano(dano);
-        }
-
-        //Tenta mover o robô para a nova posição chamando a função de movimento da classe base
-        return super.mover(deltaX, deltaY, a);
+        // Anda um passo para frente "virtualmente" para a próxima verificação
+        posicaoX += passoX;
+        posicaoY += passoY;
     }
+
+    // Depois da verificação, voltamos a posição original antes do movimento real
+    posicaoX -= passoX * passos;
+    posicaoY -= passoY * passos;
+
+    // Verifica se há obstáculos no caminho e calcula o dano sofrido
+    int dano = contarObstaculos(a, posicaoX, posicaoY, novoX, novoY);
+
+    // Se houver dano, reduz a resistência do robô
+    if (this.resistênciaContraOutrosRobos - dano < 0) { // Se a resistência final for menor que 0, cancela
+        System.out.println("Movimentação cancelada! Resistência abaixo do necessário p/ execução do movimento");
+        return false;
+    }
+    if (dano > 0) {
+        sofreDano(dano);
+    }
+
+    // Tenta mover o robô para a nova posição chamando a função de movimento da classe base
+    return super.mover(deltaX, deltaY, a);
+}
+
 
     //Método para contar quantos obstáculos estão no caminho e calcular o dano causado ao robô
     private int contarObstaculos(Ambiente a, int inicioX, int inicioY, int destinoX, int destinoY) {
@@ -108,12 +125,12 @@ public class RoboTerrestreBlindado extends RoboTerrestre {
 
     //Método para aplicar dano ao robô quando ele colide com obstáculos
     public void sofreDano(int dano) {
-        resistencia -= dano; //Reduz a resistência do robô
-        System.out.println(getNome() + " sofreu " + dano + " dano(s)! Resistência atual: " + resistencia);
+        resistênciaContraOutrosRobos -= dano; //Reduz a resistência do robô
+        System.out.println(getNome() + " sofreu " + dano + " dano(s)! Resistência atual: " + resistênciaContraOutrosRobos);
 
         //Se a resistência chegar a zero ou menos, o robô é destruído
-        if (resistencia <= 0) {
-            resistencia=0;
+        if (resistênciaContraOutrosRobos <= 0) {
+            resistênciaContraOutrosRobos=0;
             
             funcionando = false;
             System.out.println(getNome() + " foi destruído após múltiplas colisões!");
@@ -121,17 +138,17 @@ public class RoboTerrestreBlindado extends RoboTerrestre {
     }
 
     public void recuperaDano(int dano) {
-        resistencia += dano; //Reduz a resistência do robô
-        System.out.println(getNome() + " Consertou " + dano + " dano(s)! Resistência atual: " + resistencia);
+        resistênciaContraOutrosRobos += dano; //Reduz a resistência do robô
+        System.out.println(getNome() + " Consertou " + dano + " dano(s)! Resistência atual: " + resistênciaContraOutrosRobos);
 
-        if(resistencia>0){
+        if(resistênciaContraOutrosRobos>0){
             funcionando=true;
         }
     }
 
     //Método para obter a resistência atual do robô
     public int getResistencia() {
-        return resistencia;
+        return resistênciaContraOutrosRobos;
     }
 
     //Método para verificar se o robô ainda está funcionando
