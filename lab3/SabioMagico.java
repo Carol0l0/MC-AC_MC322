@@ -16,10 +16,9 @@ public class SabioMagico {
         System.out.println("✧･ﾟ: *✧･ﾟ:* 　　 *:･ﾟ✧*:･ﾟ✧");
         System.out.println("As névoas se abrem...");
         System.out.println("Um ser de sabedoria ancestral emerge diante de você.");
-        System.out.println("Seus olhos brilham como estrelas antigas,");
-        System.out.println("e sua voz ecoa pelos ventos do tempo...");
+        System.out.println("sua voz ecoa pelos ventos do tempo...");
         System.out.println("✧･ﾟ: *✧･ﾟ:* 　　 *:･ﾟ✧*:･ﾟ✧");
-        System.out.println("Charada: " + charada.getEnunciado());
+        System.out.println("Para conseguir passar, uma charada você deve acertar! " + charada.getEnunciado());
         System.out.print("Digite sua resposta: ");
         String respostaJogador = scanner.nextLine().trim().toLowerCase();
 

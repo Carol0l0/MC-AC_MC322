@@ -13,11 +13,11 @@ public class Main {
             System.out.println("\nEscolha uma opção:");
             System.out.println("1. Criar Robô Terrestre Blindado");
             System.out.println("2. Criar Robô Terrestre de Carga");
-            System.out.println("3. Criar Robô Aéreo XY");              //o sabio ta fazendo duas perguntas ao inves de uma para os aereos, tem q arrumar isso
+            System.out.println("3. Criar Robô Aéreo XY");             
             System.out.println("4. Criar Robô Aéreo YX");
             System.out.println("5. Criar obstáculo");
             System.out.println("6. Mover Robô");
-            System.out.println("7. Escolher Sensor (em construção)");
+            System.out.println("7. Escolher Sensor");
             System.out.println("8. Sair");
             System.out.print("Opção: ");
             int opcao = scanner.nextInt();
@@ -62,6 +62,7 @@ public class Main {
 
                     ((RoboTerrestreBlindado)roboSelecionado).mover(delta, direcao, a);
                     System.out.println("Robô movido para " + roboSelecionado.getPosicaoX() + "," + roboSelecionado.getPosicaoY() + "com sucesso!");
+                    break;
 
                 } else if (roboSelecionado instanceof RoboTerrestreDeCarga) {
                     System.out.print("Digite o deltaY: ");
@@ -75,6 +76,7 @@ public class Main {
                     }
                     else
                         System.out.println("obstáculo no caminho! Robô não se moveu.");
+                    break;
 
                 } else if (roboSelecionado instanceof RoboAereoXY) {
                     System.out.print("Digite o deltaX: ");
@@ -84,6 +86,7 @@ public class Main {
 
                     ((RoboAereoXY)roboSelecionado).mover(deltaX, deltaY, a);
                     System.out.println("Robô movido para " + roboSelecionado.getPosicaoX() + "," + roboSelecionado.getPosicaoY() + "com sucesso!");
+                    break;
 
                 } else if(roboSelecionado instanceof RoboAereoYX) {
                     System.out.print("Digite o deltaX: ");
@@ -93,6 +96,7 @@ public class Main {
 
                     ((RoboAereoYX)roboSelecionado).mover(deltaX, deltaY, a);
                     System.out.println("Robô movido para " + roboSelecionado.getPosicaoX() + "," + roboSelecionado.getPosicaoY() + "com sucesso!");
+                    break;
                 }
 
                 case 7:
@@ -186,7 +190,6 @@ public class Main {
             int altitudeMax = scanner.nextInt();
             System.out.print("Cor: ");
             String cor = scanner.nextLine();
-            scanner.nextLine(); 
     
             RoboAereoXY roboAereoXY = new RoboAereoXY(nome, posicaoX, posicaoY, posicaoZ, altitudeMax, cor);
             a.adicionarRobo(roboAereoXY);

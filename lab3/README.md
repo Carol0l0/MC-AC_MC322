@@ -2,17 +2,23 @@
 Ana Carolina Vieira Araújo (248734)
 Maria Clara Martinez Oliveira (281315)
 
+
+**Ambiente de Desenvolvimento**
+
+    IDE usada: Visual Studio Code
+
+    Versão do Java: OpenJDK 21.0.6
+
+
 **Sobre o código:**
 
-O código simula um ambiente onde diferentes tipos de robôs (terrestres, aéreos, blindados,) podem se mover, interagir e realizar tarefas, como carregar peso ou recarregar a bateria. O ambiente possui limites e obstáculos, e o comportamento dos robôs é condicionado por esses fatores.
+O código simula um ambiente onde diferentes tipos de robôs (terrestres e aéreos) podem se mover, interagir e realizar tarefas, como carregar peso ou recarregar a bateria. O ambiente possui limites e obstáculos, e o comportamento dos robôs é condicionado por esses fatores.
 
 Classes
 
 1. Ambiente:
 
 Representa o espaço onde os robôs operam. A classe possui as dimensões do ambiente (X, Y, Z) e uma lista de robôs presentes.
-
-    Construtor: Inicializa o ambiente com as dimensões passadas e cria uma lista de robôs.
 
     Métodos:
 
@@ -97,15 +103,21 @@ Interação entre as classes
 
 **Como Compilar e Executar:**
 
-1. Criação da Pasta bin/
-Se a pasta bin/ não existir, crie-a com o seguinte comando:
-mkdir -p bin
+**Compilação**
 
-2. Compilação
-Para compilar o código-fonte, use o comando:
-javac -d bin *.java
+    Compile todos os arquivos .java:
+    javac *.java
 
-3. Execução
-Para rodar o programa, execute o seguinte comando:
-java -cp bin Main
+    ou compile o Main.java diretamente (se ele importar os outros corretamente):
+    javac Main.java
+
+**Execução**
+
+    Execute o programa no terminal:
+    java Main
+
+    Certifique-se de estar no diretório correto onde estão os arquivos .java compilados.
+
+
+**Diagrama de Classes**
 
