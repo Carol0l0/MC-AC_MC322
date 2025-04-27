@@ -13,11 +13,11 @@ public class Main {
             System.out.println("\nEscolha uma opção:");
             System.out.println("1. Criar Robô Terrestre Blindado");
             System.out.println("2. Criar Robô Terrestre de Carga");
-            System.out.println("3. Criar Robô Aéreo XY");
+            System.out.println("3. Criar Robô Aéreo XY");              //o sabio ta fazendo duas perguntas ao inves de uma para os aereos, tem q arrumar isso
             System.out.println("4. Criar Robô Aéreo YX");
             System.out.println("5. Criar obstáculo");
             System.out.println("6. Mover Robô");
-            System.out.println("7. Escolher Sensor (ainda a ser feito)");
+            System.out.println("7. Escolher Sensor (em construção)");
             System.out.println("8. Sair");
             System.out.print("Opção: ");
             int opcao = scanner.nextInt();
@@ -95,6 +95,38 @@ public class Main {
                     System.out.println("Robô movido para " + roboSelecionado.getPosicaoX() + "," + roboSelecionado.getPosicaoY() + "com sucesso!");
                 }
 
+                case 7:
+                System.out.println("Digite o nome do robô que deseja adicionar o sensor:");
+                String nomeRoboSensor = scanner.nextLine();
+                Robo roboSensorSelecionado = a.buscarRoboPorNome(nomeRoboSensor);
+            
+                if (roboSensorSelecionado == null) {
+                    System.out.println("Robô não encontrado.");
+                    break;
+                }
+            
+                System.out.println("Escolha o tipo de sensor:");
+                System.out.println("1. Sensor de Proximidade");
+                System.out.println("2. Sensor Sonoro");
+                int tipoSensor = scanner.nextInt();
+                scanner.nextLine(); // limpar o buffer
+            
+                Sensor sensor = null;
+                switch (tipoSensor) {
+                    case 1 -> sensor = new SensorProximidade(roboSensorSelecionado, a, 2);
+                    case 2 -> sensor = new SensorSonoro();
+                    default -> {
+                        System.out.println("Tipo de sensor inválido.");
+                        break;
+                    }
+                }
+            
+                if (sensor != null) {
+                    roboSensorSelecionado.adicionarSensor(sensor);
+                    System.out.println("Sensor adicionado com sucesso ao robô " + nomeRoboSensor);
+                    sensor.monitorar();
+                }
+                break;
             }
         }
 
