@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -7,7 +6,6 @@ public class Main {
 
     public static void main(String[] args) {
         Ambiente a = new Ambiente(50,50,50);
-        BancoDeCharadas banco = new BancoDeCharadas();
         Robo robo = null;
         Obstaculo obstaculo = null;
 
@@ -19,8 +17,7 @@ public class Main {
             System.out.println("4. Criar Robô Aéreo YX");
             System.out.println("5. Criar obstáculo");
             System.out.println("6. Mover Robô");
-            System.out.println("7. Usar Sensor de Som");
-            System.out.println("7. Usar Sensor de Proximidade");
+            System.out.println("7. Escolher Sensor (ainda a ser feito)");
             System.out.println("8. Sair");
             System.out.print("Opção: ");
             int opcao = scanner.nextInt();
@@ -30,18 +27,23 @@ public class Main {
                 case 1:
                     robo = criarRoboTerrestreBlindado(a);
                     break;
+
                 case 2:
                     robo = criarRoboTerrestreDeCarga(a);
                     break;
+
                 case 3:
                     robo = criarRoboAereoXY(a);
                     break;
+
                 case 4:
                     robo = criarRoboAereoYX(a);
                     break;
+
                 case 5:
                     obstaculo = criarobstaculo(a);
                     break;
+
                 case 6:
                 System.out.println("Digite o nome do robô que deseja mover:");
                 String nomeRoboMover = scanner.nextLine();
@@ -72,7 +74,7 @@ public class Main {
                         System.out.println("Robô movido para " + roboSelecionado.getPosicaoX() + "," + roboSelecionado.getPosicaoY() + "com sucesso!");
                     }
                     else
-                        System.out.println("otáculo no caminho! Robô não se moveu.");
+                        System.out.println("obstáculo no caminho! Robô não se moveu.");
 
                 } else if (roboSelecionado instanceof RoboAereoXY) {
                     System.out.print("Digite o deltaX: ");
@@ -91,8 +93,8 @@ public class Main {
 
                     ((RoboAereoYX)roboSelecionado).mover(deltaX, deltaY, a);
                     System.out.println("Robô movido para " + roboSelecionado.getPosicaoX() + "," + roboSelecionado.getPosicaoY() + "com sucesso!");
-                
                 }
+
             }
         }
 
@@ -217,7 +219,7 @@ public class Main {
         
             Obstaculo o = new Obstaculo(x1, y1, x2, y2, tipo);
             a.adicionarObstaculo(o);
-            System.out.print("otaculo criado em: " +o.posicaoX1 +","+o.posicaoY1+","+o.posicaoX2+","+o.posicaoY2);
+            System.out.print("obstaculo criado em: " +o.posicaoX1 +","+o.posicaoY1+","+o.posicaoX2+","+o.posicaoY2);
             return null;
 
         }

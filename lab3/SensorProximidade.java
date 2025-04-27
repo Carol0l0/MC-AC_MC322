@@ -42,12 +42,18 @@ public class SensorProximidade extends Sensor {
     public void exibirObstaculosProximos() {
         ArrayList<Obstaculo> detectados = existenciaObstaculos();
         if (detectados.isEmpty()) {
-            System.out.println("Nenhum obstáculo detectado no raio de 2 unidades.");
+            System.out.println("Nenhum obstáculo detectado no raio.");
         } else {
             System.out.println("Obstáculos detectados próximos ao robô " + robo.getNome() + ":");
             for (Obstaculo o : detectados) {
                 System.out.println(" - " + o.getTipo() + " na área (" + o.getPosicaoX1() + "," + o.getPosicaoY1() + ") até (" + o.getPosicaoX2() + "," + o.getPosicaoY2() + "), altura: " + o.getAltura());
             }
         }
+    }
+
+    @Override
+    public int monitorar() {
+        exibirObstaculosProximos();
+        return 0;
     }
 }

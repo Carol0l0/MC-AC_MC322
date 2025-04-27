@@ -1,8 +1,16 @@
 public class Sensor {
     
-    private int raio;
+    protected int raio;
 
-    public int monitorar(){
-        return 0;
+    public Sensor(int raio) {
+        this.raio = raio;
+    }
+
+    public int getRaio() {
+        return raio;
+    }
+
+    public int monitorar() {
+        return 0; 
     }
 }

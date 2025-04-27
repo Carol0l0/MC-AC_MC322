@@ -1,4 +1,7 @@
 //Classe que representa um robô genérico
+
+import java.util.ArrayList;
+
 public class Robo{
     
     private String nome;
@@ -6,6 +9,7 @@ public class Robo{
     public int posicaoX;
     public int posicaoY;
     public int posicaoZ;
+    private ArrayList<Sensor> sensores;
 
     //método para obter o nome do robô
     public String getNome(){
@@ -19,6 +23,17 @@ public class Robo{
         this.posicaoX = posicaoX;
         this.posicaoY = posicaoY;
         this.posicaoZ = posicaoZ;
+        this.sensores = new ArrayList<>();
+    }
+
+    public void adicionarSensor(Sensor sensor) {
+        sensores.add(sensor);
+    }
+
+    public void usarSensores() {
+        for (Sensor s : sensores) {
+            s.monitorar();
+        }
     }
 
     //Método para mover o robô dentro do ambiente, verificando obstáculos e limites de borda
