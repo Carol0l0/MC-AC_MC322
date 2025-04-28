@@ -15,8 +15,8 @@ public class Obstaculo {
         int maxY = Math.max(y1, y2);
 
         this.posicaoX1 = minX;
-        this.posicaoY1 = maxX;
-        this.posicaoX2 = minY;
+        this.posicaoY1 = minY;
+        this.posicaoX2 = maxX;
         this.posicaoY2 = maxY;
         this.tipo = tipo;
 
@@ -30,7 +30,7 @@ public class Obstaculo {
             if (this.posicaoX2 >= o.getPosicaoX1() && this.posicaoX1 <= o.getPosicaoX2() &&
                this.posicaoY2 >= o.getPosicaoY1() && this.posicaoY1 <= o.getPosicaoY2()) {
 
-                return true;
+                return false;
             }
         }
 
@@ -42,11 +42,11 @@ public class Obstaculo {
            if (x>=this.posicaoX1 && x<=this.posicaoX2 && y>=this.posicaoY1 
            && y<=this.posicaoY2 && z<=this.tipo.getAlturaPadrao()) {
                System.out.println("Obstáculo detectado! Robô: " + robo.getNome());
-               return true;
+               return false;
            }
        }
    
-       return false;
+       return true;
    }
 
     public TipoObstaculo getTipo() {

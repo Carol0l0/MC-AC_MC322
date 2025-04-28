@@ -62,20 +62,7 @@ public class Main {
 
                     ((RoboTerrestreBlindado)roboSelecionado).mover(delta, direcao, a);
                     System.out.println("Robô movido para " + roboSelecionado.getPosicaoX() + "," + roboSelecionado.getPosicaoY() + "com sucesso!");
-                    break;
-
-                } else if (roboSelecionado instanceof RoboTerrestreDeCarga) {
-                    System.out.print("Digite o deltaY: ");
-                    int deltaY = scanner.nextInt(); 
-                    System.out.println("Digite o deltaX: ");
-                    int deltaX = scanner.nextInt();  
-
-                    if(!r.identificarObstaculo(roboSelecionado, deltaX, deltaY, 0)){
-                        ((RoboTerrestreDeCarga)roboSelecionado).mover(deltaX, deltaY);
-                        System.out.println("Robô movido para " + roboSelecionado.getPosicaoX() + "," + roboSelecionado.getPosicaoY() + "com sucesso!");
-                    }
-                    else
-                        System.out.println("obstáculo no caminho! Robô não se moveu.");
+                    a.detectarColisoes();
                     break;
 
                 } else if (roboSelecionado instanceof RoboAereoXY) {
@@ -140,6 +127,12 @@ public class Main {
             System.out.println("Criando Robo Terrestre Blindado...");
             System.out.print("Nome: ");
             String nome = scanner.nextLine();
+
+            if (a.buscarRoboPorNome(nome) != null) {
+                System.out.println("Erro: Já existe um robô com esse nome! Escolha outro.");
+                return null; 
+            }
+
             System.out.print("Posição X: ");
             int posicaoX = scanner.nextInt();
             System.out.print("Posição Y: ");
@@ -159,6 +152,11 @@ public class Main {
             System.out.println("Criando Robo Terrestre de Carga...");
             System.out.print("Nome: ");
             String nome = scanner.nextLine();
+
+            if (a.buscarRoboPorNome(nome) != null) {
+                System.out.println("Erro: Já existe um robô com esse nome! Escolha outro.");
+                return null; 
+            }
             System.out.print("Posição Y: ");
             int posicaoY = scanner.nextInt();
             System.out.print("Posição X: ");
@@ -180,6 +178,12 @@ public class Main {
             System.out.println("Criando Robo Aéreo...");
             System.out.print("Nome: ");
             String nome = scanner.nextLine();
+
+            if (a.buscarRoboPorNome(nome) != null) {
+                System.out.println("Erro: Já existe um robô com esse nome! Escolha outro.");
+                return null; 
+            }
+
             System.out.print("Posição X: ");
             int posicaoX = scanner.nextInt();
             System.out.print("Posição Y: ");
@@ -201,6 +205,12 @@ public class Main {
             System.out.println("Criando Robo Aéreo...");
             System.out.print("Nome: ");
             String nome = scanner.nextLine();
+
+            if (a.buscarRoboPorNome(nome) != null) {
+                System.out.println("Erro: Já existe um robô com esse nome! Escolha outro.");
+                return null; 
+            }
+
             System.out.print("Posição X: ");
             int posicaoX = scanner.nextInt();
             System.out.print("Posição Y: ");
@@ -219,12 +229,13 @@ public class Main {
         }
     
         private static Obstaculo criarobstaculo(Ambiente a) {
-            System.out.println("Escolha o tipo de otáculo:");
+            System.out.println("Escolha o tipo de obstáculo:");
             System.out.println("1. Caixa de Som");
             System.out.println("2. Lago de Ácido");
             System.out.println("3. Forte Ventania");
-            System.out.println("4. Firewall Malicioso");
             System.out.println("5. Sábio Mágico");
+            System.out.println("6. Árvore Mística");
+
             int opcao = scanner.nextInt();
             scanner.nextLine();
         
@@ -243,6 +254,7 @@ public class Main {
                 case 2 -> TipoObstaculo.LAGODEACIDO;
                 case 3 -> TipoObstaculo.FORTEVENTANIA;
                 case 5 -> TipoObstaculo.SABIOMAGICO;
+                case 6 -> TipoObstaculo.ARVOREMISTICA;
                 default -> null;
             };
         
@@ -253,7 +265,7 @@ public class Main {
         
             Obstaculo o = new Obstaculo(x1, y1, x2, y2, tipo);
             a.adicionarObstaculo(o);
-            System.out.print("obstaculo criado em: " + o.getPosicaoX1() +","+o.getPosicaoY1() +","+o.getPosicaoX2()+","+o.getPosicaoY2());
+            System.out.print("Obstáculo criado em : ("+ o.getPosicaoX1() +","+o.getPosicaoY1() +"),("+o.getPosicaoX2()+","+o.getPosicaoY2()+")");
             return null;
 
         }

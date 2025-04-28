@@ -66,6 +66,8 @@ public class Robo{
 
     }
 
+    public int totalColisoes = 0;
+
     public Boolean identificarObstaculo(int x, int y, int z) {
         for (Obstaculo o : ambiente.listadeObstaculos) {
     
@@ -78,12 +80,16 @@ public class Robo{
                 if (o instanceof SabioMagico) {
                     SabioMagico sabio = (SabioMagico) o;
                     if (!sabio.desafiar()) {
+                        totalColisoes++;  //colisao com obs
                         return true;
+
                     }
                 } else {
                     if (!o.getTipo().podePassar(this)) {
                         System.out.println("Obstáculo detectado! Obstáculo: " + o.getTipo() + " impede a passagem.");
+                        totalColisoes++;  //colisao com obs
                         return true;
+
                     }
                 }
             }
@@ -91,6 +97,9 @@ public class Robo{
     
         for (Robo robo : this.ambiente.listadeRobos) {
             if (this != robo && robo.posicaoX == x && robo.posicaoY == y && robo.posicaoZ == z) {
+    
+                totalColisoes++; //colisao com robo
+    
                 System.out.println("Obstáculo detectado! Robô: " + robo.getNome());
                 return true;
             }
@@ -98,8 +107,11 @@ public class Robo{
     
         return false;
     }
-    
 
+    public int getTotalColisoes() {
+        return totalColisoes;
+    }
+    
     //Método para exibir a posição atual do robô
     public String exibirPosicao(){
         System.out.println(this.nome+" esta na posicao ("+this.posicaoX+", "+this.posicaoY+", "+this.posicaoZ+"). Direção "+this.direcao);
