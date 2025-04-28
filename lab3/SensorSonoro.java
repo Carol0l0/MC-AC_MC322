@@ -1,7 +1,7 @@
 public class SensorSonoro extends Sensor{
 
     public SensorSonoro(int raio, Robo robo){
-        super(raio, robo);
+        super(0, robo);
     }
 
     @Override

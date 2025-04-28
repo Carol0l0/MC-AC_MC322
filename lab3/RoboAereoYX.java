@@ -2,6 +2,12 @@ public class RoboAereoYX extends RoboAereo{
 
     private int nivelBateria; //Nível atual da bateria do robô
 
+    //Método construtor do robô aéreo yx.
+    public RoboAereoYX(String nome, int posicaoX, int posicaoY, int posicaoZ, int altitudeMax){
+        super(nome, posicaoX, posicaoY, posicaoZ, altitudeMax);
+        this.nivelBateria=50;
+    }
+
     //Método para recarregar completamente a bateria do robô.
     public void carregarBateria() {
         this.nivelBateria = 50;     //Define o nível da bateria de volta para 50%
@@ -12,12 +18,6 @@ public class RoboAereoYX extends RoboAereo{
     public int getNivelBateria() {
         System.out.println("Bateria de " + getNome() + " igual a: " + nivelBateria + "%");
         return nivelBateria;
-    }
-
-    //Método construtor do robô aéreo yx.
-    public RoboAereoYX(String nome, int posicaoX, int posicaoY, int posicaoZ, int altitudeMax){
-        super(nome, posicaoX, posicaoY, posicaoZ, altitudeMax);
-        this.nivelBateria=50;
     }
 
     @Override
