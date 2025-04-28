@@ -12,7 +12,7 @@ public class RoboTerrestreBlindado extends RoboTerrestre {
     }
 
     //Método para mover o robô em uma determinada direção (X ou Y)
-    public boolean mover(int delta, String direcao, Ambiente a) {
+    public boolean mover(int delta, String direcao) {
         if (!funcionando) {
             System.out.println(this.getNome() + " está destruído! Ele não pode mais se mover.");
             return false; // Se o robô foi destruído, ele não pode se mover
@@ -139,9 +139,4 @@ public class RoboTerrestreBlindado extends RoboTerrestre {
         return funcionando;
     }
 
-    //Método para imprimir e retornar a posição atual do robô no eixo X
-    public int getPosicao() {
-        System.out.println("(" + posicaoX + "," + posicaoY + ")");
-        return posicaoX;
-    }
 }

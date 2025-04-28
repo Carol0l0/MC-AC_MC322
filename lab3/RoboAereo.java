@@ -1,6 +1,6 @@
 class RoboAereo extends Robo{
 
-    int altitudeMax; //altura máxima
+    private int altitudeMax; //altura máxima
 
     //Método construtor robô aéreo
     public RoboAereo(String nome, int posicaoX, int posicaoY, int posicaoZ, int altitudeMax){

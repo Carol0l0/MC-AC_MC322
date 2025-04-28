@@ -113,9 +113,8 @@ public class Robo{
     }
     
     //Método para exibir a posição atual do robô
-    public String exibirPosicao(){
+    public void exibirPosicao(){
         System.out.println(this.nome+" esta na posicao ("+this.posicaoX+", "+this.posicaoY+", "+this.posicaoZ+"). Direção "+this.direcao);
-        return this.posicaoX+" "+this.posicaoY;
     }
     
 }

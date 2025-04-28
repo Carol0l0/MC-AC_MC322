@@ -157,10 +157,11 @@ public class Main {
                 System.out.println("Erro: Já existe um robô com esse nome! Escolha outro.");
                 return null; 
             }
-            System.out.print("Posição Y: ");
-            int posicaoY = scanner.nextInt();
+            
             System.out.print("Posição X: ");
             int posicaoX = scanner.nextInt();
+            System.out.print("Posição Y: ");
+            int posicaoY = scanner.nextInt();
             int posicaoZ = 0;
             System.out.print("Velocidade Máxima: ");
             int v_max = scanner.nextInt();
@@ -236,18 +237,29 @@ public class Main {
             System.out.println("5. Sábio Mágico");
             System.out.println("6. Árvore Mística");
 
+            int intensidade=0, x1, x2=0, y1, y2=0;
             int opcao = scanner.nextInt();
             scanner.nextLine();
         
-            System.out.print("Posição X1: ");
-            int x1 = scanner.nextInt();
-            System.out.print("Posição X2: ");
-            int x2 = scanner.nextInt();
-            System.out.print("Posição Y1: ");
-            int y1 = scanner.nextInt();
-            System.out.print("Posição Y2: ");
-            int y2 = scanner.nextInt();
-            scanner.nextLine();
+            if(opcao==1){
+                System.out.print("Posição X: ");
+                x1 = scanner.nextInt();
+                System.out.print("Posição Y: ");
+                y1 = scanner.nextInt();
+                System.out.print("Intensidade: ");
+                intensidade = scanner.nextInt();
+            }
+            else{
+                System.out.print("Posição X1: ");
+                x1 = scanner.nextInt();
+                System.out.print("Posição X2: ");
+                x2 = scanner.nextInt();
+                System.out.print("Posição Y1: ");
+                y1 = scanner.nextInt();
+                System.out.print("Posição Y2: ");
+                y2 = scanner.nextInt();
+                scanner.nextLine();
+            }
         
             TipoObstaculo tipo = switch (opcao) {
                 case 1 -> TipoObstaculo.CAIXADESOM;
@@ -262,10 +274,17 @@ public class Main {
                 System.out.println("Tipo inválido.");
                 return null;
             }
-        
-            Obstaculo o = new Obstaculo(x1, y1, x2, y2, tipo);
-            a.adicionarObstaculo(o);
-            System.out.print("Obstáculo criado em : ("+ o.getPosicaoX1() +","+o.getPosicaoY1() +"),("+o.getPosicaoX2()+","+o.getPosicaoY2()+")");
+            
+            if(opcao==1){
+                CaixaDeSom c=new CaixaDeSom(x1, y1, x1, y1, tipo, intensidade);
+                a.adicionaCaixaDeSom(c);
+                System.out.println("Caixa de som criada em ("+x1+", "+y1+")");
+            }
+            else{
+                Obstaculo o = new Obstaculo(x1, y1, x2, y2, tipo);
+                a.adicionarObstaculo(o);
+                System.out.println("Obstáculo criado em : ("+ o.getPosicaoX1() +","+o.getPosicaoY1() +"),("+o.getPosicaoX2()+","+o.getPosicaoY2()+")");
+            }
             return null;
 
         }
