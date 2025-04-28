@@ -1,7 +1,7 @@
 //Classe que representa um robô terrestre e a velocidade máxima
 public class RoboTerrestre extends Robo {
     
-    int v_max;
+    protected int v_max;
     
     public RoboTerrestre (String nome, int posicaoX, int posicaoY, int posicaoZ, int v_max){
         super(nome, posicaoX, posicaoY, posicaoZ);
@@ -10,13 +10,13 @@ public class RoboTerrestre extends Robo {
 
     //verificar se a quantidade de movimento excede a velocidade posta
     @Override
-    public boolean mover(int deltaX, int deltaY, Ambiente a) {
+    public boolean mover(int deltaX, int deltaY) {
         if(Math.abs(deltaX) + Math.abs(deltaY) > v_max){
             System.out.println("Velocidade máxima excedida! " + getNome() + " não conseguiu se mover!");
             return false;
         }
 
-        return super.mover(deltaX, deltaY, a);
+        return super.mover(deltaX, deltaY);
     }
 
 }

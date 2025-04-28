@@ -2,11 +2,10 @@ import java.util.ArrayList;
 
 public class SensorProximidade extends Sensor {
 
-    private Robo robo;
     private Ambiente ambiente;
 
     public SensorProximidade(Robo robo, Ambiente ambiente, int raio) {
-        super(raio); 
+        super(raio, robo); 
         this.robo = robo;
         this.ambiente = ambiente;
     }

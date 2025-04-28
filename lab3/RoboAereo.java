@@ -11,7 +11,7 @@ class RoboAereo extends Robo{
     //aumenta a altitude
     public void subir(int metros, Ambiente a){
         metros=Math.abs(metros);
-        if(!identificarObstaculo(a, this.posicaoX, this.posicaoY, this.posicaoZ+metros)){
+        if(!identificarObstaculo(this.posicaoX, this.posicaoY, this.posicaoZ+metros)){
             if (posicaoZ + metros <= altitudeMax) {
                 posicaoZ += metros;
             } else {
@@ -19,14 +19,14 @@ class RoboAereo extends Robo{
             }
         }
         else{
-            System.out.println("Não foi possível subir. Obstáculo detectado em ("+this.posicaoX+", "+this.posicaoY+", "+(this.posicaoZ-metros)+")");
+            System.out.println("Não foi possível subir. Obstáculo detectado em ("+this.posicaoX+", "+this.posicaoY+", "+(this.posicaoZ+metros)+")");
         }
     }
 
     //diminui a altitude
     public void descer(int metros, Ambiente a) {
         metros=Math.abs(metros);
-        if(!identificarObstaculo(a, this.posicaoX, this.posicaoY, this.posicaoZ-metros)){
+        if(!identificarObstaculo(this.posicaoX, this.posicaoY, this.posicaoZ-metros)){
             if (posicaoZ - metros <= altitudeMax) {
                 posicaoZ -= metros;
             } else {

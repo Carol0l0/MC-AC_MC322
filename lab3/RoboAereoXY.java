@@ -16,45 +16,49 @@ public class RoboAereoXY extends RoboAereo{
         return this.cor;
     }
 
+    //O robô se move na direção X depois da direção Y, checando se têm obstáculos no meio do caminho
     @Override
-    public boolean mover(int deltaX, int deltaY, Ambiente a) {
-        int direcaoX = Integer.compare(deltaX, 0); // 1 para leste, -1 para oeste, 0 para nenhum
-        int direcaoY = Integer.compare(deltaY, 0); // 1 para norte, -1 para sul, 0 para nenhum
+    public boolean mover(int deltaX, int deltaY) {
+        if(this.ambiente.dentroDosLimites(this.posicaoX+deltaX, this.posicaoY+deltaY, this.posicaoZ)){
+            //movimentacao em X
+            for(int i=this.posicaoX; i!=this.posicaoX+deltaX; i+= (deltaX>0) ? 1:-1){//conferindo se tem obstáculos no meio do caminho
+                if(this.identificarObstaculo(i, this.posicaoY, this.posicaoZ)){
+                    System.out.println("Movimentacao cancelada!");
+                    return false;
+                }
+            }
+            if(!this.identificarObstaculo(this.posicaoX+deltaX, this.posicaoY, this.posicaoZ)){
+                this.posicaoX+=deltaX;
+            }
+            else{
+                System.out.println("Movimentacao cancelada!");
+                return false;
+            }
+
+            //movimentacao em Y
+            for(int i=this.posicaoY; i!=this.posicaoY+deltaY; i+= (deltaY>0) ? 1:-1){//conferindo se tem obstáculos no meio do caminho
+                if(this.identificarObstaculo(this.posicaoX, i, this.posicaoZ)){
+                    System.out.println("Movimentacao cancelada!");
+                    return false;
+                }
+            }
+            if(!this.identificarObstaculo(this.posicaoX, this.posicaoY+deltaY, this.posicaoZ)){
+                this.posicaoY+=deltaY;
+            }
+            else{
+                System.out.println("Movimentacao cancelada!");
+                return false;
+            }
     
-        // Caminho em X
-        for (int i = 0; i != deltaX; i += direcaoX) {
-            if (!a.dentroDosLimites(posicaoX + direcaoX, posicaoY, posicaoZ)) {
-                System.out.println("Movimento fora dos limites no eixo X.");
-                return false;
+            // Atualiza a direção com base no último eixo percorrido
+            if (deltaX != 0) {
+                this.direcao = (deltaX > 0) ? "Leste" : "Oeste";
             }
-            if (a.verificarSeTemObstaculoNoDestino(this, direcaoX, 0, 0)) {
-                System.out.println("Movimentacao cancelada por obstáculo no eixo X!");
-                return false;
+            else if (deltaY != 0) {
+                this.direcao = (deltaY > 0) ? "Norte" : "Sul";
             }
-            posicaoX += direcaoX;
+            return true;
         }
-    
-        // Caminho em Y
-        for (int i = 0; i != deltaY; i += direcaoY) {
-            if (!a.dentroDosLimites(posicaoX, posicaoY + direcaoY, posicaoZ)) {
-                System.out.println("Movimento fora dos limites no eixo Y.");
-                return false;
-            }
-            if (a.verificarSeTemObstaculoNoDestino(this, 0, direcaoY, 0)) {
-                System.out.println("Movimentacao cancelada por obstáculo no eixo Y!");
-                return false;
-            }
-            posicaoY += direcaoY;
-        }
-    
-        // Atualiza a direção com base no último eixo percorrido
-        if (deltaY != 0) {
-            this.direcao = (deltaY > 0) ? "Norte" : "Sul";
-        } else if (deltaX != 0) {
-            this.direcao = (deltaX > 0) ? "Leste" : "Oeste";
-        }
-    
-        return true;
+        return false;
     }
-    
 }

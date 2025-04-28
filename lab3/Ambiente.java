@@ -27,49 +27,53 @@ public class Ambiente{
     
     }
 
-
-// Método para adicionar um robô ao ambiente
+    // Método para adicionar um robô ao ambiente
     public void adicionarRobo(Robo r) {
-    int x = r.getPosicaoX();
-    int y = r.getPosicaoY();
-    int z = r.getPosicaoZ();
+        int x = r.getPosicaoX();
+        int y = r.getPosicaoY();
+        int z = r.getPosicaoZ();
 
-    // Verifica se o robô está dentro dos limites
-    if (!dentroDosLimites(x, y, z)) {
-        System.out.println("Erro: Posição do robô " + r.getNome() + " está fora dos limites do ambiente.");
-        return;
-    }
+        r.setAmbiente(this);
 
-    // Verifica se já existe um robô na mesma posição
-    for (Robo roboExistente : listadeRobos) {
-        if (roboExistente.getPosicaoX() == x &&
-            roboExistente.getPosicaoY() == y &&
-            roboExistente.getPosicaoZ() == z) {
-            System.out.println("Erro: Já existe um robô na posição (" + x + ", " + y + ", " + z + "). ESte robô não foi adicionado!");
+        // Verifica se o robô está dentro dos limites
+        if (!dentroDosLimites(x, y, z)) {
+            System.out.println("Erro: Posição do robô " + r.getNome() + " está fora dos limites do ambiente.");
             return;
         }
+
+        //Verifica se existe um obstáculo
+        if(r.identificarObstaculo(x, y, z)){
+            System.out.println("Erro: não pode adicionar robô, obstáculo detectado em ("+x+", "+y+", "+z+")!");
+            return;
+        }
+
+        // Adiciona o robô à lista
+        this.listadeRobos.add(r);
+        System.out.println("\nRobo " + r.getNome() + " adicionado com sucesso!");
     }
 
-    // Adiciona o robô à lista
-    this.listadeRobos.add(r);
-    System.out.println("\nRobo " + r.getNome() + " adicionado com sucesso!");
-}
-
     public ArrayList<Obstaculo> getListadeObstaculos() {
-    return listadeObstaculos;
+        return listadeObstaculos;
     }
     
     //Método para remover um robô do ambiente
     public void removerRobo(Robo r){
         this.listadeRobos.remove(r);
         System.out.println("\nRobo "+r.getNome()+" removido com sucessso!");
-
     }
 
     //Adicionar obstáculos no ambiente
     public void adicionarObstaculo(Obstaculo o) {
-        this.listadeObstaculos.add(o);
-        System.out.println("Obstáculo do tipo " + o.getTipo() + " adicionado.");
+        if(o.podeAdicionar(this)){
+            this.listadeObstaculos.add(o);
+            System.out.println("Obstáculo do tipo " + o.getTipo() + " adicionado.");
+        }
+    }
+
+    //Remove obstáculos do ambiente
+    public void removerObstaculo(Obstaculo o){
+        this.listadeObstaculos.remove(o);
+        System.out.println("Obstáculo do tipo " + o.getTipo() + " removido.");
     }
 
     public Robo buscarRoboPorNome(String nome) {
@@ -84,57 +88,34 @@ public class Ambiente{
     //Adiciona caixa de som
     public void adicionaCaixaDeSom(CaixaDeSom c){
         adicionarObstaculo(c);
-        int x=c.getPosicaoX1(), y=c.getPosicaoY1(), intensidade=c.getIntensidade();
-        for(int i=intensidade; i>0; i--){
-            for(int j=x-i; j<=x+i; j++){
-                for(int k=y-i; k<=y+i; k++){
-                    som[j][k][0]++;
+        int x=c.getPosicaoX1(), y=c.getPosicaoY1(), z=0, intensidade=c.getIntensidade();
+        for (int i=intensidade; i>0; i--) {
+            for (int j=x-i; j<=x+i; j++) {
+                for (int k=y-i; k<=y+i; k++) {
+                    for (int l=z-i; l<=z+i; l++) {
+                        if (j>=0 && j<10 && k>=0 && k<10 && l>=0 && l<10) {
+                            this.som[j][k][l]++;
+                        }
+                    }
                 }
             }
         }
     }
 
-    // Método genérico para verificar se há obstáculos no destino usando deltaX, deltaY e deltaZ
-    public boolean verificarSeTemObstaculoNoDestino(Robo r, int deltaX, int deltaY, int deltaZ) {
-    // Calcula a posição final com base nos deltas
-    int xFinal = r.getPosicaoX() + deltaX;
-    int yFinal = r.getPosicaoY() + deltaY;
-    int zFinal = r.getPosicaoZ() + deltaZ;
-    
-    // Percorre todos os obstáculos no ambiente
-    for (Obstaculo o : listadeObstaculos) {
-        int o1x = o.getPosicaoX1();
-        int o2x = o.getPosicaoX2();
-        int o1y = o.getPosicaoY1();
-        int o2y = o.getPosicaoY2();
-        int altura = o.getTipo().getAlturaPadrao();
-
-        // Garante que o1x <= o2x e o1y <= o2y
-        int minX = Math.min(o1x, o2x);
-        int maxX = Math.max(o1x, o2x);
-        int minY = Math.min(o1y, o2y);
-        int maxY = Math.max(o1y, o2y);
-
-        // Verifica se a posição final está dentro da área e da altura do obstáculo
-        if (xFinal >= minX && xFinal <= maxX &&
-            yFinal >= minY && yFinal <= maxY &&
-            zFinal <= altura) {
-
-            // Se o robô não puder passar, bloqueia o movimento
-            if (!o.getTipo().podePassar(r)) {
-                System.out.println("Movimento bloqueado: Obstáculo " + o.getTipo() + " impede a passagem.");
-                return true;
+    public void removeCaixaDeSom(CaixaDeSom c){
+        removerObstaculo(c);
+        int x=c.getPosicaoX1(), y=c.getPosicaoY1(), z=0, intensidade=c.getIntensidade();
+        for (int i=intensidade; i>0; i--) {
+            for (int j=x-i; j<=x+i; j++) {
+                for (int k=y-i; k<=y+i; k++) {
+                    for (int l=z-i; l<=z+i; l++) {
+                        if (j>=0 && j<10 && k>=0 && k<10 && l>=0 && l<10) {
+                            this.som[j][k][l]--;
+                        }
+                    }
+                }
             }
         }
     }
-    
-    return false;
-}
-
 
 }
-
-
-
-
-
