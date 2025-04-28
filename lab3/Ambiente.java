@@ -52,9 +52,6 @@ public class Ambiente{
         System.out.println("\nRobo " + r.getNome() + " adicionado com sucesso!");
     }
 
-    public ArrayList<Obstaculo> getListadeObstaculos() {
-        return listadeObstaculos;
-    }
     
     //Método para remover um robô do ambiente
     public void removerRobo(Robo r){
@@ -83,7 +80,11 @@ public class Ambiente{
             }
         }
         return null;
-    }    
+    }  
+    
+    public ArrayList<Obstaculo> getListadeObstaculos() {
+        return listadeObstaculos;
+    }
  
     //Adiciona caixa de som
     public void adicionaCaixaDeSom(CaixaDeSom c){
@@ -102,6 +103,7 @@ public class Ambiente{
         }
     }
 
+    //remove caixa de som do ambiente
     public void removeCaixaDeSom(CaixaDeSom c){
         removerObstaculo(c);
         int x=c.getPosicaoX1(), y=c.getPosicaoY1(), z=0, intensidade=c.getIntensidade();

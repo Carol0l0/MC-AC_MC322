@@ -24,6 +24,8 @@ public class SabioMagico {
 
         String respostaCorreta = charada.getResposta().trim().toLowerCase();
 
+        scanner.close();
+
         if (respostaJogador.equals(respostaCorreta)) {
             System.out.println("O Sábio Mágico levanta a mão e o ar ao redor começa a brilhar como se estivesse tocado por uma aurora.\n" + //
                                 "\"Com grande sabedoria, você conquistou o direito de seguir...\"\n" + //

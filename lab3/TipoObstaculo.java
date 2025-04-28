@@ -1,6 +1,7 @@
 public enum TipoObstaculo {
 
-    CAIXADESOM(3, true, true),              //
+    CAIXADESOM(3, true, true),              //Bloqueia todos e emite som
+    ARVOREMISTICA(5,true, true),            //Bloqueia todos
     LAGODEACIDO(0, true, false),            //Bloqueia qualquer tipo de robô terrestre
     FORTEVENTANIA(50,false, true),          //Bloqueia qualquer tipo de robô aéreo
     FIREWALLMALICIOSO(50,false, false),     //Bloqueia o uso de qualquer sensor
@@ -9,7 +10,6 @@ public enum TipoObstaculo {
     private final int alturaPadrao;
     private final boolean bloqueiaPassagemTerrestres;
     private final boolean bloqueiaPassagemAereos;
-    private static SabioMagico sabioMagico;
 
     TipoObstaculo(int alturaPadrao, boolean bloqueiaPassagemTerrestres, boolean bloqueiaPassagemAereos) {
         this.alturaPadrao = alturaPadrao;
@@ -19,14 +19,6 @@ public enum TipoObstaculo {
 
     public int getAlturaPadrao() {
         return alturaPadrao;
-    }
-
-    public boolean bloqueiaPassagem() {
-        return bloqueiaPassagemTerrestres;
-    }
-
-    public static void configurarSabioMagico(SabioMagico sm) {
-        sabioMagico = sm;
     }
 
 public boolean podePassar(Robo r) {
@@ -42,7 +34,8 @@ public boolean podePassar(Robo r) {
         return false;
     }
 
-    return true;
+    //se for um robô genérico
+    return false;
 }
 
 
