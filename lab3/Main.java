@@ -60,7 +60,7 @@ public class Main {
                     System.out.print("Digite o delta: ");
                     int delta = scanner.nextInt();  
 
-                    ((RoboTerrestreBlindado)roboSelecionado).mover(delta, direcao, a);
+                    ((RoboTerrestreBlindado)roboSelecionado).mover(delta, direcao);
                     System.out.println("Robô movido para " + roboSelecionado.getPosicaoX() + "," + roboSelecionado.getPosicaoY() + "com sucesso!");
                     a.detectarColisoes();
                     break;
