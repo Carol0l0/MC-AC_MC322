@@ -1,11 +1,11 @@
 import java.util.Scanner;
 
-public class SabioMagico {
+public class SabioMagico extends Obstaculo{
 
     private final BancoDeCharadas banco;
 
-    // Construtor sem parâmetros
-    public SabioMagico() {
+    public SabioMagico(int x1, int y1, int x2, int y2, TipoObstaculo tipo) {
+        super(x1, y1, x2, y2, TipoObstaculo.SABIOMAGICO);
         this.banco = new BancoDeCharadas();
     }
 

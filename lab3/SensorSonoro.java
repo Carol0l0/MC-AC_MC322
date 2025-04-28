@@ -7,7 +7,7 @@ public class SensorSonoro extends Sensor{
     @Override
     public int monitorar(){
         int barulho=this.robo.ambiente.som[this.robo.getPosicaoX()][this.robo.getPosicaoY()][this.robo.getPosicaoZ()];
-        System.out.println("A intensidade do som é "+barulho);
+        System.out.println("A intensidade do som é "+ barulho);
         return barulho;
     }
     

@@ -4,7 +4,6 @@ public enum TipoObstaculo {
     ARVOREMISTICA(5,true, true),            //Bloqueia todos
     LAGODEACIDO(0, true, false),            //Bloqueia qualquer tipo de robô terrestre
     FORTEVENTANIA(50,false, true),          //Bloqueia qualquer tipo de robô aéreo
-    FIREWALLMALICIOSO(50,false, false),     //Bloqueia o uso de qualquer sensor
     SABIOMAGICO(50,true, true);             //Só da passagem caso acerte a pergunta
 
     private final int alturaPadrao;
@@ -22,10 +21,6 @@ public enum TipoObstaculo {
     }
 
 public boolean podePassar(Robo r) {
-    if (this == SABIOMAGICO) {
-        SabioMagico sabio = new SabioMagico();
-        return sabio.desafiar();
-    }
 
     if (r instanceof RoboTerrestre && bloqueiaPassagemTerrestres) {
         return false;
@@ -33,7 +28,15 @@ public boolean podePassar(Robo r) {
     if (r instanceof RoboAereo && bloqueiaPassagemAereos) {
         return false;
     }
-
+    if (r instanceof RoboAereo && bloqueiaPassagemTerrestres) {
+        return true;
+    }
+    if (r instanceof RoboTerrestre && bloqueiaPassagemAereos) {
+        return true;
+    }
+    if (r instanceof RoboAereo && bloqueiaPassagemAereos) {
+        return false;
+    }
     //se for um robô genérico
     return false;
 }

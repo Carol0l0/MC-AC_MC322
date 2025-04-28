@@ -66,29 +66,31 @@ public class Robo{
 
     }
 
-    //Método para verificar se há um obstáculo na nova posição final
     public Boolean identificarObstaculo(int x, int y, int z) {
-         // Percorre todos os obstáculos no ambiente
         for (Obstaculo o : ambiente.listadeObstaculos) {
-
+    
             int altura = o.getTipo().getAlturaPadrao();
-
-            // Verifica se a posição final está dentro da área e da altura do obstáculo
+    
             if (x >= o.getPosicaoX1() && x <= o.getPosicaoX2() &&
                 y >= o.getPosicaoY1() && y <= o.getPosicaoY2() &&
                 z <= altura) {
-
-                // Se o robô não puder passar, bloqueia o movimento
-                if(!o.getTipo().podePassar(this)) {
-                    System.out.println("Obstáculo detectado! Obstáculo: " + o.getTipo() + " impede a passagem.");
-                    return true;
+    
+                if (o instanceof SabioMagico) {
+                    SabioMagico sabio = (SabioMagico) o;
+                    if (!sabio.desafiar()) {
+                        return true;
+                    }
+                } else {
+                    if (!o.getTipo().podePassar(this)) {
+                        System.out.println("Obstáculo detectado! Obstáculo: " + o.getTipo() + " impede a passagem.");
+                        return true;
+                    }
                 }
             }
         }
-
-        //verifica se não tem robô no caminho
+    
         for (Robo robo : this.ambiente.listadeRobos) {
-            if (this!=robo && robo.posicaoX == x && robo.posicaoY == y && robo.posicaoZ == z) {
+            if (this != robo && robo.posicaoX == x && robo.posicaoY == y && robo.posicaoZ == z) {
                 System.out.println("Obstáculo detectado! Robô: " + robo.getNome());
                 return true;
             }
@@ -96,6 +98,7 @@ public class Robo{
     
         return false;
     }
+    
 
     //Método para exibir a posição atual do robô
     public String exibirPosicao(){

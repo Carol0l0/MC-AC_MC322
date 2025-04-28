@@ -70,8 +70,8 @@ public class Main {
                     System.out.println("Digite o deltaX: ");
                     int deltaX = scanner.nextInt();  
 
-                    if(!a.verificarSeTemObstaculoNoDestino(roboSelecionado, deltaX, deltaY, 0)){
-                        ((RoboTerrestreDeCarga)roboSelecionado).mover(deltaX, deltaY, a);
+                    if(!r.identificarObstaculo(roboSelecionado, deltaX, deltaY, 0)){
+                        ((RoboTerrestreDeCarga)roboSelecionado).mover(deltaX, deltaY);
                         System.out.println("Robô movido para " + roboSelecionado.getPosicaoX() + "," + roboSelecionado.getPosicaoY() + "com sucesso!");
                     }
                     else
@@ -84,7 +84,7 @@ public class Main {
                     System.out.print("Digite o deltaY: ");
                     int deltaY = scanner.nextInt();  
 
-                    ((RoboAereoXY)roboSelecionado).mover(deltaX, deltaY, a);
+                    ((RoboAereoXY)roboSelecionado).mover(deltaX, deltaY);
                     System.out.println("Robô movido para " + roboSelecionado.getPosicaoX() + "," + roboSelecionado.getPosicaoY() + "com sucesso!");
                     break;
 
@@ -94,7 +94,7 @@ public class Main {
                     System.out.print("Digite o deltaY: ");
                     int deltaY = scanner.nextInt();  
 
-                    ((RoboAereoYX)roboSelecionado).mover(deltaX, deltaY, a);
+                    ((RoboAereoYX)roboSelecionado).mover(deltaX, deltaY);
                     System.out.println("Robô movido para " + roboSelecionado.getPosicaoX() + "," + roboSelecionado.getPosicaoY() + "com sucesso!");
                     break;
                 }
@@ -117,8 +117,8 @@ public class Main {
             
                 Sensor sensor = null;
                 switch (tipoSensor) {
-                    case 1 -> sensor = new SensorProximidade(roboSensorSelecionado, a, 2);
-                    case 2 -> sensor = new SensorSonoro();
+                    case 1 -> sensor = new SensorProximidade(roboSensorSelecionado,2);
+                    case 2 -> sensor = new SensorSonoro(2, roboSensorSelecionado);
                     default -> {
                         System.out.println("Tipo de sensor inválido.");
                         break;
@@ -242,7 +242,6 @@ public class Main {
                 case 1 -> TipoObstaculo.CAIXADESOM;
                 case 2 -> TipoObstaculo.LAGODEACIDO;
                 case 3 -> TipoObstaculo.FORTEVENTANIA;
-                case 4 -> TipoObstaculo.FIREWALLMALICIOSO;
                 case 5 -> TipoObstaculo.SABIOMAGICO;
                 default -> null;
             };
@@ -254,7 +253,7 @@ public class Main {
         
             Obstaculo o = new Obstaculo(x1, y1, x2, y2, tipo);
             a.adicionarObstaculo(o);
-            System.out.print("obstaculo criado em: " +o.posicaoX1 +","+o.posicaoY1+","+o.posicaoX2+","+o.posicaoY2);
+            System.out.print("obstaculo criado em: " + o.getPosicaoX1() +","+o.getPosicaoY1() +","+o.getPosicaoX2()+","+o.getPosicaoY2());
             return null;
 
         }
