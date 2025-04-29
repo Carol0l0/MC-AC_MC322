@@ -100,3 +100,4 @@ Maria Clara Martinez Oliveira (281315)
 
 
 *Diagrama de Classes*
+![Diagrama UML](./imagens/mapamental.jpg)

@@ -23,7 +23,6 @@ public class SabioMagico extends Obstaculo{
         String respostaJogador = scanner.nextLine().trim().toLowerCase();
 
         String respostaCorreta = charada.getResposta().trim().toLowerCase();
-        scanner.close();
 
         if (respostaJogador.equals(respostaCorreta)) {
             System.out.println("O Sábio Mágico levanta a mão e o ar ao redor começa a brilhar como se estivesse tocado por uma aurora.\n" + //

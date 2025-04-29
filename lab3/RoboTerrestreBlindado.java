@@ -18,6 +18,7 @@ public class RoboTerrestreBlindado extends RoboTerrestre {
             return false; // Se o robô foi destruído, ele não pode se mover
         }
 
+
         boolean conseguiuMover = false;
 
         if(delta<this.v_max){
@@ -58,6 +59,11 @@ public class RoboTerrestreBlindado extends RoboTerrestre {
         //Verifica se a nova posição está dentro dos limites do ambiente
         if (!this.ambiente.dentroDosLimites(novoX, novoY, posicaoZ)) {
             System.out.println("Movimento inválido! " + getNome() + " tentou sair dos limites do ambiente.");
+            return false;
+        }
+
+        if(identificarObstaculo(novoX, novoY, 0)){
+            System.out.println("Movimento inválido! " + getNome() + " obstáculo detectado no destino");
             return false;
         }
 
@@ -102,6 +108,7 @@ public class RoboTerrestreBlindado extends RoboTerrestre {
                 }
             }
         }
+
 
         return totalDano;
     }

@@ -217,6 +217,7 @@ public class Main {
             int posicaoZ = scanner.nextInt();
             System.out.print("Altitude Máxima: ");
             int altitudeMax = scanner.nextInt();
+            scanner.nextLine();
             System.out.print("Cor: ");
             String cor = scanner.nextLine();
     
