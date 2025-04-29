@@ -3,107 +3,86 @@ Ana Carolina Vieira Araújo (248734)
 Maria Clara Martinez Oliveira (281315)
 
 
-**Ambiente de Desenvolvimento**
+*Ambiente de Desenvolvimento*
 
     IDE usada: Visual Studio Code
 
     Versão do Java: OpenJDK 21.0.6
 
 
-**Sobre o código:**
+*Sobre*
 
-O código simula um ambiente onde diferentes tipos de robôs (terrestres e aéreos) podem se mover, interagir e realizar tarefas, como carregar peso ou recarregar a bateria. O ambiente possui limites e obstáculos, e o comportamento dos robôs é condicionado por esses fatores.
+📜  Estrutura do Projeto
 
-Classes
+    O código simula um ambiente onde diferentes tipos de robôs (terrestres e aéreos) podem se mover, interagir e realizar tarefas, como carregar peso ou recarregar a bateria. O ambiente possui limites e obstáculos, e o comportamento dos robôs é condicionado por esses fatores.
 
-1. Ambiente:
+    Robôs
 
-Representa o espaço onde os robôs operam. A classe possui as dimensões do ambiente (X, Y, Z) e uma lista de robôs presentes.
+        Robo: Classe base para todos os robôs. (Nome, velocidade, posição, interações básicas).
 
-    Métodos:
+        Terrestres: 
 
-        dentroDosLimites: Verifica se uma posição está dentro dos limites do ambiente.
-        adicionarRobo: Adiciona um robô à lista de robôs no ambiente.
+        RoboTerrestreBlindado: Resistência especial a obstáculos, pode atravessar obstáculos que impediriam outros robôs. 
+                               Podemos apenas mover uma direção de cada vez.
 
-2. Robo
+        RoboTerrestreDeCarga: Robô terrestre capaz de transportar cargas.
+                              Possui atributos:
 
-Classe base que representa um robô genérico com características como nome, direção e posição (X, Y, Z).
+                              cargaMaxima: peso máximo que pode carregar.
+                              cargaAtual: peso atualmente carregado.
 
-    Construtor: Inicializa o robô com nome e posição inicial.
+        Aéreos:
 
-    Métodos:
+        RoboAereoXY: Se movimenta primeiro no eixo X depois no eixo Y
+                     Atributo: Cor
 
-        mover: Move o robô dentro do ambiente, verificando se a nova posição está dentro dos limites e se não há obstáculos.
-        identificarObstaculo: Verifica se há outro robô na posição de destino.
-        exibirPosicao: Exibe a posição atual do robô.
+        RoboAereoYX: Se movimenta no eixo Y depois no eixo X
+                     Atributo: Bateria
 
-3. RoboTerrestre
+    Sensores
 
-Classe derivada de Robo, representando um robô terrestre com uma velocidade máxima.
+        Sensor: Classe genérica para sensores.
 
-    Construtor: Inicializa o robô com nome, posição e velocidade máxima.
+        SensorProximidade: Função: Detecta a presença de obstáculos e outros robôs dentro do seu raio de alcance.
+                           Comportamento:
 
-    Métodos:
+                           Varre o ambiente, verificando se há obstáculos dentro de uma distância "raio" em todas as direções (x, y, z).
 
-        mover: Move o robô, verificando se o movimento não excede a velocidade máxima.
+                           Adiciona à sua lista:
+                           Obstáculos encontrados.
+                           Robôs encontrados próximos (em posições próximas ao robô monitorado).
 
-4. RoboTerrestreDeCarga
+                           Métodos importantes:
+                           existenciaObstaculos(): Realiza a busca por obstáculos e robôs.
+                           exibirObstaculosProximos(): Imprime os resultados encontrados.
 
-Classe derivada de RoboTerrestre, representando um robô terrestre que pode transportar carga.
+        
+        SensorSonoro: Mede a intensidade de som no ambiente criado pela CaixaDeSom
+                      Função: Mede a intensidade do som no ambiente na posição atual do robô.
 
-    Construtor: Inicializa o robô com nome, posição, velocidade máxima e capacidade de carga.
+                      Comportamento:
+                      Consulta o valor de som armazenado na matriz tridimensional do ambiente (som[x][y][z]).
+                      Imprime no console o valor da intensidade sonora detectada.
 
-    Métodos:
+                      Métodos importantes:
+                      monitorar(): Retorna a intensidade de som na posição atual do robô.
 
-        carregarPeso: Permite carregar um peso, verificando se não excede a capacidade máxima.
-        mover: Move o robô, verificando a velocidade máxima e exibindo a nova posição.
+    Obstáculos
 
-5. RoboTerrestreBlindado
+        Obstaculo: Classe base para definir áreas bloqueadas ou interativas.
 
-Classe derivada de Robo, representando um robô terrestre blindado com resistência.
+        SabioMagico: Obstáculo especial que desafia o jogador com charadas. O bloqueio ou não do caminho está condicionado ao acerto da charada.
 
-    Construtor: Inicializa o robô com nome, posição e resistência inicial.
+        CaixaDeSom: Emite som com intensidade que decai ao se afastar e é identificado pelo sensor sonoro.
 
-    Métodos:
+        TipoObstaculo: Enumeração que define o tipo e comportamento dos obstáculos.
 
-        mover: Move o robô, verificando se ele está funcionando e calculando os danos sofridos ao colidir com obstáculos.
-        contarObstaculos: Conta quantos obstáculos estão no caminho e calcula o dano recebido.
-        sofreDano: Aplica dano à resistência do robô e verifica se ele foi destruído.
-
-6. RoboAereo
-
-Classe derivada de Robo, representando um robô aéreo com capacidade de subir e descer.
-
-    Construtor: Inicializa o robô com nome, posição e altura máxima.
-
-    Métodos:
-
-        subir: Aumenta a altitude do robô até o limite máximo.
-        descer: Diminui a altitude do robô, mas garante que ele não ultrapasse o limite inferior.
-
-7. RoboAereoYX
-
-Classe derivada de RoboAereo, representando um robô aéreo com nível de bateria.
-
-    Construtor: Inicializa o robô com nome, posição, altura máxima e nível de bateria.
-
-    Métodos:
-
-        carregarBateria: Recarrega a bateria do robô.
-        getNivelBateria: Retorna o nível atual da bateria.
-        subir e descer: Movimenta o robô, reduzindo a bateria a cada movimento.
-        mover: Move o robô na direção X e Y, verificando obstáculos no caminho e consumindo a bateria.
-
-Interação entre as classes
-
-    O ambiente contém uma lista de robôs e interage com suas movimentações.
-    Os robôs podem ser adicionados ao ambiente e se mover de acordo com suas características (como velocidade, capacidade de carga, resistência e bateria).
-    Movimentos de robôs são limitados por obstáculos e limites do ambiente. Quando um robô colide com um obstáculo, ele pode sofrer danos (para robôs blindados) ou ser impedido de se mover.
+        BancoDeCharadas e Charada: Banco de perguntas usadas pelo Sábio Mágico.
 
 
-**Como Compilar e Executar:**
+*Como Compilar e Executar:*
 
-**Compilação**
+*Compilação*
 
     Compile todos os arquivos .java:
     javac *.java
@@ -111,7 +90,8 @@ Interação entre as classes
     ou compile o Main.java diretamente (se ele importar os outros corretamente):
     javac Main.java
 
-**Execução**
+
+*Execução*
 
     Execute o programa no terminal:
     java Main
@@ -119,5 +99,4 @@ Interação entre as classes
     Certifique-se de estar no diretório correto onde estão os arquivos .java compilados.
 
 
-**Diagrama de Classes**
-
+*Diagrama de Classes*
