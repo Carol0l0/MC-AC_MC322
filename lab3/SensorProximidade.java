@@ -37,12 +37,17 @@ public class SensorProximidade extends Sensor {
         }
 
         for(Robo r : this.robo.ambiente.listadeRobos){
-            if (this.robo!=r && r.posicaoX == x && r.posicaoY == y && r.posicaoZ == z) {
+
+            boolean dentroX =  r.posicaoX>= x - raio &&  r.posicaoX<= x + raio;
+            boolean dentroY =  r.posicaoY>= y - raio &&  r.posicaoY<= y + raio;
+            boolean dentroZ =  r.posicaoZ>= z - raio &&  r.posicaoZ<= z + raio;
+
+            if (dentroX && dentroY && dentroZ && this.robo!=r) {
                 this.robosNoRaio.add(r);
             }
         }
 
-        this.numDeObstaculos=this.obstaculosNoRaio.size()+this.robosNoRaio.size();
+        this.numDeObstaculos=(this.obstaculosNoRaio.size()+this.robosNoRaio.size());
         exibirObstaculosProximos();
 
         return obstaculosNoRaio;
@@ -52,7 +57,7 @@ public class SensorProximidade extends Sensor {
         if (this.numDeObstaculos==0) {
             System.out.println("Nenhum obstáculo detectado no raio.");
         } else {
-            System.out.println(this.obstaculosNoRaio.size()+" obstáculos detectados próximos ao robô " + this.robo.getNome() + ":");
+            System.out.println(this.numDeObstaculos+" obstáculos detectados próximos ao robô " + this.robo.getNome() + ":");
             for (Obstaculo o : this.obstaculosNoRaio) {
                 System.out.println(" - " + o.getTipo() + " na área (" + o.getPosicaoX1() + "," + o.getPosicaoY1() + ") até (" + o.getPosicaoX2() + "," + o.getPosicaoY2() + "), altura: " + o.getAltura());
             }
