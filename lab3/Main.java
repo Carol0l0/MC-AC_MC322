@@ -85,6 +85,16 @@ public class Main {
                     System.out.println("Robô movido para " + roboSelecionado.getPosicaoX() + "," + roboSelecionado.getPosicaoY() + "com sucesso!");
                     break;
                 }
+                else{
+                    System.out.print("Digite o deltaX: ");
+                    int deltaX = scanner.nextInt(); 
+                    System.out.print("Digite o deltaY: ");
+                    int deltaY = scanner.nextInt();
+
+                    ((RoboTerrestreDeCarga)roboSelecionado).mover(deltaX, deltaY);
+                    System.out.println("Robô movido para " + roboSelecionado.getPosicaoX() + "," + roboSelecionado.getPosicaoY() + "com sucesso!");
+                    break;
+                }
 
                 case 7:
                 System.out.println("Digite o nome do robô que deseja adicionar o sensor:");
@@ -279,6 +289,11 @@ public class Main {
                 CaixaDeSom c=new CaixaDeSom(x1, y1, x1, y1, tipo, intensidade);
                 a.adicionaCaixaDeSom(c);
                 System.out.println("Caixa de som criada em ("+x1+", "+y1+")");
+            }
+            else if(opcao==5){
+                SabioMagico s=new SabioMagico(x1, y1, x2, y2, tipo);
+                a.adicionarObstaculo(s);
+                System.out.println("Obstáculo criado em : ("+ s.getPosicaoX1() +","+s.getPosicaoY1() +"),("+s.getPosicaoX2()+","+s.getPosicaoY2()+")");
             }
             else{
                 Obstaculo o = new Obstaculo(x1, y1, x2, y2, tipo);

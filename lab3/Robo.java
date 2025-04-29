@@ -82,7 +82,6 @@ public class Robo{
                     if (!sabio.desafiar()) {
                         totalColisoes++;  //colisao com obs
                         return true;
-
                     }
                 } else {
                     if (!o.getTipo().podePassar(this)) {
