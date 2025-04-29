@@ -111,9 +111,8 @@ public class Ambiente{
  
     //Adiciona caixa de som
     public boolean adicionaCaixaDeSom(CaixaDeSom c){
-        boolean consegueAdd=adicionarObstaculo(c);
-        int x=c.getPosicaoX1(), y=c.getPosicaoY1(), z=0, intensidade=c.getIntensidade();
         if(adicionarObstaculo(c)){
+            int x=c.getPosicaoX1(), y=c.getPosicaoY1(), z=0, intensidade=c.getIntensidade();
             for (int i=intensidade; i>0; i--) {
                 for (int j=x-i; j<=x+i; j++) {
                     for (int k=y-i; k<=y+i; k++) {
@@ -125,8 +124,12 @@ public class Ambiente{
                     }
                 }
             }
+            return true;
         }
-        return consegueAdd;
+        else{
+            return false;
+        }
+    
     }
 
     //remove caixa de som do ambiente
