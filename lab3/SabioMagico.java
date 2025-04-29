@@ -23,7 +23,6 @@ public class SabioMagico extends Obstaculo{
         String respostaJogador = scanner.nextLine().trim().toLowerCase();
 
         String respostaCorreta = charada.getResposta().trim().toLowerCase();
-
         scanner.close();
 
         if (respostaJogador.equals(respostaCorreta)) {

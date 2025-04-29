@@ -5,7 +5,15 @@ public class Main {
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        Ambiente a = new Ambiente(50,50,50);
+
+        System.out.println("Criando ambiente...");
+        System.out.print("Dimensão X: ");
+        int aX = scanner.nextInt();
+        System.out.print("Dimensão Y: ");
+        int aY = scanner.nextInt();
+        System.out.print("Dimensão Z: ");
+        int aZ = scanner.nextInt();
+        Ambiente a = new Ambiente(aX,aY,aZ);
         Robo robo = null;
         Obstaculo obstaculo = null;
 
@@ -60,8 +68,9 @@ public class Main {
                     System.out.print("Digite o delta: ");
                     int delta = scanner.nextInt();  
 
-                    ((RoboTerrestreBlindado)roboSelecionado).mover(delta, direcao);
-                    System.out.println("Robô movido para " + roboSelecionado.getPosicaoX() + "," + roboSelecionado.getPosicaoY() + "com sucesso!");
+                    if(((RoboTerrestreBlindado)roboSelecionado).mover(delta, direcao)){
+                        System.out.println("Robô movido para " + roboSelecionado.getPosicaoX() + "," + roboSelecionado.getPosicaoY() + " com sucesso!");
+                    }
                     a.detectarColisoes();
                     break;
 
@@ -71,8 +80,9 @@ public class Main {
                     System.out.print("Digite o deltaY: ");
                     int deltaY = scanner.nextInt();  
 
-                    ((RoboAereoXY)roboSelecionado).mover(deltaX, deltaY);
-                    System.out.println("Robô movido para " + roboSelecionado.getPosicaoX() + "," + roboSelecionado.getPosicaoY() + "com sucesso!");
+                    if(((RoboAereoXY)roboSelecionado).mover(deltaX, deltaY)){
+                        System.out.println("Robô movido para " + roboSelecionado.getPosicaoX() + "," + roboSelecionado.getPosicaoY() + " com sucesso!");
+                    }
                     break;
 
                 } else if(roboSelecionado instanceof RoboAereoYX) {
@@ -81,8 +91,9 @@ public class Main {
                     System.out.print("Digite o deltaY: ");
                     int deltaY = scanner.nextInt();  
 
-                    ((RoboAereoYX)roboSelecionado).mover(deltaX, deltaY);
-                    System.out.println("Robô movido para " + roboSelecionado.getPosicaoX() + "," + roboSelecionado.getPosicaoY() + "com sucesso!");
+                    if(((RoboAereoYX)roboSelecionado).mover(deltaX, deltaY)){
+                        System.out.println("Robô movido para " + roboSelecionado.getPosicaoX() + "," + roboSelecionado.getPosicaoY() + " com sucesso!");
+                    }
                     break;
                 }
                 else{
@@ -91,8 +102,9 @@ public class Main {
                     System.out.print("Digite o deltaY: ");
                     int deltaY = scanner.nextInt();
 
-                    ((RoboTerrestreDeCarga)roboSelecionado).mover(deltaX, deltaY);
-                    System.out.println("Robô movido para " + roboSelecionado.getPosicaoX() + "," + roboSelecionado.getPosicaoY() + "com sucesso!");
+                    if(((RoboTerrestreDeCarga)roboSelecionado).mover(deltaX, deltaY)){
+                        System.out.println("Robô movido para " + roboSelecionado.getPosicaoX() + "," + roboSelecionado.getPosicaoY() + " com sucesso!");
+                    }
                     break;
                 }
 
@@ -128,6 +140,10 @@ public class Main {
                     sensor.monitorar();
                 }
                 break;
+                
+                case 8:
+                    System.out.println("Saindo...");
+                    return;
             }
         }
 
@@ -154,7 +170,6 @@ public class Main {
     
             RoboTerrestreBlindado roboTerrestreBlindado = new RoboTerrestreBlindado(nome, posicaoX, posicaoY, posicaoZ, v_max);
             a.adicionarRobo(roboTerrestreBlindado);
-            System.out.println("Robô adicionado em " + roboTerrestreBlindado.getPosicaoX() + "," + roboTerrestreBlindado.getPosicaoY() + "com sucesso!");
             return null;
         }
     
@@ -181,7 +196,6 @@ public class Main {
     
             RoboTerrestreDeCarga roboTerrestreDeCarga = new RoboTerrestreDeCarga(nome, posicaoY, posicaoX, posicaoZ, v_max, cargaMaxima);
             a.adicionarRobo(roboTerrestreDeCarga);
-            System.out.println("Robô adicionado em " + roboTerrestreDeCarga.getPosicaoX() + "," + roboTerrestreDeCarga.getPosicaoY() + "com sucesso!");
             return null;
         }
     
@@ -208,7 +222,6 @@ public class Main {
     
             RoboAereoXY roboAereoXY = new RoboAereoXY(nome, posicaoX, posicaoY, posicaoZ, altitudeMax, cor);
             a.adicionarRobo(roboAereoXY);
-            System.out.println("Robô adicionado em " + roboAereoXY.getPosicaoX() + "," + roboAereoXY.getPosicaoY() + "com sucesso!");
             return null;
         }
     
@@ -234,7 +247,6 @@ public class Main {
     
             RoboAereoYX roboAereoYX = new RoboAereoYX(nome, posicaoX, posicaoY, posicaoZ, altitudeMax);
             a.adicionarRobo(roboAereoYX);
-            System.out.println("Robô adicionado em " + roboAereoYX.getPosicaoX() + "," + roboAereoYX.getPosicaoY() + "com sucesso!");
             return null;
     
         }
@@ -287,29 +299,24 @@ public class Main {
             
             if(opcao==1){
                 CaixaDeSom c=new CaixaDeSom(x1, y1, x1, y1, tipo, intensidade);
-                a.adicionaCaixaDeSom(c);
-                System.out.println("Caixa de som criada em ("+x1+", "+y1+")");
+                if(a.adicionaCaixaDeSom(c)){
+                    System.out.println("Caixa de som criada em ("+x1+", "+y1+")");
+                }
             }
             else if(opcao==5){
                 SabioMagico s=new SabioMagico(x1, y1, x2, y2, tipo);
-                a.adicionarObstaculo(s);
-                System.out.println("Obstáculo criado em : ("+ s.getPosicaoX1() +","+s.getPosicaoY1() +"),("+s.getPosicaoX2()+","+s.getPosicaoY2()+")");
+                if(a.adicionarObstaculo(s)){
+                    System.out.println("Obstáculo criado em : ("+ s.getPosicaoX1() +","+s.getPosicaoY1() +"),("+s.getPosicaoX2()+","+s.getPosicaoY2()+")");
+                }
             }
             else{
                 Obstaculo o = new Obstaculo(x1, y1, x2, y2, tipo);
-                a.adicionarObstaculo(o);
-                System.out.println("Obstáculo criado em : ("+ o.getPosicaoX1() +","+o.getPosicaoY1() +"),("+o.getPosicaoX2()+","+o.getPosicaoY2()+")");
+                if(a.adicionarObstaculo(o)){
+                    System.out.println("Obstáculo criado em : ("+ o.getPosicaoX1() +","+o.getPosicaoY1() +"),("+o.getPosicaoX2()+","+o.getPosicaoY2()+")");
+                }
             }
             return null;
 
         }
         
     }
-
-
-
-
-
-
-
-
