@@ -63,10 +63,6 @@ public class RoboTerrestreBlindado extends RoboTerrestre {
         }
 
         if(identificarObstaculo(novoX, novoY, 0)){
-            System.out.println("Movimento inválido! " + getNome() + " obstáculo detectado no destino");
-            return false;
-        }
-
         //Verifica se há obstáculos no caminho e calcula o dano sofrido
         int dano = contarObstaculos(posicaoX, posicaoY, novoX, novoY);
 
@@ -77,6 +73,9 @@ public class RoboTerrestreBlindado extends RoboTerrestre {
         }
         if (dano > 0) {
             sofreDano(dano);
+        }
+            System.out.println("Movimento inválido! " + getNome() + " obstáculo detectado no destino");
+            return false;
         }
 
         //Tenta mover o robô para a nova posição chamando a função de movimento da classe base

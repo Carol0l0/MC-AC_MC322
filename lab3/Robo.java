@@ -29,6 +29,9 @@ public class Robo{
         return posicaoZ;
     }
 
+    public int getTotalColisoes() {
+        return totalColisoes;
+    }
     //define ambiente
     public void setAmbiente(Ambiente a){
         this.ambiente=a;
@@ -61,6 +64,7 @@ public class Robo{
             this.posicaoY+=deltaY;
             return true;
         }
+        if(!this.ambiente.dentroDosLimites(this.posicaoX+deltaX, this.posicaoY+deltaY, 0))
         System.out.println("Limite excedido!");
         return false;
 
@@ -82,7 +86,8 @@ public class Robo{
                     if (!sabio.desafiar()) {
                         totalColisoes++;  //colisao com obs
                         return true;
-                    }
+                    } else { 
+                        return false; }
                 } else {
                     if (!o.getTipo().podePassar(this)) {
                         System.out.println("Obstáculo detectado! Obstáculo: " + o.getTipo() + " impede a passagem.");
@@ -107,10 +112,6 @@ public class Robo{
         return false;
     }
 
-    public int getTotalColisoes() {
-        return totalColisoes;
-    }
-    
     //Método para exibir a posição atual do robô
     public void exibirPosicao(){
         System.out.println(this.nome+" esta na posicao ("+this.posicaoX+", "+this.posicaoY+", "+this.posicaoZ+"). Direção "+this.direcao);

@@ -40,3 +40,4 @@ public class SabioMagico extends Obstaculo{
         }
     }
 }
+ 
