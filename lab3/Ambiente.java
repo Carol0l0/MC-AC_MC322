@@ -24,10 +24,9 @@ public class Ambiente{
     //Método para verificar se uma posição está dentro dos limites do ambiente
     public boolean dentroDosLimites (int x, int y, int z){
         return x>=0 && x<this.aX && y>=0 && y<this.aY && z>=0 && z<this.aZ;
-    
     }
 
-    public boolean existeObstaculoNaPosicao(int x, int y, int z) {
+    public boolean BloqueioAoAdicionar(int x, int y, int z) {
 
         for (Obstaculo o : this.listadeObstaculos) {
             int altura = o.getTipo().getAlturaPadrao();
@@ -61,9 +60,16 @@ public class Ambiente{
         }
     
         // Verifica se existe um obstáculo ou robô já ocupando o espaço
-        if (this.existeObstaculoNaPosicao(x, y, z)) {
+        if (this.BloqueioAoAdicionar(x, y, z)) {
             System.out.println("Erro: Não pode adicionar robô, obstáculo ou outro robô detectado em (" + x + ", " + y + ", " + z + ")!");
             return;
+        }
+
+        //verifica se existe outro robô com o mesmo nome
+        for(Robo existente : this.listadeRobos){
+            if(r.getNome()==existente.getNome()){
+                return;
+            }
         }
     
         // Adiciona o robô à lista
