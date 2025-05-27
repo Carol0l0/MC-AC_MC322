@@ -3,7 +3,7 @@ public class RoboTerrestreBlindado extends RoboTerrestre {
 
     private int resistencia;        // Define a resistência do robô antes de ser destruído
     private boolean funcionando;    // Indica se o robô ainda pode operar
-    
+
     //Construtor da classe RoboTerrestreBlindado
     public RoboTerrestreBlindado(String nome, int posicaoX, int posicaoY, int posicaoZ, int v_max) {
         super(nome, posicaoX, posicaoY, posicaoZ, v_max); // Chama o construtor da classe base (RoboTerrestre)
@@ -18,33 +18,21 @@ public class RoboTerrestreBlindado extends RoboTerrestre {
             return false; // Se o robô foi destruído, ele não pode se mover
         }
 
-
         boolean conseguiuMover = false;
 
-        if(delta<this.v_max){
+        if (delta < this.v_max) {
             //Verifica a direção do movimento e chama a função auxiliar correta
             if (direcao.equalsIgnoreCase("Y")) {
                 conseguiuMover = moverEmDirecao(0, delta);
-                if(delta>0){
-                    this.direcao="Norte";
-                }
-                else{
-                    this.direcao="Sul";
-                }
+                this.direcao = (delta > 0) ? "Norte" : "Sul";
             } else if (direcao.equalsIgnoreCase("X")) {
                 conseguiuMover = moverEmDirecao(delta, 0);
-                if(delta>0){
-                    this.direcao="Leste";
-                }
-                else{
-                    this.direcao="Oeste";
-                }
+                this.direcao = (delta > 0) ? "Leste" : "Oeste";
             } else {
                 System.out.println("Direção inválida! Escolha 'X' ou 'Y'.");
                 return false;
             }
-        }
-        else{
+        } else {
             System.out.println("Velocidade máxima excedida! " + getNome() + " não conseguiu se mover!");
         }
 
@@ -56,31 +44,35 @@ public class RoboTerrestreBlindado extends RoboTerrestre {
         int novoX = posicaoX + deltaX;
         int novoY = posicaoY + deltaY;
 
-        //Verifica se a nova posição está dentro dos limites do ambiente
         if (!this.ambiente.dentroDosLimites(novoX, novoY, posicaoZ)) {
             System.out.println("Movimento inválido! " + getNome() + " tentou sair dos limites do ambiente.");
             return false;
         }
 
-        if(identificarObstaculo(novoX, novoY, 0)){
-        //Verifica se há obstáculos no caminho e calcula o dano sofrido
         int dano = contarObstaculos(posicaoX, posicaoY, novoX, novoY);
 
-        //Se houver dano, reduz a resistência do robô
-        if(this.resistencia-dano<0){//se a resistência final for menor que 0, ele cancela o movimento
+        if (this.resistencia - dano < 0) {
             System.out.println("Movimentação cancelada! Resistência abaixo do necessário p/ execução do movimento");
             return false;
         }
+
         if (dano > 0) {
             sofreDano(dano);
         }
+
+        if(identificarObstaculo(novoX, novoY, 0)) {
+
             System.out.println("Movimento inválido! " + getNome() + " obstáculo detectado no destino");
             return false;
         }
 
-        //Tenta mover o robô para a nova posição chamando a função de movimento da classe base
-        return super.mover(deltaX, deltaY);
-    }
+        else{
+            this.posicaoX = novoX;
+            this.posicaoY = novoY;
+            return true;
+        }
+}
+
 
     //Método para contar quantos obstáculos estão no caminho e calcular o dano causado ao robô
     private int contarObstaculos(int inicioX, int inicioY, int destinoX, int destinoY) {
@@ -90,7 +82,7 @@ public class RoboTerrestreBlindado extends RoboTerrestre {
         if (inicioY == destinoY) {
             int passo = (destinoX > inicioX) ? 1 : -1;
             for (int x = inicioX + passo; x != destinoX + passo; x += passo) {
-                if (identificarObstaculo(x, inicioY, posicaoZ)) {
+                if (identificarObstaculoSemSabio(x, inicioY, posicaoZ)) {
                     System.out.println("Obstáculo detectado em (" + x + ", " + inicioY + ")");
                     totalDano++; //Aumenta o dano sofrido pelo robô
                 }
@@ -101,13 +93,12 @@ public class RoboTerrestreBlindado extends RoboTerrestre {
         if (inicioX == destinoX) {
             int passo = (destinoY > inicioY) ? 1 : -1;
             for (int y = inicioY + passo; y != destinoY + passo; y += passo) {
-                if (identificarObstaculo(inicioX, y, posicaoZ)) {
+                if (identificarObstaculoSemSabio(inicioX, y, posicaoZ)) {
                     System.out.println("Obstáculo detectado em (" + inicioX + ", " + y + ")");
                     totalDano++;
                 }
             }
         }
-
 
         return totalDano;
     }
@@ -119,19 +110,19 @@ public class RoboTerrestreBlindado extends RoboTerrestre {
 
         //Se a resistência chegar a zero ou menos, o robô é destruído
         if (resistencia <= 0) {
-            resistencia=0;
-            
+            resistencia = 0;
             funcionando = false;
             System.out.println(getNome() + " foi destruído após múltiplas colisões!");
         }
     }
 
+    //Método para recuperar dano (reparar o robô)
     public void recuperaDano(int dano) {
-        resistencia += dano; //Reduz a resistência do robô
-        System.out.println(getNome() + " Consertou " + dano + " dano(s)! Resistência atual: " + resistencia);
+        resistencia += dano;
+        System.out.println(getNome() + " consertou " + dano + " dano(s)! Resistência atual: " + resistencia);
 
-        if(resistencia>0){
-            funcionando=true;
+        if (resistencia > 0) {
+            funcionando = true;
         }
     }
 

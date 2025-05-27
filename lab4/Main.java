@@ -71,7 +71,6 @@ public class Main {
                     if(((RoboTerrestreBlindado)roboSelecionado).mover(delta, direcao)){
                         System.out.println("Robô movido para " + roboSelecionado.getPosicaoX() + "," + roboSelecionado.getPosicaoY() + " com sucesso!");
                     }
-                    a.detectarColisoes();
                     break;
 
                 } else if (roboSelecionado instanceof RoboAereoXY) {
@@ -272,6 +271,12 @@ public class Main {
                 System.out.print("Intensidade: ");
                 intensidade = scanner.nextInt();
             }
+            if(opcao==5){
+                System.out.print("Posição X: ");
+                x1 = scanner.nextInt();
+                System.out.print("Posição Y: ");
+                y1 = scanner.nextInt();
+            }
             else{
                 System.out.print("Posição X1: ");
                 x1 = scanner.nextInt();
@@ -305,7 +310,7 @@ public class Main {
                 }
             }
             else if(opcao==5){
-                SabioMagico s=new SabioMagico(x1, y1, x2, y2, tipo);
+                SabioMagico s=new SabioMagico(x1, y1, x1, y1, tipo);
                 if(a.adicionarObstaculo(s)){
                     System.out.println("Obstáculo criado em : ("+ s.getPosicaoX1() +","+s.getPosicaoY1() +"),("+s.getPosicaoX2()+","+s.getPosicaoY2()+")");
                 }

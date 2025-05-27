@@ -112,6 +112,40 @@ public class Robo{
         return false;
     }
 
+    public Boolean identificarObstaculoSemSabio(int x, int y, int z) {
+        for (Obstaculo o : ambiente.listadeObstaculos) {
+    
+            int altura = o.getTipo().getAlturaPadrao();
+    
+            if (x >= o.getPosicaoX1() && x <= o.getPosicaoX2() &&
+                y >= o.getPosicaoY1() && y <= o.getPosicaoY2() &&
+                z <= altura) {
+    
+                if (o instanceof SabioMagico) {
+                    totalColisoes++;  
+                    return true;
+                } else {
+                    if (!o.getTipo().podePassar(this)) {
+                        System.out.println("Obstáculo detectado! Obstáculo: " + o.getTipo() + " impede a passagem.");
+                        totalColisoes++;  
+                        return true;
+                    }
+                }
+            }
+        }
+    
+        for (Robo robo : this.ambiente.listadeRobos) {
+            if (this != robo && robo.posicaoX == x && robo.posicaoY == y && robo.posicaoZ == z) {
+                totalColisoes++; 
+                System.out.println("Obstáculo detectado! Robô: " + robo.getNome());
+                return true;
+            }
+        }
+    
+        return false;
+    }
+    
+    
     //Método para exibir a posição atual do robô
     public void exibirPosicao(){
         System.out.println(this.nome+" esta na posicao ("+this.posicaoX+", "+this.posicaoY+", "+this.posicaoZ+"). Direção "+this.direcao);
