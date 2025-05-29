@@ -2,9 +2,10 @@
 
 import java.util.ArrayList;
 
-public class Robo{
+public class Robo implements Entidade{
     
     private String nome;
+    private TipoEntidade tipo;
     protected String direcao;
     protected Ambiente ambiente;
     protected int posicaoX;
@@ -17,16 +18,28 @@ public class Robo{
         return nome;
     }
 
-    public int getPosicaoX() {
+    public int getX1() {
         return posicaoX;
     }
 
-    public int getPosicaoY() {
+    public int getY1() {
         return posicaoY;
     }
 
-    public int getPosicaoZ() {
+    public int getZ() {
         return posicaoZ;
+    }
+
+    public TipoEntidade getTipoEntidade(){
+        return tipo;
+    }
+
+    public String getDescricao(){
+        return this.tipo.descricao;
+    }
+
+    public char getRepresentacao(){
+        return this.tipo.representacao;
     }
 
     public int getTotalColisoes() {
@@ -45,6 +58,7 @@ public class Robo{
         this.posicaoY = posicaoY;
         this.posicaoZ = posicaoZ;
         this.sensores = new ArrayList<>();
+        this.tipo=TipoEntidade.ROBO;
     }
 
     public void adicionarSensor(Sensor sensor) {
@@ -75,10 +89,10 @@ public class Robo{
     public Boolean identificarObstaculo(int x, int y, int z) {
         for (Obstaculo o : ambiente.listadeObstaculos) {
     
-            int altura = o.getTipo().getAlturaPadrao();
+            int altura = o.getTipoObstaculo().getAlturaPadrao();
     
-            if (x >= o.getPosicaoX1() && x <= o.getPosicaoX2() &&
-                y >= o.getPosicaoY1() && y <= o.getPosicaoY2() &&
+            if (x >= o.getX1() && x <= o.getX2() &&
+                y >= o.getY1() && y <= o.getY2() &&
                 z <= altura) {
     
                 if (o instanceof SabioMagico) {
@@ -89,8 +103,8 @@ public class Robo{
                     } else { 
                         return false; }
                 } else {
-                    if (!o.getTipo().podePassar(this)) {
-                        System.out.println("Obstáculo detectado! Obstáculo: " + o.getTipo() + " impede a passagem.");
+                    if (!o.getTipoObstaculo().podePassar(this)) {
+                        System.out.println("Obstáculo detectado! Obstáculo: " + o.getTipoObstaculo() + " impede a passagem.");
                         totalColisoes++;  //colisao com obs
                         return true;
 
@@ -115,18 +129,18 @@ public class Robo{
     public Boolean identificarObstaculoSemSabio(int x, int y, int z) {
         for (Obstaculo o : ambiente.listadeObstaculos) {
     
-            int altura = o.getTipo().getAlturaPadrao();
+            int altura = o.getTipoObstaculo().getAlturaPadrao();
     
-            if (x >= o.getPosicaoX1() && x <= o.getPosicaoX2() &&
-                y >= o.getPosicaoY1() && y <= o.getPosicaoY2() &&
+            if (x >= o.getX1() && x <= o.getX2() &&
+                y >= o.getY1() && y <= o.getY2() &&
                 z <= altura) {
     
                 if (o instanceof SabioMagico) {
                     totalColisoes++;  
                     return true;
                 } else {
-                    if (!o.getTipo().podePassar(this)) {
-                        System.out.println("Obstáculo detectado! Obstáculo: " + o.getTipo() + " impede a passagem.");
+                    if (!o.getTipoObstaculo().podePassar(this)) {
+                        System.out.println("Obstáculo detectado! Obstáculo: " + o.getTipoObstaculo() + " impede a passagem.");
                         totalColisoes++;  
                         return true;
                     }

@@ -20,26 +20,26 @@ public enum TipoObstaculo {
         return alturaPadrao;
     }
 
-public boolean podePassar(Robo r) {
+    public boolean podePassar(Robo r) {
 
-    if (r instanceof RoboTerrestre && bloqueiaPassagemTerrestres) {
+        if (r instanceof RoboTerrestre && bloqueiaPassagemTerrestres) {
+            return false;
+        }
+        if (r instanceof RoboAereo && bloqueiaPassagemAereos) {
+            return false;
+        }
+        if (r instanceof RoboAereo && bloqueiaPassagemTerrestres) {
+            return true;
+        }
+        if (r instanceof RoboTerrestre && bloqueiaPassagemAereos) {
+            return true;
+        }
+        if (r instanceof RoboAereo && bloqueiaPassagemAereos) {
+            return false;
+        }
+        //se for um robô genérico
         return false;
     }
-    if (r instanceof RoboAereo && bloqueiaPassagemAereos) {
-        return false;
-    }
-    if (r instanceof RoboAereo && bloqueiaPassagemTerrestres) {
-        return true;
-    }
-    if (r instanceof RoboTerrestre && bloqueiaPassagemAereos) {
-        return true;
-    }
-    if (r instanceof RoboAereo && bloqueiaPassagemAereos) {
-        return false;
-    }
-    //se for um robô genérico
-    return false;
-}
 
 
 

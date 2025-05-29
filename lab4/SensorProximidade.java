@@ -15,17 +15,17 @@ public class SensorProximidade extends Sensor {
 
     private ArrayList<Obstaculo> existenciaObstaculos() {
 
-        int x = this.robo.getPosicaoX();
-        int y = this.robo.getPosicaoY();
-        int z = this.robo.getPosicaoZ();
+        int x = this.robo.getX1();
+        int y = this.robo.getY1();
+        int z = this.robo.getZ();
 
         for (Obstaculo o : this.robo.ambiente.listadeObstaculos) {
-            int xMin = Math.min(o.getPosicaoX1(), o.getPosicaoX2());
-            int xMax = Math.max(o.getPosicaoX1(), o.getPosicaoX2());
-            int yMin = Math.min(o.getPosicaoY1(), o.getPosicaoY2());
-            int yMax = Math.max(o.getPosicaoY1(), o.getPosicaoY2());
+            int xMin = Math.min(o.getX1(), o.getX2());
+            int xMax = Math.max(o.getX1(), o.getX2());
+            int yMin = Math.min(o.getY1(), o.getY2());
+            int yMax = Math.max(o.getY1(), o.getY2());
             int zMin = 0;
-            int zMax = o.getAltura();
+            int zMax = o.getZ();
 
             boolean dentroX = xMax >= x - raio && xMin <= x + raio;
             boolean dentroY = yMax >= y - raio && yMin <= y + raio;
@@ -59,10 +59,10 @@ public class SensorProximidade extends Sensor {
         } else {
             System.out.println(this.numDeObstaculos+" obstáculos detectados próximos ao robô " + this.robo.getNome() + ":");
             for (Obstaculo o : this.obstaculosNoRaio) {
-                System.out.println(" - " + o.getTipo() + " na área (" + o.getPosicaoX1() + "," + o.getPosicaoY1() + ") até (" + o.getPosicaoX2() + "," + o.getPosicaoY2() + "), altura: " + o.getAltura());
+                System.out.println(" - " + o.getTipoObstaculo() + " na área (" + o.getX1() + "," + o.getY1() + ") até (" + o.getX2() + "," + o.getY2() + "), altura: " + o.getZ());
             }
             for (Robo r: this.robosNoRaio){
-                System.out.println(" - "+r.getNome()+" na posição ("+r.getPosicaoX()+", "+r.getPosicaoY()+", "+r.getPosicaoZ()+")");
+                System.out.println(" - "+r.getNome()+" na posição ("+r.getX1()+", "+r.getY1()+", "+r.getZ()+")");
             }
         }
     }

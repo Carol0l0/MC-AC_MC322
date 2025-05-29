@@ -69,7 +69,7 @@ public class Main {
                     int delta = scanner.nextInt();  
 
                     if(((RoboTerrestreBlindado)roboSelecionado).mover(delta, direcao)){
-                        System.out.println("Robô movido para " + roboSelecionado.getPosicaoX() + "," + roboSelecionado.getPosicaoY() + " com sucesso!");
+                        System.out.println("Robô movido para " + roboSelecionado.getX1() + "," + roboSelecionado.getY1() + " com sucesso!");
                     }
                     break;
 
@@ -80,7 +80,7 @@ public class Main {
                     int deltaY = scanner.nextInt();  
 
                     if(((RoboAereoXY)roboSelecionado).mover(deltaX, deltaY)){
-                        System.out.println("Robô movido para " + roboSelecionado.getPosicaoX() + "," + roboSelecionado.getPosicaoY() + " com sucesso!");
+                        System.out.println("Robô movido para " + roboSelecionado.getX1() + "," + roboSelecionado.getY1() + " com sucesso!");
                     }
                     break;
 
@@ -91,7 +91,7 @@ public class Main {
                     int deltaY = scanner.nextInt();  
 
                     if(((RoboAereoYX)roboSelecionado).mover(deltaX, deltaY)){
-                        System.out.println("Robô movido para " + roboSelecionado.getPosicaoX() + "," + roboSelecionado.getPosicaoY() + " com sucesso!");
+                        System.out.println("Robô movido para " + roboSelecionado.getX1() + "," + roboSelecionado.getY1() + " com sucesso!");
                     }
                     break;
                 }
@@ -102,7 +102,7 @@ public class Main {
                     int deltaY = scanner.nextInt();
 
                     if(((RoboTerrestreDeCarga)roboSelecionado).mover(deltaX, deltaY)){
-                        System.out.println("Robô movido para " + roboSelecionado.getPosicaoX() + "," + roboSelecionado.getPosicaoY() + " com sucesso!");
+                        System.out.println("Robô movido para " + roboSelecionado.getX1() + "," + roboSelecionado.getY1() + " com sucesso!");
                     }
                     break;
                 }
@@ -304,21 +304,21 @@ public class Main {
             }
             
             if(opcao==1){
-                CaixaDeSom c=new CaixaDeSom(x1, y1, x1, y1, tipo, intensidade);
+                CaixaDeSom c=new CaixaDeSom(x1, y1, x1, y1, intensidade);
                 if(a.adicionaCaixaDeSom(c)){
                     System.out.println("Caixa de som criada em ("+x1+", "+y1+")");
                 }
             }
             else if(opcao==5){
-                SabioMagico s=new SabioMagico(x1, y1, x1, y1, tipo);
+                SabioMagico s=new SabioMagico(x1, y1, x1, y1);
                 if(a.adicionarObstaculo(s)){
-                    System.out.println("Obstáculo criado em : ("+ s.getPosicaoX1() +","+s.getPosicaoY1() +"),("+s.getPosicaoX2()+","+s.getPosicaoY2()+")");
+                    System.out.println("Obstáculo criado em : ("+ s.getX1() +","+s.getY1() +"),("+s.getX2()+","+s.getY2()+")");
                 }
             }
             else{
                 Obstaculo o = new Obstaculo(x1, y1, x2, y2, tipo);
                 if(a.adicionarObstaculo(o)){
-                    System.out.println("Obstáculo criado em : ("+ o.getPosicaoX1() +","+o.getPosicaoY1() +"),("+o.getPosicaoX2()+","+o.getPosicaoY2()+")");
+                    System.out.println("Obstáculo criado em : ("+ o.getX1() +","+o.getY1() +"),("+o.getX2()+","+o.getY2()+")");
                 }
             }
             return null;

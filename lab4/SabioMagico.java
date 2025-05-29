@@ -4,9 +4,10 @@ public class SabioMagico extends Obstaculo{
 
     private final BancoDeCharadas banco;
 
-    public SabioMagico(int x1, int y1, int x2, int y2, TipoObstaculo tipo) {
+    public SabioMagico(int x1, int y1, int x2, int y2) {
         super(x1, y1, x2, y2, TipoObstaculo.SABIOMAGICO);
         this.banco = new BancoDeCharadas();
+        this.tipo_e = TipoEntidade.SABIOMAGICO;
     }
 
     public boolean desafiar() {

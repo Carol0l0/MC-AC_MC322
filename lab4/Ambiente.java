@@ -29,16 +29,16 @@ public class Ambiente{
     public boolean BloqueioAoAdicionar(int x, int y, int z) {
 
         for (Obstaculo o : this.listadeObstaculos) {
-            int altura = o.getTipo().getAlturaPadrao();
-            if (x >= o.getPosicaoX1() && x <= o.getPosicaoX2() &&
-                y >= o.getPosicaoY1() && y <= o.getPosicaoY2() &&
+            int altura = o.getTipoObstaculo().getAlturaPadrao();
+            if (x >= o.getX1() && x <= o.getX2() &&
+                y >= o.getY1() && y <= o.getY2() &&
                 z <= altura) {
                 return true;
             }
         }
     
         for (Robo r : this.listadeRobos) {
-            if (r.getPosicaoX() == x && r.getPosicaoY() == y && r.getPosicaoZ() == z) {
+            if (r.getX1() == x && r.getY1() == y && r.getZ() == z) {
                 return true;
             }
         }
@@ -47,9 +47,9 @@ public class Ambiente{
     }
     
     public void adicionarRobo(Robo r) {
-        int x = r.getPosicaoX();
-        int y = r.getPosicaoY();
-        int z = r.getPosicaoZ();
+        int x = r.getX1();
+        int y = r.getY1();
+        int z = r.getZ();
     
         r.setAmbiente(this);
     
@@ -89,7 +89,7 @@ public class Ambiente{
     public boolean adicionarObstaculo(Obstaculo o) {
         if (o.podeAdicionar(this)) {
             this.listadeObstaculos.add(o);
-            System.out.println("Obstáculo do tipo " + o.getTipo() + " adicionado.");
+            System.out.println("Obstáculo do tipo " + o.getTipoObstaculo() + " adicionado.");
             return true;
         } else {
             System.out.println("Erro: Obstáculo não pôde ser adicionado, pois há sobreposição!");
@@ -100,7 +100,7 @@ public class Ambiente{
     //Remove obstáculos do ambiente
     public void removerObstaculo(Obstaculo o){
         this.listadeObstaculos.remove(o);
-        System.out.println("Obstáculo do tipo " + o.getTipo() + " removido.");
+        System.out.println("Obstáculo do tipo " + o.getTipoObstaculo() + " removido.");
     }
 
     public Robo buscarRoboPorNome(String nome) {
@@ -119,7 +119,7 @@ public class Ambiente{
     //Adiciona caixa de som
     public boolean adicionaCaixaDeSom(CaixaDeSom c){
         if(adicionarObstaculo(c)){
-            int x=c.getPosicaoX1(), y=c.getPosicaoY1(), z=0, intensidade=c.getIntensidade();
+            int x=c.getX1(), y=c.getY1(), z=0, intensidade=c.getIntensidade();
             for (int i=intensidade; i>0; i--) {
                 for (int j=x-i; j<=x+i; j++) {
                     for (int k=y-i; k<=y+i; k++) {
@@ -142,7 +142,7 @@ public class Ambiente{
     //remove caixa de som do ambiente
     public void removeCaixaDeSom(CaixaDeSom c){
         removerObstaculo(c);
-        int x=c.getPosicaoX1(), y=c.getPosicaoY1(), z=0, intensidade=c.getIntensidade();
+        int x=c.getX1(), y=c.getY1(), z=0, intensidade=c.getIntensidade();
         for (int i=intensidade; i>0; i--) {
             for (int j=x-i; j<=x+i; j++) {
                 for (int k=y-i; k<=y+i; k++) {
