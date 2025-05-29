@@ -1,5 +1,5 @@
 public enum TipoEntidade {
-    ROBO('r', "rôbos andam pelo ambiente de diferentes maneiras, mas os obstáculos podem bloquear a sua passagem"),
+    ROBO('r', "rôbos andam pelo ambiente de diferentes maneiras, mas os obstáculos podem bloquear a sua"),
     OBSTACULO('o', "bloqueia a passagem dos rôbos"),
     CAIXADESOM('c', "obstáculo que emite som"),
     SABIOMAGICO('m', "deixa voce passar se responder corretamente a charada");

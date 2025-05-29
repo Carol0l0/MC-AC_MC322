@@ -7,8 +7,6 @@ public class Ambiente{
     private int aY;
     private int aZ;
     public ArrayList<Entidade> listaEntidades;
-    public ArrayList<Robo> listadeRobos;
-    public ArrayList<Obstaculo> listadeObstaculos;
     public int som[][][]; //registra a intensidade se som no ambiente
     
 
@@ -18,8 +16,6 @@ public class Ambiente{
         this.aY = aY;
         this.aZ = aZ;
         this.listaEntidades=new ArrayList<Entidade>();
-        //this.listadeRobos=new ArrayList<Robo>();
-        //this.listadeObstaculos = new ArrayList<Obstaculo>();
         this.som=new int[aX][aY][aZ];
     }
 
@@ -28,19 +24,20 @@ public class Ambiente{
         return x>=0 && x<this.aX && y>=0 && y<this.aY && z>=0 && z<this.aZ;
     }
 
+    //Para conferir se a entidade pode ser adicionada ao ambiente
     public boolean BloqueioAoAdicionar(int x, int y, int z) {
 
         for(Entidade e : this.listaEntidades){
-            if(e.getTipoEntidade()==TipoEntidade.OBSTACULO){
+            if(e.getTipoEntidade()==TipoEntidade.ROBO){//Se for Rôbo
+                if (e.getX1() == x && e.getY1() == y && e.getZ() == z) {
+                    return true;
+                }
+            }
+            else{//Se for objeto
                 int altura = e.getZ();
                 if (x >= e.getX1() && x <= e.getX2() &&
                     y >= e.getY1() && y <= e.getY2() && 
                     z <= altura) {
-                    return true;
-                }
-            }
-            else{
-                if (e.getX1() == x && e.getY1() == y && e.getZ() == z) {
                     return true;
                 }
             }
@@ -77,6 +74,7 @@ public class Ambiente{
     
         // Adiciona o robô à lista
         this.listaEntidades.add(r);
+        //ADICIONAR FEATURE DA MATRIZ
         System.out.println("\nRobô " + r.getNome() + " adicionado com sucesso!");
     }
     
@@ -92,6 +90,7 @@ public class Ambiente{
     public boolean adicionarObstaculo(Obstaculo o) {
         if (o.podeAdicionar(this)) {
             this.listaEntidades.add(o);
+            //ADICIONAR FEATURE DA MATRIZ
             System.out.println("Obstáculo do tipo " + o.getTipoObstaculo() + " adicionado.");
             return true;
         } else {
@@ -103,14 +102,15 @@ public class Ambiente{
     //Remove obstáculos do ambiente
     public void removerObstaculo(Obstaculo o){
         this.listaEntidades.remove(o);
+        //ADICIONAR FEATURE DA MATRIZ
         System.out.println("Obstáculo do tipo " + o.getTipoObstaculo() + " removido.");
     }
 
     //Encontra Rôbo pela lista
     public Robo buscarRoboPorNome(String nome) { //CONSERTAR PARA RETORNAR TIPO ROBO
         for (Entidade e : listaEntidades) {
-            if (e.getNome().equalsIgnoreCase(nome) && e.getTipoEntidade()==TipoEntidade.ROBO) {
-                return e;
+            if (e.getNome().equalsIgnoreCase(nome) && e instanceof Robo) {
+                return (Robo) e; //CONFERIR SE PEGA
             }
         }
         return null;
@@ -156,7 +156,9 @@ public class Ambiente{
         }
     }
 
-    public void detectarColisoes() {
+    //public void exibirSom(int altura){}
+
+    public void detectarColisoes() { //CONCERTAR
         int totalColisoes = 0;
     
         for (Robo robo : listadeRobos) {

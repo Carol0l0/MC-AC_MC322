@@ -95,39 +95,43 @@ public class Robo implements Entidade{
     public int totalColisoes = 0;
 
     public Boolean identificarObstaculo(int x, int y, int z) {
-        for (Obstaculo o : ambiente.listadeObstaculos) {
-    
-            int altura = o.getTipoObstaculo().getAlturaPadrao();
-    
-            if (x >= o.getX1() && x <= o.getX2() &&
-                y >= o.getY1() && y <= o.getY2() &&
-                z <= altura) {
-    
-                if (o instanceof SabioMagico) {
-                    SabioMagico sabio = (SabioMagico) o;
-                    if (!sabio.desafiar()) {
-                        totalColisoes++;  //colisao com obs
-                        return true;
-                    } else { 
-                        return false; }
-                } else {
-                    if (!o.getTipoObstaculo().podePassar(this)) {
-                        System.out.println("Obstáculo detectado! Obstáculo: " + o.getTipoObstaculo() + " impede a passagem.");
-                        totalColisoes++;  //colisao com obs
-                        return true;
 
+        for(Entidade e : ambiente.listaEntidades){
+            if(e instanceof Robo){ //Identifica robôs
+                if (this != e && e.getX1() == x && e.getY1() == y && e.getZ() == z) {
+    
+                    totalColisoes++; //colisao com rôbo
+        
+                    System.out.println("Obstáculo detectado! Robô: " + e.getNome());
+                    return true;
+                }    
+            }
+            else if(e instanceof Obstaculo){
+                int altura = e.getZ();
+
+                if (x >= e.getX1() && x <= e.getX2() &&
+                    y >= e.getY1() && y <= e.getY2() &&
+                    z <= altura) { //Se o obstáculo ocupa o mesmo espaço do rôbo 
+
+                    if (e instanceof SabioMagico) {
+                        SabioMagico sabio = (SabioMagico) e;
+                        if (!sabio.desafiar()) {
+                            totalColisoes++;  //colisao com o sábio mágico
+                            return true;
+                        } 
+                        else{ //Deixou passar
+                            return false; 
+                        }
+                    } 
+                    else{
+                        Obstaculo o = (Obstaculo) e;
+                        if (!o.getTipoObstaculo().podePassar(this)) { //se o Rôbo não passa pelo tipo de obstáculo
+                            System.out.println("Obstáculo detectado! Obstáculo: " + o.getTipoObstaculo() + " impede a passagem.");
+                            totalColisoes++;  //colisao com obstáculo
+                            return true;
+                        }
                     }
                 }
-            }
-        }
-    
-        for (Robo robo : this.ambiente.listadeRobos) {
-            if (this != robo && robo.posicaoX == x && robo.posicaoY == y && robo.posicaoZ == z) {
-    
-                totalColisoes++; //colisao com robo
-    
-                System.out.println("Obstáculo detectado! Robô: " + robo.getNome());
-                return true;
             }
         }
     
@@ -135,6 +139,14 @@ public class Robo implements Entidade{
     }
 
     public Boolean identificarObstaculoSemSabio(int x, int y, int z) {
+
+        for(Entidade e : ambiente.listaEntidades){
+            if(e.getTipoEntidade()==TipoEntidade.ROBO){
+                
+
+            }
+        }
+
         for (Obstaculo o : ambiente.listadeObstaculos) {
     
             int altura = o.getTipoObstaculo().getAlturaPadrao();
