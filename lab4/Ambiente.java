@@ -6,6 +6,7 @@ public class Ambiente{
     private int aX;
     private int aY;
     private int aZ;
+    public ArrayList<Entidade> listaEntidades;
     public ArrayList<Robo> listadeRobos;
     public ArrayList<Obstaculo> listadeObstaculos;
     public int som[][][]; //registra a intensidade se som no ambiente
@@ -16,8 +17,9 @@ public class Ambiente{
         this.aX = aX;
         this.aY = aY;
         this.aZ = aZ;
-        this.listadeRobos=new ArrayList<Robo>();
-        this.listadeObstaculos = new ArrayList<Obstaculo>();
+        this.listaEntidades=new ArrayList<Entidade>();
+        //this.listadeRobos=new ArrayList<Robo>();
+        //this.listadeObstaculos = new ArrayList<Obstaculo>();
         this.som=new int[aX][aY][aZ];
     }
 
@@ -28,12 +30,29 @@ public class Ambiente{
 
     public boolean BloqueioAoAdicionar(int x, int y, int z) {
 
+        for(Entidade e : this.listaEntidades){
+            if(e.getTipoEntidade()==TipoEntidade.OBSTACULO){
+                int altura = e.getZ();
+                if (x >= e.getX1() && x <= e.getX2() &&
+                    y >= e.getY1() && y <= e.getY2() && //CONCERTAR PARA A LISTA DE ENTIDADES FUNCIONAR
+                    z <= altura) {
+                    return true;
+                }
+            }
+            else{
+                if (e.getX1() == x && e.getY1() == y && e.getZ() == z) {
+                    return true;
+                }
+            }
+        }
+
+        /*
         for (Obstaculo o : this.listadeObstaculos) {
             int altura = o.getTipoObstaculo().getAlturaPadrao();
             if (x >= o.getX1() && x <= o.getX2() &&
                 y >= o.getY1() && y <= o.getY2() &&
                 z <= altura) {
-                return true;
+                return true; //
             }
         }
     
@@ -42,6 +61,7 @@ public class Ambiente{
                 return true;
             }
         }
+        */
     
         return false;
     }
@@ -66,9 +86,9 @@ public class Ambiente{
         }
 
         //verifica se existe outro robô com o mesmo nome
-        for(Robo existente : this.listadeRobos){
-            if(r.getNome()==existente.getNome()){
-                return;
+        for(Entidade existente : this.listaEntidades){
+            if(r.getNome()==existente.getNome()){ //LISTA DE ENTIDADES
+                return; //AAAAAAAAAAAAAAAAAAAAAAAAAAAAH
             }
         }
     
@@ -88,7 +108,7 @@ public class Ambiente{
     // Adicionar obstáculos no ambiente
     public boolean adicionarObstaculo(Obstaculo o) {
         if (o.podeAdicionar(this)) {
-            this.listadeObstaculos.add(o);
+            this.listadeObstaculos.add(o); //LISTA DE ENTIDADES
             System.out.println("Obstáculo do tipo " + o.getTipoObstaculo() + " adicionado.");
             return true;
         } else {
@@ -98,12 +118,12 @@ public class Ambiente{
     }
 
     //Remove obstáculos do ambiente
-    public void removerObstaculo(Obstaculo o){
+    public void removerObstaculo(Obstaculo o){ //LISTA DE ENTIDADES
         this.listadeObstaculos.remove(o);
         System.out.println("Obstáculo do tipo " + o.getTipoObstaculo() + " removido.");
     }
 
-    public Robo buscarRoboPorNome(String nome) {
+    public Robo buscarRoboPorNome(String nome) { //LISTA DE ENTIDADES
         for (Robo r : listadeRobos) {
             if (r.getNome().equalsIgnoreCase(nome)) {
                 return r;
@@ -112,12 +132,12 @@ public class Ambiente{
         return null;
     }  
     
-    public ArrayList<Obstaculo> getListadeObstaculos() {
+    public ArrayList<Obstaculo> getListadeObstaculos() {//LISTA DE ENTIDADES
         return listadeObstaculos;
     }
  
     //Adiciona caixa de som
-    public boolean adicionaCaixaDeSom(CaixaDeSom c){
+    public boolean adicionaCaixaDeSom(CaixaDeSom c){ //LISTA DE ENTIDADES
         if(adicionarObstaculo(c)){
             int x=c.getX1(), y=c.getY1(), z=0, intensidade=c.getIntensidade();
             for (int i=intensidade; i>0; i--) {
@@ -140,7 +160,7 @@ public class Ambiente{
     }
 
     //remove caixa de som do ambiente
-    public void removeCaixaDeSom(CaixaDeSom c){
+    public void removeCaixaDeSom(CaixaDeSom c){ //LISTA DE ENTIDADES
         removerObstaculo(c);
         int x=c.getX1(), y=c.getY1(), z=0, intensidade=c.getIntensidade();
         for (int i=intensidade; i>0; i--) {
