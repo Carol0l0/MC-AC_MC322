@@ -1,16 +1,18 @@
 public enum TipoObstaculo {
 
-    CAIXADESOM(3, true, true),              //Bloqueia todos e emite som
-    ARVOREMISTICA(5,true, true),            //Bloqueia todos
-    LAGODEACIDO(0, true, false),            //Bloqueia qualquer tipo de robô terrestre
-    FORTEVENTANIA(50,false, true),          //Bloqueia qualquer tipo de robô aéreo
-    SABIOMAGICO(50,true, true);             //Só da passagem caso acerte a pergunta
+    CAIXADESOM("Caixa de Som", 3, true, true),              //Bloqueia todos e emite som
+    ARVOREMISTICA("Árvore Mística", 5,true, true),            //Bloqueia todos
+    LAGODEACIDO("Lago de Ácido",0, true, false),            //Bloqueia qualquer tipo de robô terrestre
+    FORTEVENTANIA("Forte Ventania",50,false, true),          //Bloqueia qualquer tipo de robô aéreo
+    SABIOMAGICO("Sábio Mágico",50,true, true);             //Só da passagem caso acerte a pergunta
 
     private final int alturaPadrao;
     private final boolean bloqueiaPassagemTerrestres;
     private final boolean bloqueiaPassagemAereos;
+    private final String nome;
 
-    TipoObstaculo(int alturaPadrao, boolean bloqueiaPassagemTerrestres, boolean bloqueiaPassagemAereos) {
+    TipoObstaculo(String nome, int alturaPadrao, boolean bloqueiaPassagemTerrestres, boolean bloqueiaPassagemAereos) {
+        this.nome = nome;
         this.alturaPadrao = alturaPadrao;
         this.bloqueiaPassagemTerrestres = bloqueiaPassagemTerrestres;
         this.bloqueiaPassagemAereos = bloqueiaPassagemAereos;
@@ -18,6 +20,10 @@ public enum TipoObstaculo {
 
     public int getAlturaPadrao() {
         return alturaPadrao;
+    }
+
+    public String getNome(){
+        return nome;
     }
 
     public boolean podePassar(Robo r) {

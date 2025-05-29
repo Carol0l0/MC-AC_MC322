@@ -22,7 +22,15 @@ public class Robo implements Entidade{
         return posicaoX;
     }
 
+    public int getX2() {//só para não dar problema na lista de entidades
+        return posicaoX;
+    }
+
     public int getY1() {
+        return posicaoY;
+    }
+
+    public int getY2() {
         return posicaoY;
     }
 

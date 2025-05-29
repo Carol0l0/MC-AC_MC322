@@ -34,7 +34,7 @@ public class Ambiente{
             if(e.getTipoEntidade()==TipoEntidade.OBSTACULO){
                 int altura = e.getZ();
                 if (x >= e.getX1() && x <= e.getX2() &&
-                    y >= e.getY1() && y <= e.getY2() && //CONCERTAR PARA A LISTA DE ENTIDADES FUNCIONAR
+                    y >= e.getY1() && y <= e.getY2() && 
                     z <= altura) {
                     return true;
                 }
@@ -45,23 +45,6 @@ public class Ambiente{
                 }
             }
         }
-
-        /*
-        for (Obstaculo o : this.listadeObstaculos) {
-            int altura = o.getTipoObstaculo().getAlturaPadrao();
-            if (x >= o.getX1() && x <= o.getX2() &&
-                y >= o.getY1() && y <= o.getY2() &&
-                z <= altura) {
-                return true; //
-            }
-        }
-    
-        for (Robo r : this.listadeRobos) {
-            if (r.getX1() == x && r.getY1() == y && r.getZ() == z) {
-                return true;
-            }
-        }
-        */
     
         return false;
     }
@@ -87,20 +70,20 @@ public class Ambiente{
 
         //verifica se existe outro robô com o mesmo nome
         for(Entidade existente : this.listaEntidades){
-            if(r.getNome()==existente.getNome()){ //LISTA DE ENTIDADES
-                return; //AAAAAAAAAAAAAAAAAAAAAAAAAAAAH
+            if(existente.getTipoEntidade()==TipoEntidade.ROBO && r.getNome()==existente.getNome()){ 
+                return;
             }
         }
     
         // Adiciona o robô à lista
-        this.listadeRobos.add(r);
+        this.listaEntidades.add(r);
         System.out.println("\nRobô " + r.getNome() + " adicionado com sucesso!");
     }
     
 
     //Método para remover um robô do ambiente
     public void removerRobo(Robo r){
-        this.listadeRobos.remove(r);
+        this.listaEntidades.remove(r);
         //ADICIONAR FEATURE DA MATRIZ
         System.out.println("\nRobo "+r.getNome()+" removido com sucessso!");
     }
@@ -108,7 +91,7 @@ public class Ambiente{
     // Adicionar obstáculos no ambiente
     public boolean adicionarObstaculo(Obstaculo o) {
         if (o.podeAdicionar(this)) {
-            this.listadeObstaculos.add(o); //LISTA DE ENTIDADES
+            this.listaEntidades.add(o);
             System.out.println("Obstáculo do tipo " + o.getTipoObstaculo() + " adicionado.");
             return true;
         } else {
@@ -118,26 +101,23 @@ public class Ambiente{
     }
 
     //Remove obstáculos do ambiente
-    public void removerObstaculo(Obstaculo o){ //LISTA DE ENTIDADES
-        this.listadeObstaculos.remove(o);
+    public void removerObstaculo(Obstaculo o){
+        this.listaEntidades.remove(o);
         System.out.println("Obstáculo do tipo " + o.getTipoObstaculo() + " removido.");
     }
 
-    public Robo buscarRoboPorNome(String nome) { //LISTA DE ENTIDADES
-        for (Robo r : listadeRobos) {
-            if (r.getNome().equalsIgnoreCase(nome)) {
-                return r;
+    //Encontra Rôbo pela lista
+    public Robo buscarRoboPorNome(String nome) { //CONSERTAR PARA RETORNAR TIPO ROBO
+        for (Entidade e : listaEntidades) {
+            if (e.getNome().equalsIgnoreCase(nome) && e.getTipoEntidade()==TipoEntidade.ROBO) {
+                return e;
             }
         }
         return null;
     }  
-    
-    public ArrayList<Obstaculo> getListadeObstaculos() {//LISTA DE ENTIDADES
-        return listadeObstaculos;
-    }
  
     //Adiciona caixa de som
-    public boolean adicionaCaixaDeSom(CaixaDeSom c){ //LISTA DE ENTIDADES
+    public boolean adicionaCaixaDeSom(CaixaDeSom c){
         if(adicionarObstaculo(c)){
             int x=c.getX1(), y=c.getY1(), z=0, intensidade=c.getIntensidade();
             for (int i=intensidade; i>0; i--) {
@@ -160,7 +140,7 @@ public class Ambiente{
     }
 
     //remove caixa de som do ambiente
-    public void removeCaixaDeSom(CaixaDeSom c){ //LISTA DE ENTIDADES
+    public void removeCaixaDeSom(CaixaDeSom c){
         removerObstaculo(c);
         int x=c.getX1(), y=c.getY1(), z=0, intensidade=c.getIntensidade();
         for (int i=intensidade; i>0; i--) {

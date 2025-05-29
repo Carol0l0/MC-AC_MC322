@@ -20,33 +20,32 @@ public class Obstaculo implements Entidade{
         this.posicaoX2 = maxX;
         this.posicaoY2 = maxY;
         this.tipo_o = tipo_o;
+        this.altura = tipo_o.getAlturaPadrao();
         this.tipo_e = TipoEntidade.OBSTACULO;
 
     }
 
     public Boolean podeAdicionar(Ambiente a) {
-        // Percorre todos os obstáculos no ambiente
-        for (Obstaculo o : a.listadeObstaculos) {
 
-            // *CHECAR* Verifica se a posição final está dentro da área e da altura do obstáculo
-            if (this.posicaoX2 >= o.getX1() && this.posicaoX1 <= o.getX2() &&
-               this.posicaoY2 >= o.getY1() && this.posicaoY1 <= o.getY2()) {
-
-                return false;
+        for(Entidade e : a.listaEntidades){
+            if(e.getTipoEntidade()==TipoEntidade.ROBO){ //conferindo se o rôbo impede a adição
+                int x=e.getX1();
+                int y=e.getY1();
+                int z=e.getZ();
+                if (x>=this.posicaoX1 && x<=this.posicaoX2 && y>=this.posicaoY1 
+                && y<=this.posicaoY2 && z<=this.tipo_o.getAlturaPadrao()) {
+                    System.out.println("Obstáculo detectado! Robô: " + e.getNome());
+                    return false;
+                }
+            }
+            else{ //conferindo se os obstáculos impedem a adição
+                if(this.posicaoX2 >= e.getX1() && this.posicaoX1 <= e.getX2() &&
+                this.posicaoY2 >= e.getY1() && this.posicaoY1 <= e.getY2()) {
+                    System.out.println("Obstáculo detectado! " + e.getNome());
+                    return false;
+                }
             }
         }
-
-       //verifica se não tem robô no caminho
-       for (Robo robo : a.listadeRobos) {
-            int x=robo.getX1();
-            int y=robo.getY1();
-            int z=robo.getZ();
-           if (x>=this.posicaoX1 && x<=this.posicaoX2 && y>=this.posicaoY1 
-           && y<=this.posicaoY2 && z<=this.tipo_o.getAlturaPadrao()) {
-               System.out.println("Obstáculo detectado! Robô: " + robo.getNome());
-               return false;
-           }
-       }
    
        return true;
    }
@@ -67,6 +66,10 @@ public class Obstaculo implements Entidade{
         return this.tipo_e.representacao;
     }
 
+    public String getNome(){
+        return tipo_o.getNome();
+    }
+
     public int getX1() {
         return posicaoX1;
     }
@@ -83,7 +86,7 @@ public class Obstaculo implements Entidade{
         return posicaoY2;
     }
 
-    public int getZ() { //retorna a altura
+    public int getZ() { //retorna a altura padrão
         return altura;
     }
 
