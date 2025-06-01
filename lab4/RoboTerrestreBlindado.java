@@ -167,7 +167,7 @@ public class RoboTerrestreBlindado extends RoboTerrestre implements Atacante {
             Entidade entidade = ambiente.qualObstaculo(destinoX, destinoY, posicaoZ);
     
             if (entidade != null 
-                && !entidade.getTipoRepresentação.representacao().equals("x") //ignora, vou consertar isso
+                && entidade.getTipoEntidade()!=TipoEntidade.VAZIO
                 && !entidade.getId().equals(this.getId())) {
                 atacar(entidade.getId());
                 return;
