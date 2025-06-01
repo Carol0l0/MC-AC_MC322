@@ -4,16 +4,12 @@ import java.util.Arrays;
 // Classe que representa o ambiente onde os robôs se movimentam
 public class Ambiente{
     
-    private int aX;
-    private int aY;
-    private int aZ;
+    private int aX; //tamanho eixo x
+    private int aY; //tamanho eixo y
+    private int aZ; //tamanho eixo z
     public ArrayList<Entidade> listaEntidades;
     public TipoEntidade mapa[][][]; //mostra o que ocupa cada espaço
     public int som[][][]; //registra a intensidade se som no ambiente
-    int largura = mapa.length;                 //tamanho eixo x
-    int altura = mapa[0].length;               //tamanho eixo y
-    int profundidade = mapa[0][0].length;      //tamanho eixo z
-    
 
     //Construtor para inicializar o ambiente com as dimensões específicas
     public Ambiente(int aX, int aY, int aZ){
@@ -292,19 +288,50 @@ public class Ambiente{
     }
     
     // Move entidade(+)
-    public void moverEntidade(Entidade e, int novoX, int novoY, int novoZ) {
-        int xAtual = e.getX();
-        int yAtual = e.getY();
-        int zAtual = e.getZ();
+    public void moverEntidade(Entidade e, int novoX1, int novoY1){
+        int largura = e.getX2() - e.getX1(); // diferença entre X2 e X1
+        int altura = e.getY2() - e.getY1();
+        int z = e.getZ();
+
+        int novoX2 = novoX1 + largura;
+        int novoY2 = novoY1 + altura;
     
         try {
-            if (!dentroDosLimites(novoX, novoY, novoZ)) {
-                throw new ForaDosLimitesException("Nova posição está fora dos limites.");
+            // Verificar se todos os pontos da nova posição estão dentro dos limites
+            for (int x = novoX1; x <= novoX2; x++){
+                for (int y = novoY1; y <= novoY2; y++){
+                    if (!dentroDosLimites(x, y, z)){
+                        throw new ForaDosLimitesException("Nova posição está fora dos limites.");
+                    }
+                }
+            }
+            
+            // Verificar colisão com outras entidades
+            for (Entidade outra : listaEntidades){
+                if (outra == e){
+                    continue;
+                } 
+
+                // Para obstáculos, comparar todos os níveis de z se for um obstáculo volumétrico
+                int zIni = (outra.getTipoEntidade() == TipoEntidade.OBSTACULO) ? 0 : outra.getZ();
+                int zFim = (outra.getTipoEntidade() == TipoEntidade.OBSTACULO) ? outra.getZ() : outra.getZ();
+
+                for (int i = zIni; i <= zFim; i++){
+                    if (i != z){ 
+                        continue;
+                    }
+
+                    //estão no mesmo plano Z
+                    boolean colisao =
+                        novoX2 >= outra.getX1() && novoX1 <= outra.getX2() &&
+                        novoY2 >= outra.getY1() && novoY1 <= outra.getY2();
+
+                    if (colisao) {
+                        throw new PosicaoOcupadaException("Posição (" + novoX + ", " + novoY + ", " + novoZ + ") já está ocupada.");
+                    }
+                }
             }
     
-            if (BloqueioAoAdicionar(novoX, novoY, novoZ)) {
-                throw new PosicaoOcupadaException("Posição (" + novoX + ", " + novoY + ", " + novoZ + ") já está ocupada.");
-            }
     
             mapa[xAtual][yAtual][zAtual] = TipoEntidade.VAZIO;
     

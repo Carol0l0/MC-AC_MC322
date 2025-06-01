@@ -26,7 +26,6 @@ public class Obstaculo implements Entidade{
     }
 
     public Boolean podeAdicionar(Ambiente a) {
-
         for(Entidade e : a.listaEntidades){
             if(e.getTipoEntidade()==TipoEntidade.ROBO){ //conferindo se o rôbo impede a adição
                 int x=e.getX1();
@@ -105,7 +104,7 @@ public class Obstaculo implements Entidade{
     public void setY2(int y2){
         this.posicaoY2=y2;
     }
-    
+
     public void setTipo_o(TipoObstaculo tipo) {
         this.tipo_o = tipo;
     }

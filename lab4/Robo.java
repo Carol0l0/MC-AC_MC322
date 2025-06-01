@@ -204,6 +204,30 @@ public class Robo implements Entidade, Comunicavel, Sensoreavel{
     
         return false;
     }
+
+    //Método para ver se o rôbo pode ser adicionado em um Ambiente a
+    public Boolean podeAdicionar(Ambiente a){
+        for(Entidade e : a.listaEntidades){
+            if(e.getTipoEntidade()==TipoEntidade.ROBO){ //conferindo se o rôbo impede a adição
+                int x=e.getX1();
+                int y=e.getY1();
+                int z=e.getZ();
+                if (this.posicaoX==x && this.posicaoY==y && this.posicaoZ==z) {
+                    System.out.println("Obstáculo detectado! Robô: " + e.getNome());
+                    return false;
+                }
+            }
+            else{ //conferindo se os obstáculos impedem a adição
+                if(this.posicaoX >= e.getX1() && this.posicaoX <= e.getX2() &&
+                this.posicaoY >= e.getY1() && this.posicaoY <= e.getY2()) {
+                    System.out.println("Obstáculo detectado! " + e.getNome());
+                    return false;
+                }
+            }
+        }
+   
+       return true;
+    }
     
     
     //Método para exibir a posição atual do robô
