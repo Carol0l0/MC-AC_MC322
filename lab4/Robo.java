@@ -92,7 +92,7 @@ public class Robo implements Entidade, Comunicavel, Sensoreavel{
 
     //Método para mover o robô dentro do ambiente, verificando obstáculos e limites de borda
     public boolean mover(int deltaX, int deltaY){
-        if(this.ambiente.dentroDosLimites(this.posicaoX+deltaX, this.posicaoY+deltaY, 0) && !identificarObstaculo(this.posicaoX+deltaX, this.posicaoY+deltaY, this.posicaoZ) && !identificarRoboNoCaminho(deltaX, deltaY, 0)){
+        if(this.ambiente.dentroDosLimites(this.posicaoX+deltaX, this.posicaoY+deltaY, 0) && !identificarObstaculo(this.posicaoX+deltaX, this.posicaoY+deltaY, this.posicaoZ)){
             this.posicaoX+=deltaX;
             this.posicaoY+=deltaY;
             return true;

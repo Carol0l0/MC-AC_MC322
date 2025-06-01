@@ -1,92 +1,53 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 // Classe que representa o ambiente onde os robôs se movimentam
 public class Ambiente{
     
-    private int X;
-    private int Y;
-    private int Z;
+    private int aX;
+    private int aY;
+    private int aZ;
     public ArrayList<Entidade> listaEntidades;
-    public int som[][][];                       //registra a intensidade do som no ambiente
-    private TipoEntidade[][][] mapa;
+    public TipoEntidade mapa[][][]; //mostra o que ocupa cada espaço
+    public int som[][][]; //registra a intensidade se som no ambiente
     int largura = mapa.length;                 //tamanho eixo x
     int altura = mapa[0].length;               //tamanho eixo y
     int profundidade = mapa[0][0].length;      //tamanho eixo z
+    
 
-
-    //Construtor para inicializar o ambiente com as dimensões específicas (+)
-    public Ambiente(int X, int Y, int Z){
-        this.X = X;
-        this.Y = Y;
-        this.Z = Z;
+    //Construtor para inicializar o ambiente com as dimensões específicas
+    public Ambiente(int aX, int aY, int aZ){
+        this.aX = aX;
+        this.aY = aY;
+        this.aZ = aZ;
         this.listaEntidades=new ArrayList<Entidade>();
-        this.som=new int[X][Y][Z];
+        this.mapa=new TipoEntidade[aX][aY][aZ];
+        this.som=new int[aX][aY][aZ];
     }
 
-    //inicializa o mapa de acordo com as coordenadas iniciais (+)
-    public void inicializarMapa() {
-        mapa = new TipoEntidade[X][Y][Z];
-        for (int x = 0; x < X; x++) {
-            for (int y = 0; y < Y; y++) {
-                for (int z = 0; z < Z; z++) {
-                    mapa[x][y][z] = TipoEntidade.VAZIO;
-                }
-            }
-        }
+    //inicializa o mapa
+    public void inicializarMapa(){
+        Arrays.fill(this.mapa, TipoEntidade.VAZIO);
     }
 
-    //tem o msm funcionamento do adicionarRobo mas para entidades em geral e considerei 3 exceptions, se n cair nelas ataliza lista e mapa (+)
-    public void adicionarEntidade(Entidade e) {
-        int x = e.getX();
-        int y = e.getY();
-        int z = e.getZ();
-    
-        try {
-            if (!dentroDosLimites(x, y, z)) {
-                throw new ForaDosLimitesException("Posição da entidade '" + e.getDescricao() + "' está fora dos limites.");
-            }
-    
-            if (BloqueioAoAdicionar(x, y, z)) {
-                throw new PosicaoOcupadaException("Espaço já ocupado por outra entidade em (" + x + ", " + y + ", " + z + ").");
-            }
-    
-            if (e.getTipo() == TipoEntidade.ROBO) {
-                for (Entidade existente : listaEntidades) {
-                    if (existente.getTipo() == TipoEntidade.ROBO && existente.getId().equals(e.getId())) {
-                        throw new NomeDuplicadoException("Este nome já esta sendo usando por outro rôbo!");
-                    }
-                }
-            }
-    
-            listaEntidades.add(e);
-            mapa[x][y][z] = e.getTipo();
-            System.out.println("\nEntidade '" + e.getDescricao() + "' adicionada com sucesso!");
-    
-        } catch (ForaDosLimitesException | PosicaoOcupadaException | NomeDuplicadoException ex ) {
-            System.out.println("Erro ao adicionar entidade: " + ex.getMessage());
-        }
-    }
-    
-    //Método para verificar se uma posição está dentro dos limites do ambiente (+)
+    //Método para verificar se uma posição está dentro dos limites do ambiente
     public boolean dentroDosLimites (int x, int y, int z){
-        return x>=0 && x<this.X && y>=0 && y<this.Y && z>=0 && z<this.Z;
+        return x>=0 && x<this.aX && y>=0 && y<this.aY && z>=0 && z<this.aZ;
     }
 
-    //Para conferir se a entidade pode ser adicionada ao ambiente em erelação as outras entidades (+) ARRUMAR AINDA!!!!!!!
+    //Para conferir se a entidade pode ser adicionada ao ambiente
     public boolean BloqueioAoAdicionar(int x, int y, int z) {
-        for (Entidade e : this.listaEntidades) {
-    
-            // Verifica se ocupa apenas um ponto (entidades "pontuais" como robôs)
-            if (e.getX() == e.getX1() && e.getY() == e.getY1()) {
-                if (e.getX() == x && e.getY() == y && e.getZ() == z) {
+
+        for(Entidade e : this.listaEntidades){
+            if(e.getTipoEntidade()==TipoEntidade.ROBO){//Se for Rôbo
+                if (e.getX1() == x && e.getY1() == y && e.getZ() == z) {
                     return true;
                 }
-            } 
-            // Verifica se ocupa uma área (entidades como obstáculos)
-            else {
-                int altura = e.getZ(); // Altura do obstáculo
+            }
+            else{//Se for objeto
+                int altura = e.getZ();
                 if (x >= e.getX1() && x <= e.getX2() &&
-                    y >= e.getY1() && y <= e.getY2() &&
+                    y >= e.getY1() && y <= e.getY2() && 
                     z <= altura) {
                     return true;
                 }
@@ -95,66 +56,86 @@ public class Ambiente{
     
         return false;
     }
-    
-    //(-)
-    public void adicionarRobo(Robo r) { 
-        int x = r.getX1();
-        int y = r.getY1();
-        int z = r.getZ();
-    
-        r.setAmbiente(this);
-    
-        // Verifica se o robô está dentro dos limites
-        if (!dentroDosLimites(x, y, z)) {
-            System.out.println("Erro: Posição do robô " + r.getNome() + " está fora dos limites do ambiente.");
-            return;
-        }
-    
-        // Verifica se existe um obstáculo ou robô já ocupando o espaço
-        if (this.BloqueioAoAdicionar(x, y, z)) {
-            System.out.println("Erro: Não pode adicionar robô, obstáculo ou outro robô detectado em (" + x + ", " + y + ", " + z + ")!");
-            return;
-        }
 
-        //verifica se existe outro robô com o mesmo nome
-        for(Entidade existente : this.listaEntidades){
-            if(existente.getTipoEntidade()==TipoEntidade.ROBO && r.getNome()==existente.getNome()){ 
-                return;
-            }
-        }
+    //tem o msm funcionamento do adicionarRobo mas para entidades em geral e considerei 3 exceptions, se n cair nelas ataliza lista e mapa (+)
+    public void adicionarEntidade(Entidade e) {
+        int x1 = e.getX1();
+        int x2=e.getX2();
+        int y1 = e.getY1();
+        int y2 = e.getY2();
+        int z = e.getZ();
     
-        // Adiciona o robô à lista
-        this.listaEntidades.add(r);
-        //ADICIONAR FEATURE DA MATRIZ++
-        System.out.println("\nRobô " + r.getNome() + " adicionado com sucesso!");
+        try {
+            if (!dentroDosLimites(x1, y1, z) || !dentroDosLimites(x2, y2, z)) {
+                throw new ForaDosLimitesException("Posição da entidade '" + e.getDescricao() + "' está fora dos limites.");
+            }
+    
+            if (e.podeAdicionar(this)) {
+                throw new PosicaoOcupadaException("Espaço já ocupado por outra entidade.");
+            }
+    
+            if (e.getTipoEntidade() == TipoEntidade.ROBO) {
+                for (Entidade existente : listaEntidades) {
+                    if (existente.getNome().equals(e.getNome())) {
+                        throw new NomeDuplicadoException("Este nome já esta sendo usando por outro rôbo!");
+                    }
+                }
+            }
+    
+            listaEntidades.add(e);
+            if(e.getTipoEntidade()==TipoEntidade.ROBO){
+                mapa[x1][y1][z]=TipoEntidade.ROBO;
+            }
+            else{ //Entidade é um obstáculo
+                for(int i=x1; i<x2; i++){
+                    for(int j=y1; j<=y2; j++){
+                        for(int k=0; k<z; k++){
+                            if(mapa[i][j][k]==TipoEntidade.VAZIO){
+                                mapa[i][j][k]=TipoEntidade.OBSTACULO;
+                            }
+                        }
+                    }
+                }
+            }
+            System.out.println("\nEntidade '" + e.getTipoEntidade() + "' adicionada com sucesso!");
+    
+        } catch (ForaDosLimitesException | PosicaoOcupadaException | NomeDuplicadoException ex ) {
+            System.out.println("Erro ao adicionar entidade: " + ex.getMessage());
+        }
     }
     
     //Remover entidade do mapa e da lista (+)
     public void removerEntidade(Entidade e) {
+        int x1 = e.getX1();
+        int x2=e.getX2();
+        int y1 = e.getY1();
+        int y2 = e.getY2();
+        int z = e.getZ();
+
         if (this.listaEntidades.remove(e)) {
 
-            int x = e.getX();
-            int y = e.getY();
-            int z = e.getZ();
-    
-            mapa[x][y][z] = TipoEntidade.VAZIO;
-    
-            System.out.println("\nEntidade " + e.getId()+ ", " + e.getDescricao() + " removida com sucesso!");
-        } else {
-            System.out.println("Entidade " + e.getId() + ", " + e.getDescricao() + " não encontrada no ambiente.");
-        }
-    }
+            if(e.getTipoEntidade()==TipoEntidade.ROBO){
+                mapa[x1][y1][z]=TipoEntidade.VAZIO;
+            }
+            else{ //Entidade é um obstáculo
+                for(int i=x1; i<x2; i++){
+                    for(int j=y1; j<=y2; j++){
+                        for(int k=0; k<z; k++){
+                            if(!TEMROBO){
+                                mapa[i][j][k]=TipoEntidade.VAZIO;
+                            }
+                            else{
 
-    //(-)
-    public boolean adicionarObstaculo(Obstaculo o) {
-        if (o.podeAdicionar(this)) {
-            this.listaEntidades.add(o);
-            //ADICIONAR FEATURE DA MATRIZ
-            System.out.println("Obstáculo do tipo " + o.getTipoObstaculo() + " adicionado.");
-            return true;
-        } else {
-            System.out.println("Erro: Obstáculo não pôde ser adicionado, pois há sobreposição!");
-            return false;
+                            }
+                        }
+                    }
+                }
+            }
+    
+            System.out.println("\nEntidade " + e.getNome()+ ", " + e.getTipoEntidade() + " removida com sucesso!");
+        } 
+        else {
+            System.out.println("Entidade " + e.getNome() + ", " + e.getTipoEntidade() + " não encontrada no ambiente.");
         }
     }
 
@@ -169,7 +150,7 @@ public class Ambiente{
     public Robo buscarRoboPorNome(String nome) {
         for (Entidade e : listaEntidades) {
             if (e instanceof Robo r) {
-                if (r.getId().equalsIgnoreCase(nome)) {
+                if (r.getNome().equalsIgnoreCase(nome)) {
                     return r;
                 }
             }
@@ -218,11 +199,15 @@ public class Ambiente{
     }
 
     //(CONSERTAR) acredito que criar um getColisão em entidades, e tentar calcular colisões de robos-robos e robos-obstaculos (+)
-    public void verificarColisoes() {
+    public void detectarColisoes(){ //Conta o número total de colisões até agora
+    
         int totalColisoes = 0;
     
-        for (Entidade entidade : listaEntidades) {
-            totalColisoes += entidade.getTotalColisoes();
+        for (Entidade e : listaEntidades) {
+            if(e.getTipoEntidade()==TipoEntidade.ROBO){
+                Robo robo = (Robo) e;
+                totalColisoes += robo.getTotalColisoes();
+            }
         }
     
         System.out.println("Já houveram " + totalColisoes/2 + " colisões no total!");
@@ -261,7 +246,7 @@ public class Ambiente{
                 ((Robo) e).usarSensores();
             } else {
                 throw new UsavelApenasPorRobosException(
-                    "A entidade '" + e.getId() + "' do tipo " + e.getTipo() + " não pode usar sensores."
+                    "A entidade '" + e.getNome() + "' do tipo " + e.getTipoEntidade() + " não pode usar sensores."
                 );
             }
         }
@@ -288,7 +273,7 @@ public class Ambiente{
             e.setY(novoY); //para esta parte funcionar eu adicionei os seters na entidade, mas como somente robos se movem, daria para modificar esse metodo pra tratar 
             e.setZ(novoZ); //somente robos, não sei qual ficaria melhor
     
-            mapa[novoX][novoY][novoZ] = e.getTipo();
+            mapa[novoX][novoY][novoZ] = e.getTipoEntidade();
     
             System.out.println("Entidade '" + e.getDescricao() + "' movida com sucesso!");
     

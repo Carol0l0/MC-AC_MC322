@@ -137,10 +137,9 @@ public class RoboTerrestreBlindado extends RoboTerrestre implements Atacante {
     }
 
     //herdado da interface atacar, pode remover uma entidade
-    @Override
     public void atacar(String alvo) {
 
-        System.out.println(this.getId() + " está atacando o alvo: " + alvo);
+        System.out.println(this.getNome() + " está atacando o alvo: " + alvo);
         
     }
 }
