@@ -8,13 +8,16 @@ public class Main {
 
         //Criação do ambiente
         Ambiente ambiente = new Ambiente(50, 50, 50);
-        ambiente.inicializarMapa();
 
-        //Instanciamento dos robôs
+        //Instanciamento e ligando robôs
         Robo robo1 = new RoboTerrestreBlindado("r1", 1, 1, 0, 20);
+        robo1.ligar();
         Robo robo2 = new RoboAereoXY("r2", 10, 10, 10, 50, null);
+        robo2.ligar();
         Robo robo3 = new RoboTerrestreDeCarga("r3", 30, 30, 0, 30, 0, null);
+        robo3.ligar();
         Robo robo4 = new RoboAereoYX("r4", 20, 20, 20, 50);
+        robo4.ligar();
 
         //Adição dos robôs no ambiente
         ambiente.adicionarEntidade(robo1);
@@ -56,7 +59,12 @@ public class Main {
 
             switch (opcao) {
                 case 1:
-                
+                    System.out.println("===== ESTADO DOS ROBÔS =====");
+                    System.out.println("Robô 1 (" + robo1.getClass().getSimpleName() + "): " + robo1.getEstado());
+                    System.out.println("Robô 2 (" + robo2.getClass().getSimpleName() + "): " + robo2.getEstado());
+                    System.out.println("Robô 3 (" + robo3.getClass().getSimpleName() + "): " + robo3.getEstado());
+                    System.out.println("Robô 4 (" + robo4.getClass().getSimpleName() + "): " + robo4.getEstado());
+                    System.out.println("============================");
                     break;
                 case 2:
 

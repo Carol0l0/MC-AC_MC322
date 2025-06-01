@@ -70,6 +70,10 @@ public abstract class Robo implements Entidade, Comunicavel, Sensoreavel{
         return totalColisoes;
     }
     
+    public EstadoRobo getEstado(){
+        return estado;
+    }
+    
     public void setAmbiente(Ambiente a){
         this.ambiente=a;
     }
