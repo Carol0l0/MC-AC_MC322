@@ -1,18 +1,18 @@
-public class RoboAereoXY extends RoboAereo{
+public class RoboAereoXY extends RoboAereo implements Colorido{
 
-    public String cor;//atributo cor
+    private TipoColorido cor; //atributo cor
 
     //método construtor robô aéreo XY
-    public RoboAereoXY(String nome, int posicaoX, int posicaoY, int posicaoZ, int altitudeMax, String cor){
+    public RoboAereoXY(String nome, int posicaoX, int posicaoY, int posicaoZ, int altitudeMax, TipoColorido cor){
         super(nome, posicaoX, posicaoY, posicaoZ, altitudeMax);
         this.cor=cor;
     }
 
-    public void setCor(String cor){
+    public void setCor(TipoColorido cor){ //define a cor
         this.cor=cor;
     }
 
-    public String getCor(){
+    public TipoColorido getCor(){ //retorna a cor
         return this.cor;
     }
 

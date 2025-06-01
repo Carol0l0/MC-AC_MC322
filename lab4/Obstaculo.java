@@ -90,6 +90,22 @@ public class Obstaculo implements Entidade{
         return altura;
     }
 
+    public void setX1(int x1){
+        this.posicaoX1=x1;
+    }
+
+    public void setX2(int x2){
+        this.posicaoX2=x2;
+    }
+
+    public void setY1(int y1){
+        this.posicaoY1=y1;
+    }
+
+    public void setY2(int y2){
+        this.posicaoY2=y2;
+    }
+    
     public void setTipo_o(TipoObstaculo tipo) {
         this.tipo_o = tipo;
     }

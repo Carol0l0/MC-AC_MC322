@@ -1,14 +1,24 @@
 //Classe que representa um robô terrestre de carga, capaz de transportar peso
-public class RoboTerrestreDeCarga extends RoboTerrestre {
+public class RoboTerrestreDeCarga extends RoboTerrestre implements Colorido {
 
     private int cargaMaxima;    //Capacidade máxima de carga que o robô pode transportar
     private int cargaAtual;     //Peso atual que o robô está carregando
+    private TipoColorido cor;   //atributo cor
+
+    public void setCor(TipoColorido cor){ //define a cor
+        this.cor=cor;
+    }
+
+    public TipoColorido getCor(){ //retorna a cor
+        return this.cor;
+    }
     
     //Construtor da classe RoboTerrestreDeCarga
-    public RoboTerrestreDeCarga(String nome, int posicaoX, int posicaoY, int posicaoZ, int v_max, int cargaMaxima) {
+    public RoboTerrestreDeCarga(String nome, int posicaoX, int posicaoY, int posicaoZ, int v_max, int cargaMaxima, TipoColorido cor) {
         super(nome, posicaoX, posicaoY, posicaoZ, v_max);
         this.cargaMaxima = cargaMaxima;
         this.cargaAtual = 0;
+        this.cor = cor;
     }
 
     //Método para carregar peso no robô.

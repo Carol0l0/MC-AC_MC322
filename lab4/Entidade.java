@@ -5,11 +5,10 @@ public interface Entidade { // utilizada em Rôbo e Obstáculo
     int getY1();
     int getY2();
     int getZ();
-    int setX1();
-    int setX2();
-    int setY1();
-    int setY2();
-    int setZ();
+    void setX1(int x1);
+    void setX2(int x2);
+    void setY1(int y1);
+    void setY2(int y2);
 
     String getNome();
 

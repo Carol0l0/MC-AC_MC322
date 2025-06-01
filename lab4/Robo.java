@@ -15,7 +15,6 @@ public class Robo implements Entidade, Comunicavel, Sensoreavel{
     protected EstadoRobo estado;
     protected TipoEntidade tipoEntidade = TipoEntidade.ROBO;
     
-    @Override
     public String getNome() {
         return this.nome;
     }
@@ -38,6 +37,22 @@ public class Robo implements Entidade, Comunicavel, Sensoreavel{
     
     public int getZ() {
         return this.posicaoZ;
+    }
+
+    public void setX1(int x){
+        this.posicaoX=x;
+    }
+
+    public void setX2(int x){
+        this.posicaoX=x;
+    }
+
+    public void setY1(int y){
+        this.posicaoY=y;
+    }
+
+    public void setY2(int y){
+        this.posicaoY=y;
     }
     
     public TipoEntidade getTipoEntidade(){
