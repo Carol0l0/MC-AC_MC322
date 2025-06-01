@@ -23,8 +23,15 @@ public class Ambiente{
 
     //inicializa o mapa
     public void inicializarMapa(){
-        Arrays.fill(this.mapa, TipoEntidade.VAZIO);
+    mapa = new TipoEntidade[aX][aY][aZ];
+        for (int x = 0; x < aX; x++) {
+            for (int y = 0; y < aY; y++) {
+                for (int z = 0; z < aZ; z++) {
+                mapa[x][y][z] = TipoEntidade.VAZIO;
+            }
+        }
     }
+}
 
     //Método para verificar se uma posição está dentro dos limites do ambiente
     public boolean dentroDosLimites (int x, int y, int z){
@@ -66,10 +73,6 @@ public class Ambiente{
                 throw new ForaDosLimitesException("Posição da entidade '" + e.getDescricao() + "' está fora dos limites.");
             }
     
-            if (e.podeAdicionar(this)) {
-                throw new PosicaoOcupadaException("Espaço já ocupado por outra entidade.");
-            }
-    
             if (e.getTipoEntidade() == TipoEntidade.ROBO) {
                 for (Entidade existente : listaEntidades) {
                     if (existente.getId().equals(e.getId())) {
@@ -93,7 +96,7 @@ public class Ambiente{
             }
             System.out.println("\nEntidade '" + e.getTipoEntidade() + "' adicionada com sucesso!");
     
-        } catch (ForaDosLimitesException | PosicaoOcupadaException | NomeDuplicadoException ex ) {
+        } catch (ForaDosLimitesException | NomeDuplicadoException ex ) {
             System.out.println("Erro ao adicionar entidade: " + ex.getMessage());
         }
     }
