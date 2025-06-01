@@ -10,7 +10,7 @@ public interface Entidade { // utilizada em Rôbo e Obstáculo
     void setY1(int y1);
     void setY2(int y2);
 
-    String getNome();
+    String getId();
 
     Boolean podeAdicionar(Ambiente a);
 

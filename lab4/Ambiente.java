@@ -72,7 +72,7 @@ public class Ambiente{
     
             if (e.getTipoEntidade() == TipoEntidade.ROBO) {
                 for (Entidade existente : listaEntidades) {
-                    if (existente.getNome().equals(e.getNome())) {
+                    if (existente.getId().equals(e.getId())) {
                         throw new NomeDuplicadoException("Este nome já esta sendo usando por outro rôbo!");
                     }
                 }
@@ -126,10 +126,10 @@ public class Ambiente{
                 }
             }
     
-            System.out.println("\nEntidade " + e.getNome()+ ", " + e.getTipoEntidade() + " removida com sucesso!");
+            System.out.println("\nEntidade " + e.getId()+ ", " + e.getTipoEntidade() + " removida com sucesso!");
         } 
         else {
-            System.out.println("Entidade " + e.getNome() + ", " + e.getTipoEntidade() + " não encontrada no ambiente.");
+            System.out.println("Entidade " + e.getId() + ", " + e.getTipoEntidade() + " não encontrada no ambiente.");
         }
     }
 
@@ -160,7 +160,7 @@ public class Ambiente{
     public Robo buscarRoboPorNome(String nome) {
         for (Entidade e : listaEntidades) {
             if (e instanceof Robo r) {
-                if (r.getNome().equalsIgnoreCase(nome)) {
+                if (r.getId().equalsIgnoreCase(nome)) {
                     return r;
                 }
             }
@@ -229,10 +229,10 @@ public class Ambiente{
                 }
             }
         
-            System.out.println("\nEntidade " + c.getNome()+ ", " + c.getTipoEntidade() + " removida com sucesso!");
+            System.out.println("\nEntidade " + c.getId()+ ", " + c.getTipoEntidade() + " removida com sucesso!");
         } 
         else {
-            System.out.println("Entidade " + c.getNome() + ", " + c.getTipoEntidade() + " não encontrada no ambiente.");
+            System.out.println("Entidade " + c.getId() + ", " + c.getTipoEntidade() + " não encontrada no ambiente.");
         }
         
     }
@@ -290,7 +290,7 @@ public class Ambiente{
                 ((Robo) e).usarSensores();
             } else {
                 throw new UsavelApenasPorRobosException(
-                    "A entidade '" + e.getNome() + "' do tipo " + e.getTipoEntidade() + " não pode usar sensores."
+                    "A entidade '" + e.getId() + "' do tipo " + e.getTipoEntidade() + " não pode usar sensores."
                 );
             }
         }
@@ -369,7 +369,7 @@ public class Ambiente{
             e.setY1(novoY1);
             e.setY2(novoY2);  
     
-            System.out.println("Entidade '" + e.getNome() + "' movida com sucesso!");
+            System.out.println("Entidade '" + e.getId() + "' movida com sucesso!");
     
         } catch (ForaDosLimitesException | PosicaoOcupadaException ex) {
             System.out.println("Erro ao mover entidade: " + ex.getMessage());

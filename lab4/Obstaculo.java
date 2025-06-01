@@ -33,14 +33,14 @@ public class Obstaculo implements Entidade{
                 int z=e.getZ();
                 if (x>=this.posicaoX1 && x<=this.posicaoX2 && y>=this.posicaoY1 
                 && y<=this.posicaoY2 && z<=this.tipo_o.getAlturaPadrao()) {
-                    System.out.println("Obstáculo detectado! Robô: " + e.getNome());
+                    System.out.println("Obstáculo detectado! Robô: " + e.getId());
                     return false;
                 }
             }
             else{ //conferindo se os obstáculos impedem a adição
                 if(this.posicaoX2 >= e.getX1() && this.posicaoX1 <= e.getX2() &&
                 this.posicaoY2 >= e.getY1() && this.posicaoY1 <= e.getY2()) {
-                    System.out.println("Obstáculo detectado! " + e.getNome());
+                    System.out.println("Obstáculo detectado! " + e.getId());
                     return false;
                 }
             }
@@ -65,7 +65,7 @@ public class Obstaculo implements Entidade{
         return this.tipo_e.representacao;
     }
 
-    public String getNome(){
+    public String getId(){
         return tipo_o.getNome();
     }
 

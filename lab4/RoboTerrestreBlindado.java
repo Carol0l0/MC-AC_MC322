@@ -14,7 +14,7 @@ public class RoboTerrestreBlindado extends RoboTerrestre implements Atacante {
     //Método para mover o robô em uma determinada direção (X ou Y)
     public boolean mover(int delta, String direcao) {
         if (!funcionando) {
-            System.out.println(this.getNome() + " está destruído! Ele não pode mais se mover.");
+            System.out.println(this.getId() + " está destruído! Ele não pode mais se mover.");
             return false; // Se o robô foi destruído, ele não pode se mover
         }
 
@@ -33,7 +33,7 @@ public class RoboTerrestreBlindado extends RoboTerrestre implements Atacante {
                 return false;
             }
         } else {
-            System.out.println("Velocidade máxima excedida! " + getNome() + " não conseguiu se mover!");
+            System.out.println("Velocidade máxima excedida! " + getId() + " não conseguiu se mover!");
         }
 
         return conseguiuMover;
@@ -45,7 +45,7 @@ public class RoboTerrestreBlindado extends RoboTerrestre implements Atacante {
         int novoY = posicaoY + deltaY;
 
         if (!this.ambiente.dentroDosLimites(novoX, novoY, posicaoZ)) {
-            System.out.println("Movimento inválido! " + getNome() + " tentou sair dos limites do ambiente.");
+            System.out.println("Movimento inválido! " + getId() + " tentou sair dos limites do ambiente.");
             return false;
         }
 
@@ -62,7 +62,7 @@ public class RoboTerrestreBlindado extends RoboTerrestre implements Atacante {
 
         if(identificarObstaculo(novoX, novoY, 0)) {
 
-            System.out.println("Movimento inválido! " + getNome() + " obstáculo detectado no destino");
+            System.out.println("Movimento inválido! " + getId() + " obstáculo detectado no destino");
             return false;
         }
 
@@ -106,20 +106,20 @@ public class RoboTerrestreBlindado extends RoboTerrestre implements Atacante {
     //Método para aplicar dano ao robô quando ele colide com obstáculos
     public void sofreDano(int dano) {
         resistencia -= dano; //Reduz a resistência do robô
-        System.out.println(getNome() + " sofreu " + dano + " dano(s)! Resistência atual: " + resistencia);
+        System.out.println(getId() + " sofreu " + dano + " dano(s)! Resistência atual: " + resistencia);
 
         //Se a resistência chegar a zero ou menos, o robô é destruído
         if (resistencia <= 0) {
             resistencia = 0;
             funcionando = false;
-            System.out.println(getNome() + " foi destruído após múltiplas colisões!");
+            System.out.println(getId() + " foi destruído após múltiplas colisões!");
         }
     }
 
     //Método para recuperar dano (reparar o robô)
     public void recuperaDano(int dano) {
         resistencia += dano;
-        System.out.println(getNome() + " consertou " + dano + " dano(s)! Resistência atual: " + resistencia);
+        System.out.println(getId() + " consertou " + dano + " dano(s)! Resistência atual: " + resistencia);
 
         if (resistencia > 0) {
             funcionando = true;
@@ -139,7 +139,7 @@ public class RoboTerrestreBlindado extends RoboTerrestre implements Atacante {
     //herdado da interface atacar, pode remover uma entidade
     public void atacar(String alvo) {
 
-        System.out.println(this.getNome() + " está atacando o alvo: " + alvo);
+        System.out.println(this.getId() + " está atacando o alvo: " + alvo);
         
     }
 }

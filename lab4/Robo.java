@@ -4,19 +4,18 @@ import java.util.ArrayList;
 
 public class Robo implements Entidade, Comunicavel, Sensoreavel{
     
-    private String nome;
+    private String id;
     protected String direcao;
     protected Ambiente ambiente;
     protected int posicaoX;
     protected int posicaoY;
     protected int posicaoZ;
     private ArrayList<Sensor> sensores;
-
     protected EstadoRobo estado;
     protected TipoEntidade tipoEntidade = TipoEntidade.ROBO;
     
-    public String getNome() {
-        return this.nome;
+    public String getId() {
+        return this.id;
     }
 
     public int getX1() {
@@ -77,16 +76,16 @@ public class Robo implements Entidade, Comunicavel, Sensoreavel{
 
     public void ligar() {
         this.estado = EstadoRobo.LIGADO;
-        System.out.println(nome + " foi ligado.");
+        System.out.println(id + " foi ligado.");
     }
 
     public void desligar() {
         this.estado = EstadoRobo.DESLIGADO;
-        System.out.println(nome + " foi desligado.");
+        System.out.println(id + " foi desligado.");
     }
 
-    public Robo(String nome, int posicaoX, int posicaoY, int posicaoZ) {
-        this.nome = nome;
+    public Robo(String id, int posicaoX, int posicaoY, int posicaoZ) {
+        this.id = id;
         this.direcao = "Norte";
         this.posicaoX = posicaoX;
         this.posicaoY = posicaoY;
@@ -128,7 +127,7 @@ public class Robo implements Entidade, Comunicavel, Sensoreavel{
     
                     totalColisoes++; //colisao com rôbo
         
-                    System.out.println("Obstáculo detectado! Robô: " + e.getNome());
+                    System.out.println("Obstáculo detectado! Robô: " + e.getId());
                     return true;
                 }    
             }
@@ -173,7 +172,7 @@ public class Robo implements Entidade, Comunicavel, Sensoreavel{
                     Robo robo = (Robo) e;
                     if (this != robo && robo.posicaoX == x && robo.posicaoY == y && robo.posicaoZ == z) {
                         totalColisoes++; //Colisao com rôbo
-                        System.out.println("Obstáculo detectado! Robô: " + robo.getNome());
+                        System.out.println("Obstáculo detectado! Robô: " + robo.getId());
                         return true;
                     }
                 }
@@ -191,7 +190,7 @@ public class Robo implements Entidade, Comunicavel, Sensoreavel{
                         else {
                             Obstaculo o = (Obstaculo) e;
                             if (!o.getTipoObstaculo().podePassar(this)) {//Não pode passar
-                                System.out.println("Obstáculo detectado! Obstáculo: " + o.getNome() + " impede a passagem.");
+                                System.out.println("Obstáculo detectado! Obstáculo: " + o.getId() + " impede a passagem.");
                                 totalColisoes++; //Colisão com obstáculo
                                 return true;
                             }
@@ -213,14 +212,14 @@ public class Robo implements Entidade, Comunicavel, Sensoreavel{
                 int y=e.getY1();
                 int z=e.getZ();
                 if (this.posicaoX==x && this.posicaoY==y && this.posicaoZ==z) {
-                    System.out.println("Obstáculo detectado! Robô: " + e.getNome());
+                    System.out.println("Obstáculo detectado! Robô: " + e.getId());
                     return false;
                 }
             }
             else{ //conferindo se os obstáculos impedem a adição
                 if(this.posicaoX >= e.getX1() && this.posicaoX <= e.getX2() &&
                 this.posicaoY >= e.getY1() && this.posicaoY <= e.getY2()) {
-                    System.out.println("Obstáculo detectado! " + e.getNome());
+                    System.out.println("Obstáculo detectado! " + e.getId());
                     return false;
                 }
             }
@@ -232,27 +231,27 @@ public class Robo implements Entidade, Comunicavel, Sensoreavel{
     
     //Método para exibir a posição atual do robô
     public void exibirPosicao(){
-        System.out.println(this.nome +" esta na posicao ("+this.posicaoX+", "+this.posicaoY+", "+this.posicaoZ+"). Direção "+this.direcao);
+        System.out.println(this.id +" esta na posicao ("+this.posicaoX+", "+this.posicaoY+", "+this.posicaoZ+"). Direção "+this.direcao);
     }
 
     //proximos 3 metodos foram herdados da interface comunicavel e usam a classe centralComunicacao, preferi implementar as interfaces no robo geral pq acredito que todos robos irão usar
     public void enviarMensagem(Comunicavel destinatario, String mensagem) throws RoboDesligadoException {
         if (this.estado == EstadoRobo.DESLIGADO) {
-            throw new RoboDesligadoException("Robô " + this.nome + " está desligado e não pode enviar mensagens.");
+            throw new RoboDesligadoException("Robô " + this.id + " está desligado e não pode enviar mensagens.");
         }
         CentralComunicacao.enviarMensagem(this, destinatario, mensagem);
     }
     
     public void receberMensagem(String mensagem) throws RoboDesligadoException {
         if (this.estado == EstadoRobo.DESLIGADO) {
-            throw new RoboDesligadoException("Robô " + this.nome + " está desligado e não pode receber mensagens.");
+            throw new RoboDesligadoException("Robô " + this.id + " está desligado e não pode receber mensagens.");
         }
-        System.out.println("[" + this.nome + "] recebeu mensagem: " + mensagem);
+        System.out.println("[" + this.id + "] recebeu mensagem: " + mensagem);
     }
 
     public void acionarSensores() throws RoboDesligadoException {
         if (this.estado == EstadoRobo.DESLIGADO) {
-            throw new RoboDesligadoException("Robô " + this.nome + " está desligado e não pode usar sensores.");
+            throw new RoboDesligadoException("Robô " + this.id + " está desligado e não pode usar sensores.");
         }
         usarSensores();
     }

@@ -59,12 +59,12 @@ public class SensorProximidade extends Sensor {
         if (this.numDeObstaculos==0) {
             System.out.println("Nenhum obstáculo detectado no raio.");
         } else {
-            System.out.println(this.numDeObstaculos+" obstáculos detectados próximos ao robô " + this.robo.getNome() + ":");
+            System.out.println(this.numDeObstaculos+" obstáculos detectados próximos ao robô " + this.robo.getId() + ":");
             for (Obstaculo o : this.obstaculosNoRaio) {
                 System.out.println(" - " + o.getTipoObstaculo() + " na área (" + o.getX1() + "," + o.getY1() + ") até (" + o.getX2() + "," + o.getY2() + "), altura: " + o.getZ());
             }
             for (Robo r: this.robosNoRaio){
-                System.out.println(" - "+r.getNome()+" na posição ("+r.getX1()+", "+r.getY1()+", "+r.getZ()+")");
+                System.out.println(" - "+r.getId()+" na posição ("+r.getX1()+", "+r.getY1()+", "+r.getZ()+")");
             }
         }
     }

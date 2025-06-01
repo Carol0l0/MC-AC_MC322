@@ -4,5 +4,4 @@ public interface Comunicavel {
 
     void receberMensagem(String mensagem) throws RoboDesligadoException;
 
-    
 }

@@ -25,10 +25,10 @@ public class RoboTerrestreDeCarga extends RoboTerrestre implements Colorido {
     public boolean carregarPeso(int peso) {
         if (cargaAtual + peso <= cargaMaxima) {
             cargaAtual += peso;
-            System.out.println(getNome() + " carregou " + peso + " kg. Carga atual: " + cargaAtual + " kg.");
+            System.out.println(getId() + " carregou " + peso + " kg. Carga atual: " + cargaAtual + " kg.");
             return true;
         } else {
-            System.out.println(getNome() + " não pode carregar tanto peso! " + peso + " kg. Esta carga excede o limite!");
+            System.out.println(getId() + " não pode carregar tanto peso! " + peso + " kg. Esta carga excede o limite!");
             return false;
         }
     }

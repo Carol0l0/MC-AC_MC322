@@ -11,12 +11,12 @@ public class RoboAereoYX extends RoboAereo{
     //Método para recarregar completamente a bateria do robô.
     public void carregarBateria() {
         this.nivelBateria = 50;     //Define o nível da bateria de volta para 50%
-        System.out.println(getNome() + " foi recarregado. Nível de bateria: " + nivelBateria + "%.");
+        System.out.println(getId() + " foi recarregado. Nível de bateria: " + nivelBateria + "%.");
     }
 
     //Método que retorna o nível atual da bateria do robô.
     public int getNivelBateria() {
-        System.out.println("Bateria de " + getNome() + " igual a: " + nivelBateria + "%");
+        System.out.println("Bateria de " + getId() + " igual a: " + nivelBateria + "%");
         return nivelBateria;
     }
 
@@ -28,7 +28,7 @@ public class RoboAereoYX extends RoboAereo{
                 nivelBateria -= 10;
             } else {
                 nivelBateria = 0;
-                System.out.println(getNome() + " está sem bateria! Precisa recarregar!");
+                System.out.println(getId() + " está sem bateria! Precisa recarregar!");
                 return;
             }
         }
@@ -47,7 +47,7 @@ public class RoboAereoYX extends RoboAereo{
                 nivelBateria -= 10;
             } else {
                 nivelBateria = 0;
-                System.out.println(getNome() + " está sem bateria! Precisa recarregar!");
+                System.out.println(getId() + " está sem bateria! Precisa recarregar!");
                 return;
             }
         }
@@ -66,7 +66,7 @@ public class RoboAereoYX extends RoboAereo{
                 nivelBateria -= 10;
             } else {
                 nivelBateria = 0;
-                System.out.println(getNome() + " está sem bateria! Precisa recarregar!");
+                System.out.println(getId() + " está sem bateria! Precisa recarregar!");
                 return false;
             }
 
