@@ -270,6 +270,9 @@ public abstract class Robo implements Entidade, Comunicavel, Sensoreavel{
         this.posicaoX = x;
         this.posicaoY = y;
         this.posicaoZ = z;
+
+        //adicionar atualização mapa e lista de entidade
+
         System.out.println("Robô " + this.id + " se moveu com sucesso para (" + x + ", " + y + ", " + z + ").");
     }
     
