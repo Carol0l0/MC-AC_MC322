@@ -79,16 +79,14 @@ public class Ambiente{
             }
     
             listaEntidades.add(e);
-            if(e.getTipoEntidade()==TipoEntidade.ROBO){
+            if(e.getTipoEntidade()==TipoEntidade.ROBO){ //entidade é um robô
                 mapa[x1][y1][z]=TipoEntidade.ROBO;
             }
             else{ //Entidade é um obstáculo
                 for(int i=x1; i<x2; i++){
                     for(int j=y1; j<=y2; j++){
                         for(int k=0; k<z; k++){
-                            if(mapa[i][j][k]==TipoEntidade.VAZIO){
-                                mapa[i][j][k]=TipoEntidade.OBSTACULO;
-                            }
+                            mapa[i][j][k]=e.getTipoEntidade(); //Pode ser um sábio mágico ou obstáculo comum
                         }
                     }
                 }
@@ -111,18 +109,18 @@ public class Ambiente{
         if (this.listaEntidades.remove(e)) {
 
             if(e.getTipoEntidade()==TipoEntidade.ROBO){
-                mapa[x1][y1][z]=TipoEntidade.VAZIO;
+                if(!temObstaculo(x1, y1, z)){ //se não existe obstáculo 'embaixo'
+                    mapa[x1][y1][z]=TipoEntidade.VAZIO;
+                }
+                else{ //conferindo qual é o tipo do obstáculo 'embaixo' do rôbo
+                    mapa[x1][y1][z]=qualObstaculo(x1, y1, z).getTipoEntidade();
+                }
             }
             else{ //Entidade é um obstáculo
                 for(int i=x1; i<x2; i++){
                     for(int j=y1; j<=y2; j++){
                         for(int k=0; k<z; k++){
-                            if(!temRobo(i, j, k)){//Se não tem rôbo embaixo do sábio mágico
-                                mapa[i][j][k]=TipoEntidade.VAZIO;
-                            }
-                            else{
-                                mapa[i][j][k]=TipoEntidade.ROBO;
-                            }
+                            mapa[i][j][k]=TipoEntidade.VAZIO;
                         }
                     }
                 }
@@ -136,15 +134,26 @@ public class Ambiente{
     }
 
     //Utilizado para remover obstáculos porque pode ocorrer uma sobreposição entre o sábio mágico e um rôbo
-    Boolean temRobo(int x, int y, int z){
+    Boolean temObstaculo(int x, int y, int z){
         for(Entidade e : listaEntidades){
-            if(e.getTipoEntidade()==TipoEntidade.ROBO){
-                if(e.getX1()==x && e.getY1()==y && e.getZ()==z){
+            if(e.getTipoEntidade()!=TipoEntidade.ROBO){
+                if(e.getX1()<=x && x<=e.getX2() && e.getY1()<=y && y<=e.getY2() && z<=e.getZ()){
                     return true;
                 }
             }
         }
         return false;
+    }
+
+    Entidade qualObstaculo(int x, int y, int z){
+        for(Entidade e : listaEntidades){
+            if(e.getTipoEntidade()!=TipoEntidade.ROBO){
+                if(e.getX1()<=x && x<=e.getX2() && e.getY1()<=y && y<=e.getY2() && z<=e.getZ()){
+                    return e;
+                }
+            }
+        }
+        return null;
     }
 
     //Encontra Rôbo pela lista (+)
@@ -290,11 +299,11 @@ public class Ambiente{
     // Move entidade(+)
     public void moverEntidade(Entidade e, int novoX1, int novoY1){
         int largura = e.getX2() - e.getX1(); // diferença entre X2 e X1
-        int altura = e.getY2() - e.getY1();
+        int profundidade = e.getY2() - e.getY1();
         int z = e.getZ();
 
         int novoX2 = novoX1 + largura;
-        int novoY2 = novoY1 + altura;
+        int novoY2 = novoY1 + profundidade;
     
         try {
             // Verificar se todos os pontos da nova posição estão dentro dos limites
@@ -327,21 +336,40 @@ public class Ambiente{
                         novoY2 >= outra.getY1() && novoY1 <= outra.getY2();
 
                     if (colisao) {
-                        throw new PosicaoOcupadaException("Posição (" + novoX + ", " + novoY + ", " + novoZ + ") já está ocupada.");
+                        throw new PosicaoOcupadaException("Posição ("+novoX1+" - "+novoX2+", "+novoY1+" - "+novoY2+", "+z+") já está ocupada.");
                     }
                 }
             }
     
+            //ajustando o mapa
+            int x1=e.getX1(), y1=e.getY1();
+            if(e.getTipoEntidade()==TipoEntidade.ROBO){
+                if(!temObstaculo(x1, y1, z)){ //se não existe obstáculo 'embaixo'
+                    mapa[x1][y1][z]=TipoEntidade.VAZIO;
+                }
+                else{ //conferindo qual é o tipo do obstáculo 'embaixo' do rôbo
+                    mapa[x1][y1][z]=qualObstaculo(x1, y1, z).getTipoEntidade();
+                }
+                mapa[novoX1][novoY1][z]=TipoEntidade.ROBO; //adicionando robô na posição nova
+            }
+            else{ //Entidade é um obstáculo
+                for(int i=0; i<largura; i++){
+                    for(int j=0; j<=profundidade; j++){
+                        for(int k=0; k<z; k++){
+                            mapa[x1+i][y1+j][k]=TipoEntidade.VAZIO; //removendo obstáculo da posição antiga
+                            mapa[novoX1+i][novoY1+j][k]=e.getTipoEntidade(); //adicionando obstáculo na posição nova
+                        }
+                    }
+                }
+            }
     
-            mapa[xAtual][yAtual][zAtual] = TipoEntidade.VAZIO;
+            //atualizando a posição da entidade
+            e.setX1(novoX1);
+            e.setX2(novoX2);
+            e.setY1(novoY1);
+            e.setY2(novoY2);  
     
-            e.setX(novoX);
-            e.setY(novoY); //para esta parte funcionar eu adicionei os seters na entidade, mas como somente robos se movem, daria para modificar esse metodo pra tratar 
-            e.setZ(novoZ); //somente robos, não sei qual ficaria melhor
-    
-            mapa[novoX][novoY][novoZ] = e.getTipoEntidade();
-    
-            System.out.println("Entidade '" + e.getDescricao() + "' movida com sucesso!");
+            System.out.println("Entidade '" + e.getNome() + "' movida com sucesso!");
     
         } catch (ForaDosLimitesException | PosicaoOcupadaException ex) {
             System.out.println("Erro ao mover entidade: " + ex.getMessage());
