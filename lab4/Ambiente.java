@@ -101,7 +101,7 @@ public class Ambiente{
     //Remover entidade do mapa e da lista (+)
     public void removerEntidade(Entidade e) {
         int x1 = e.getX1();
-        int x2=e.getX2();
+        int x2 = e.getX2();
         int y1 = e.getY1();
         int y2 = e.getY2();
         int z = e.getZ();
@@ -281,7 +281,6 @@ public class Ambiente{
             System.out.println();
         }
     }
-    
     
     // Usa método da classe robo para chamar sensor (+)
     public void executarSensores() {

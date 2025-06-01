@@ -2,7 +2,7 @@
 
 import java.util.ArrayList;
 
-public class Robo implements Entidade, Comunicavel, Sensoreavel{
+public abstract class Robo implements Entidade, Comunicavel, Sensoreavel{
     
     private String id;
     protected String direcao;
@@ -163,7 +163,6 @@ public class Robo implements Entidade, Comunicavel, Sensoreavel{
         return false;
     }
 
-
     public Boolean identificarObstaculoSemSabio(int x, int y, int z){ //Método criado para não ocorrerem erros na hora de rodar a função contarObstaculos()
 
         for(Entidade e : ambiente.listaEntidades){
@@ -228,7 +227,6 @@ public class Robo implements Entidade, Comunicavel, Sensoreavel{
        return true;
     }
     
-    
     //Método para exibir a posição atual do robô
     public void exibirPosicao(){
         System.out.println(this.id +" esta na posicao ("+this.posicaoX+", "+this.posicaoY+", "+this.posicaoZ+"). Direção "+this.direcao);
@@ -255,4 +253,25 @@ public class Robo implements Entidade, Comunicavel, Sensoreavel{
         }
         usarSensores();
     }
+
+    public void moverPara(int x, int y, int z) throws RoboDesligadoException, ForaDosLimitesException, ObstaculoException {
+        if (this.estado == EstadoRobo.DESLIGADO) {
+            throw new RoboDesligadoException("Robô " + this.id + " está desligado e não pode se mover.");
+        }
+    
+        if (!ambiente.dentroDosLimites(x, y, z)) {
+            throw new ForaDosLimitesException("Destino (" + x + ", " + y + ", " + z + ") está fora dos limites do ambiente.");
+        }
+    
+        if (identificarObstaculo(x, y, z)) {
+            throw new ObstaculoException("Existe um obstáculo bloqueando o destino (" + x + ", " + y + ", " + z + ").");
+        }
+    
+        this.posicaoX = x;
+        this.posicaoY = y;
+        this.posicaoZ = z;
+        System.out.println("Robô " + this.id + " se moveu com sucesso para (" + x + ", " + y + ", " + z + ").");
+    }
+    
+    public abstract void executarTarefa();
 }

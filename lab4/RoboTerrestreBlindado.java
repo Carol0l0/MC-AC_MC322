@@ -73,7 +73,6 @@ public class RoboTerrestreBlindado extends RoboTerrestre implements Atacante {
         }
 }
 
-
     //Método para contar quantos obstáculos estão no caminho e calcular o dano causado ao robô
     private int contarObstaculos(int inicioX, int inicioY, int destinoX, int destinoY) {
         int totalDano = 0;
@@ -138,8 +137,49 @@ public class RoboTerrestreBlindado extends RoboTerrestre implements Atacante {
 
     //herdado da interface atacar, pode remover uma entidade
     public void atacar(String alvo) {
-
-        System.out.println(this.getId() + " está atacando o alvo: " + alvo);
-        
+        if (!funcionando) { //adicionar exception que joga pra opção de recarregar ele
+            System.out.println(this.getId() + " está destruído e não pode atacar.");
+            return;
+        }
+    
+        for (Entidade e : ambiente.listaEntidades) { 
+            if (e.getId().equals(alvo)) {
+                ambiente.removerEntidade(e);
+                System.out.println(this.getId() + " atacou e destruiu o alvo: " + alvo);
+                return;
+            }
+        }
+        //da pra colocar exception aqui tbm
+        System.out.println("Alvo " + alvo + " não encontrado no ambiente.");
     }
+    
+    @Override
+    public void executarTarefa() {
+        if (!funcionando) {
+            System.out.println(getId() + " está destruído e não pode executar tarefas.");
+            return;
+        }
+    
+        for (int i = 0; i < 5; i++) {
+            int destinoX = posicaoX + 1;
+            int destinoY = posicaoY;
+    
+            Entidade entidade = ambiente.qualObstaculo(destinoX, destinoY, posicaoZ);
+    
+            if (entidade != null 
+                && !entidade.getTipoRepresentação.representacao().equals("x") //ignora, vou consertar isso
+                && !entidade.getId().equals(this.getId())) {
+                atacar(entidade.getId());
+                return;
+            }
+    
+            if (!mover(1, "X")) {
+                System.out.println(getId() + " encontrou obstáculo. Tarefa interrompida.");
+                return;
+            }
+        }
+    }
+    
+    
+    
 }

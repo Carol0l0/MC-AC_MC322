@@ -37,4 +37,10 @@ class RoboAereo extends Robo{
             System.out.println("Não foi possível subir. Obstáculo detectado em ("+this.posicaoX+", "+this.posicaoY+", "+(this.posicaoZ-metros)+")");
         }
     }
+
+    //método limpo para ser herdado pelas classes filhas
+    @Override
+    public void executarTarefa() {
+
+    }
 }

@@ -33,4 +33,10 @@ public class RoboTerrestreDeCarga extends RoboTerrestre implements Colorido {
         }
     }
 
+    @Override
+    public void executarTarefa() {
+        // TODO Auto-generated method stub
+        super.executarTarefa();
+    }
+
 }
