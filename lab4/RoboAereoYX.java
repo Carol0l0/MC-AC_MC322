@@ -9,7 +9,8 @@ public class RoboAereoYX extends RoboAereo{
     }
 
     //Método para recarregar completamente a bateria do robô.
-    public void carregarBateria() {
+    @Override
+    public void executarTarefa() {//Carrega o Robô
         this.nivelBateria = 50;     //Define o nível da bateria de volta para 50%
         System.out.println(getId() + " foi recarregado. Nível de bateria: " + nivelBateria + "%.");
     }

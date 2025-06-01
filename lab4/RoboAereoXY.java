@@ -16,6 +16,23 @@ public class RoboAereoXY extends RoboAereo implements Colorido{
         return this.cor;
     }
 
+    @Override
+    public void executarTarefa() { //faz o robô girar no sentido anti-horário
+        if(this.direcao=="Norte"){
+            this.direcao="Oeste";
+            return;
+        }
+        else if(this.direcao=="Oeste"){
+            this.direcao="Sul";
+            return;
+        }
+        else if(this.direcao=="Sul"){
+            this.direcao="Leste";
+            return;
+        }
+        this.direcao="Norte";
+    }
+
     //O robô se move na direção X depois da direção Y, checando se têm obstáculos no meio do caminho
     @Override
     public boolean mover(int deltaX, int deltaY) {
