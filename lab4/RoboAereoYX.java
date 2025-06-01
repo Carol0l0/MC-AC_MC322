@@ -1,4 +1,4 @@
-public class RoboAereoYX extends RoboAereo{
+public class RoboAereoYX extends RoboAereo implements LigaDesliga{
 
     private int nivelBateria; //Nível atual da bateria do robô
 
@@ -19,6 +19,28 @@ public class RoboAereoYX extends RoboAereo{
     public int getNivelBateria() {
         System.out.println("Bateria de " + getId() + " igual a: " + nivelBateria + "%");
         return nivelBateria;
+    }
+
+    public void trocar(){ //Liga os adjacentes desligados e desliga os ligados
+        for (Entidade e : this.ambiente.listaEntidades) {
+            if (e instanceof Robo && e != this) {
+                int dx = Math.abs(this.getX1() - e.getX1());
+                int dy = Math.abs(this.getY1() - e.getY1());
+                int dz = Math.abs(this.getZ() - e.getZ());
+
+                if (dx <= 1 && dy <= 1 && dz == 0) { // adjacente no mesmo plano
+                    Robo r = (Robo) e;
+                    if(r.gEstadoRobo()==EstadoRobo.LIGADO){
+                        r.desligar();
+                        System.out.println(this.getId() + " desligou " + r.getId());
+                    }
+                    else{
+                        r.ligar();
+                        System.out.println(this.getId() + " ligou " + r.getId());
+                    }
+                }
+            }
+        }
     }
 
     @Override
