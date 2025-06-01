@@ -1,328 +1,101 @@
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
 
-    private static Scanner scanner = new Scanner(System.in);
-
     public static void main(String[] args) {
 
-        System.out.println("Criando ambiente...");
-        System.out.print("Dimensão X: ");
-        int aX = scanner.nextInt();
-        System.out.print("Dimensão Y: ");
-        int aY = scanner.nextInt();
-        System.out.print("Dimensão Z: ");
-        int aZ = scanner.nextInt();
-        Ambiente a = new Ambiente(aX,aY,aZ);
-        Robo robo = null;
-        Obstaculo obstaculo = null;
+        Scanner scanner = new Scanner(System.in);
 
-        while (true) {
-            System.out.println("\nEscolha uma opção:");
-            System.out.println("1. Criar Robô Terrestre Blindado");
-            System.out.println("2. Criar Robô Terrestre de Carga");
-            System.out.println("3. Criar Robô Aéreo XY");             
-            System.out.println("4. Criar Robô Aéreo YX");
-            System.out.println("5. Criar obstáculo");
-            System.out.println("6. Mover Robô");
-            System.out.println("7. Escolher Sensor");
-            System.out.println("8. Sair");
-            System.out.print("Opção: ");
-            int opcao = scanner.nextInt();
-            scanner.nextLine(); 
+        //Criação do ambiente
+        Ambiente ambiente = new Ambiente(50, 50, 50);
+        ambiente.inicializarMapa();
+
+        //Instanciamento dos robôs
+        Robo robo1 = new RoboTerrestreBlindado("r1", 1, 1, 0, 20);
+        Robo robo2 = new RoboAereoXY("r2", 10, 10, 10, 50, null);
+        Robo robo3 = new RoboTerrestreDeCarga("r3", 30, 30, 0, 30, 0, null);
+        Robo robo4 = new RoboAereoYX("r4", 20, 20, 20, 50);
+
+        //Adição dos robôs no ambiente
+        ambiente.adicionarEntidade(robo1);
+        ambiente.adicionarEntidade(robo2);
+        ambiente.adicionarEntidade(robo3);
+        ambiente.adicionarEntidade(robo4);
+
+        //Criação de obstáculos
+        Obstaculo obstaculo  = new Obstaculo(0, 0, 0, 0, TipoObstaculo.ARVOREMISTICA);
+        Obstaculo obstaculo1 = new Obstaculo(0, 0, 0, 0, TipoObstaculo.SABIOMAGICO);
+        Obstaculo obstaculo2 = new Obstaculo(0, 0, 0, 0, TipoObstaculo.CAIXADESOM);
+        Obstaculo obstaculo3 = new Obstaculo(0, 0, 0, 0, TipoObstaculo.FORTEVENTANIA);
+        Obstaculo obstaculo4 = new Obstaculo(0, 0, 0, 0, TipoObstaculo.LAGODEACIDO);
+        
+        //Adição de obstaculos no ambiente
+        ambiente.adicionarEntidade(obstaculo);
+        ambiente.adicionarEntidade(obstaculo1);
+        ambiente.adicionarEntidade(obstaculo2);
+        ambiente.adicionarEntidade(obstaculo3);
+        ambiente.adicionarEntidade(obstaculo4);
+
+        //Menu Interativo
+        int opcao;
+        do {
+            System.out.println("\nMENU INTERATIVO");
+            System.out.println("1. Listar robôs por tipo");
+            System.out.println("2. Listar robôs por estado");
+            System.out.println("3. Selecionar robô para interagir/executar tarefa");
+            System.out.println("4. Visualizar status do robô e ambiente"); 
+            System.out.println("5. Visualizar mapa 2D do ambiente");
+            System.out.println("6. Enviar mensagem");
+            System.out.println("7. Movimentar robô");
+            System.out.println("8. Usar sensor");
+            System.out.println("9. Ativar/Desligar robô");
+            System.out.println("10. Registro mensagens trocadas entre robôs");
+            System.out.println("0. Sair");
+            System.out.print("Escolha uma opção: ");
+            opcao = scanner.nextInt();
 
             switch (opcao) {
                 case 1:
-                    robo = criarRoboTerrestreBlindado(a);
-                    break;
-
-                case 2:
-                    robo = criarRoboTerrestreDeCarga(a);
-                    break;
-
-                case 3:
-                    robo = criarRoboAereoXY(a);
-                    break;
-
-                case 4:
-                    robo = criarRoboAereoYX(a);
-                    break;
-
-                case 5:
-                    obstaculo = criarobstaculo(a);
-                    break;
-
-                case 6:
-                System.out.println("Digite o nome do robô que deseja mover:");
-                String nomeRoboMover = scanner.nextLine();
-                Robo roboSelecionado = a.buscarRoboPorNome(nomeRoboMover);
-            
-                if (roboSelecionado == null) {
-                    System.out.println("Robô não encontrado.");
-                    break;
-                }
-                        
-                if (roboSelecionado instanceof RoboTerrestreBlindado) {
-                    System.out.print("Digite a direção: ");
-                    String direcao = scanner.nextLine(); 
-                    System.out.print("Digite o delta: ");
-                    int delta = scanner.nextInt();  
-
-                    if(((RoboTerrestreBlindado)roboSelecionado).mover(delta, direcao)){
-                        System.out.println("Robô movido para " + roboSelecionado.getX1() + "," + roboSelecionado.getY1() + " com sucesso!");
-                    }
-                    break;
-
-                } else if (roboSelecionado instanceof RoboAereoXY) {
-                    System.out.print("Digite o deltaX: ");
-                    int deltaX = scanner.nextInt(); 
-                    System.out.print("Digite o deltaY: ");
-                    int deltaY = scanner.nextInt();  
-
-                    if(((RoboAereoXY)roboSelecionado).mover(deltaX, deltaY)){
-                        System.out.println("Robô movido para " + roboSelecionado.getX1() + "," + roboSelecionado.getY1() + " com sucesso!");
-                    }
-                    break;
-
-                } else if(roboSelecionado instanceof RoboAereoYX) {
-                    System.out.print("Digite o deltaX: ");
-                    int deltaX = scanner.nextInt(); 
-                    System.out.print("Digite o deltaY: ");
-                    int deltaY = scanner.nextInt();  
-
-                    if(((RoboAereoYX)roboSelecionado).mover(deltaX, deltaY)){
-                        System.out.println("Robô movido para " + roboSelecionado.getX1() + "," + roboSelecionado.getY1() + " com sucesso!");
-                    }
-                    break;
-                }
-                else{
-                    System.out.print("Digite o deltaX: ");
-                    int deltaX = scanner.nextInt(); 
-                    System.out.print("Digite o deltaY: ");
-                    int deltaY = scanner.nextInt();
-
-                    if(((RoboTerrestreDeCarga)roboSelecionado).mover(deltaX, deltaY)){
-                        System.out.println("Robô movido para " + roboSelecionado.getX1() + "," + roboSelecionado.getY1() + " com sucesso!");
-                    }
-                    break;
-                }
-
-                case 7:
-                System.out.println("Digite o nome do robô que deseja adicionar o sensor:");
-                String nomeRoboSensor = scanner.nextLine();
-                Robo roboSensorSelecionado = a.buscarRoboPorNome(nomeRoboSensor);
-            
-                if (roboSensorSelecionado == null) {
-                    System.out.println("Robô não encontrado.");
-                    break;
-                }
-            
-                System.out.println("Escolha o tipo de sensor:");
-                System.out.println("1. Sensor de Proximidade");
-                System.out.println("2. Sensor Sonoro");
-                int tipoSensor = scanner.nextInt();
-                scanner.nextLine(); // limpar o buffer
-            
-                Sensor sensor = null;
-                switch (tipoSensor) {
-                    case 1 -> sensor = new SensorProximidade(roboSensorSelecionado,2);
-                    case 2 -> sensor = new SensorSonoro(2, roboSensorSelecionado);
-                    default -> {
-                        System.out.println("Tipo de sensor inválido.");
-                        break;
-                    }
-                }
-            
-                if (sensor != null) {
-                    roboSensorSelecionado.adicionarSensor(sensor);
-                    System.out.println("Sensor adicionado com sucesso ao robô " + nomeRoboSensor);
-                    sensor.monitorar();
-                }
-                break;
                 
+                    break;
+                case 2:
+
+                    break;
+                case 3:
+                
+                    break;
+                case 4:
+
+                    break;
+                case 5:
+                    System.out.print("Escolha uma altura para a impressão: ");
+                    int z = scanner.nextInt();
+                    ambiente.visualizarAmbiente(z);
+                    break;
+                case 6:
+          
+                    break;
+                case 7:
+   
+                    break;
                 case 8:
-                    System.out.println("Saindo...");
-                    return;
-            }
-        }
+                    
+                    break;
+                case 9:
 
+                    break;
+                case 10:
+
+                    break;
+                case 0:
+                    System.out.println("Encerrando...");
+                    break;
+                default:
+                    System.out.println("Opção inválida.");
+            }
+
+        } while (opcao != 0);
+
+        scanner.close();
     }
-
-        private static RoboTerrestreBlindado criarRoboTerrestreBlindado(Ambiente a) {
-            System.out.println("Criando Robo Terrestre Blindado...");
-            System.out.print("Nome: ");
-            String nome = scanner.nextLine();
-
-            if (a.buscarRoboPorNome(nome) != null) {
-                System.out.println("Erro: Já existe um robô com esse nome! Escolha outro.");
-                return null; 
-            }
-
-            System.out.print("Posição X: ");
-            int posicaoX = scanner.nextInt();
-            System.out.print("Posição Y: ");
-            int posicaoY = scanner.nextInt();
-            int posicaoZ = 0;
-            System.out.print("Velocidade Máxima: ");
-            int v_max = scanner.nextInt();
-            scanner.nextLine(); 
-    
-            RoboTerrestreBlindado roboTerrestreBlindado = new RoboTerrestreBlindado(nome, posicaoX, posicaoY, posicaoZ, v_max);
-            a.adicionarRobo(roboTerrestreBlindado);
-            return null;
-        }
-    
-        private static RoboTerrestreDeCarga criarRoboTerrestreDeCarga(Ambiente a) {
-            System.out.println("Criando Robo Terrestre de Carga...");
-            System.out.print("Nome: ");
-            String nome = scanner.nextLine();
-
-            if (a.buscarRoboPorNome(nome) != null) {
-                System.out.println("Erro: Já existe um robô com esse nome! Escolha outro.");
-                return null; 
-            }
-            
-            System.out.print("Posição X: ");
-            int posicaoX = scanner.nextInt();
-            System.out.print("Posição Y: ");
-            int posicaoY = scanner.nextInt();
-            int posicaoZ = 0;
-            System.out.print("Velocidade Máxima: ");
-            int v_max = scanner.nextInt();
-            System.out.print("Carga Máxima: ");
-            int cargaMaxima = scanner.nextInt();
-            scanner.nextLine();
-    
-            RoboTerrestreDeCarga roboTerrestreDeCarga = new RoboTerrestreDeCarga(nome, posicaoY, posicaoX, posicaoZ, v_max, cargaMaxima);
-            a.adicionarRobo(roboTerrestreDeCarga);
-            return null;
-        }
-    
-        private static RoboAereoXY criarRoboAereoXY(Ambiente a) {
-            System.out.println("Criando Robo Aéreo...");
-            System.out.print("Nome: ");
-            String nome = scanner.nextLine();
-
-            if (a.buscarRoboPorNome(nome) != null) {
-                System.out.println("Erro: Já existe um robô com esse nome! Escolha outro.");
-                return null; 
-            }
-
-            System.out.print("Posição X: ");
-            int posicaoX = scanner.nextInt();
-            System.out.print("Posição Y: ");
-            int posicaoY = scanner.nextInt();
-            System.out.print("Posição Z: ");
-            int posicaoZ = scanner.nextInt();
-            System.out.print("Altitude Máxima: ");
-            int altitudeMax = scanner.nextInt();
-            scanner.nextLine();
-            System.out.print("Cor: ");
-            String cor = scanner.nextLine();
-    
-            RoboAereoXY roboAereoXY = new RoboAereoXY(nome, posicaoX, posicaoY, posicaoZ, altitudeMax, cor);
-            a.adicionarRobo(roboAereoXY);
-            return null;
-        }
-    
-        private static RoboAereoYX criarRoboAereoYX(Ambiente a) {
-            System.out.println("Criando Robo Aéreo...");
-            System.out.print("Nome: ");
-            String nome = scanner.nextLine();
-
-            if (a.buscarRoboPorNome(nome) != null) {
-                System.out.println("Erro: Já existe um robô com esse nome! Escolha outro.");
-                return null; 
-            }
-
-            System.out.print("Posição X: ");
-            int posicaoX = scanner.nextInt();
-            System.out.print("Posição Y: ");
-            int posicaoY = scanner.nextInt();
-            System.out.print("Posição Z: ");
-            int posicaoZ = scanner.nextInt();
-            System.out.print("Altitude Máxima: ");
-            int altitudeMax = scanner.nextInt();
-            scanner.nextLine(); 
-    
-            RoboAereoYX roboAereoYX = new RoboAereoYX(nome, posicaoX, posicaoY, posicaoZ, altitudeMax);
-            a.adicionarRobo(roboAereoYX);
-            return null;
-    
-        }
-    
-        private static Obstaculo criarobstaculo(Ambiente a) {
-            System.out.println("Escolha o tipo de obstáculo:");
-            System.out.println("1. Caixa de Som");
-            System.out.println("2. Lago de Ácido");
-            System.out.println("3. Forte Ventania");
-            System.out.println("5. Sábio Mágico");
-            System.out.println("6. Árvore Mística");
-
-            int intensidade=0, x1, x2=0, y1, y2=0;
-            int opcao = scanner.nextInt();
-            scanner.nextLine();
-        
-            if(opcao==1){
-                System.out.print("Posição X: ");
-                x1 = scanner.nextInt();
-                System.out.print("Posição Y: ");
-                y1 = scanner.nextInt();
-                System.out.print("Intensidade: ");
-                intensidade = scanner.nextInt();
-            }
-            if(opcao==5){
-                System.out.print("Posição X: ");
-                x1 = scanner.nextInt();
-                System.out.print("Posição Y: ");
-                y1 = scanner.nextInt();
-            }
-            else{
-                System.out.print("Posição X1: ");
-                x1 = scanner.nextInt();
-                System.out.print("Posição X2: ");
-                x2 = scanner.nextInt();
-                System.out.print("Posição Y1: ");
-                y1 = scanner.nextInt();
-                System.out.print("Posição Y2: ");
-                y2 = scanner.nextInt();
-                scanner.nextLine();
-            }
-        
-            TipoObstaculo tipo = switch (opcao) {
-                case 1 -> TipoObstaculo.CAIXADESOM;
-                case 2 -> TipoObstaculo.LAGODEACIDO;
-                case 3 -> TipoObstaculo.FORTEVENTANIA;
-                case 5 -> TipoObstaculo.SABIOMAGICO;
-                case 6 -> TipoObstaculo.ARVOREMISTICA;
-                default -> null;
-            };
-        
-            if (tipo == null) {
-                System.out.println("Tipo inválido.");
-                return null;
-            }
-            
-            if(opcao==1){
-                CaixaDeSom c=new CaixaDeSom(x1, y1, x1, y1, intensidade);
-                if(a.adicionaCaixaDeSom(c)){
-                    System.out.println("Caixa de som criada em ("+x1+", "+y1+")");
-                }
-            }
-            else if(opcao==5){
-                SabioMagico s=new SabioMagico(x1, y1, x1, y1);
-                if(a.adicionarObstaculo(s)){
-                    System.out.println("Obstáculo criado em : ("+ s.getX1() +","+s.getY1() +"),("+s.getX2()+","+s.getY2()+")");
-                }
-            }
-            else{
-                Obstaculo o = new Obstaculo(x1, y1, x2, y2, tipo);
-                if(a.adicionarObstaculo(o)){
-                    System.out.println("Obstáculo criado em : ("+ o.getX1() +","+o.getY1() +"),("+o.getX2()+","+o.getY2()+")");
-                }
-            }
-            return null;
-
-        }
-        
-    }
+}
