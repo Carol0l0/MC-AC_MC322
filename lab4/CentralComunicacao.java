@@ -13,29 +13,19 @@ public class CentralComunicacao {
         }
     }
 
-    //verificar se a entidade e do tipo comunicavel e fazer cast pra garantir que funcionara
-    public void enviarMsg(Entidade remetente, Entidade destinatario, String mensagem) {
-        if (!(remetente instanceof Comunicavel)) {
-            System.out.println("Remetente não pode enviar mensagens.");
+    //verifica se tanto o remetente quanto o destinatário são do tipo entidade correta, e aí chama o enviar
+    public static void enviarMensagem(Comunicavel remetente, Comunicavel destinatario, String mensagem) {
+        if (!(remetente instanceof Robo) || !(destinatario instanceof Robo)) {
+            System.out.println("Um dos envolvidos não é uma entidade válida.");
             return;
         }
-    
-        if (!(destinatario instanceof Comunicavel)) {
-            System.out.println("Destinatário não pode receber mensagens.");
-            return;
-        }
-    
-        Comunicavel cRemetente = (Comunicavel) remetente;
-        Comunicavel cDestinatario = (Comunicavel) destinatario;
     
         try {
-            cRemetente.enviarMensagem(cDestinatario, mensagem);
+            remetente.enviarMensagem(destinatario, mensagem);
         } catch (RoboDesligadoException e) {
             System.out.println("Erro: " + e.getMessage());
         }
     }
-    
-    
 }
     
 

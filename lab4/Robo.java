@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Robo implements Entidade, Comunicavel, Sensoreavel{
     
-    private String id;
+    private String nome;
     protected String direcao;
     protected Ambiente ambiente;
     protected int posicaoX;
@@ -14,39 +14,42 @@ public class Robo implements Entidade, Comunicavel, Sensoreavel{
 
     protected EstadoRobo estado;
     protected TipoEntidade tipoEntidade = TipoEntidade.ROBO;
-
-    public String getId(){
-        return id;
-    }
     
     @Override
-    public int getX() {
+    public String getNome() {
+        return this.nome;
+    }
+
+    public int getX1() {
         return this.posicaoX;
     }
 
-    @Override
-    public int getY() {
+    public int getX2(){
+        return this.posicaoX;
+    }
+
+    public int getY1() {
+        return this.posicaoY;
+    }
+
+    public int getY2() {
         return this.posicaoY;
     }
     
-    @Override
     public int getZ() {
         return this.posicaoZ;
     }
     
-    @Override
-    public TipoEntidade getTipo() {
-        return TipoEntidade.ROBO;
+    public TipoEntidade getTipoEntidade(){
+        return tipoEntidade;
     }
-    
-    @Override
-    public String getDescricao() {
-        return "Robô " + this.id;
+
+    public String getDescricao(){
+        return this.tipoEntidade.descricao;
     }
-    
-    @Override
-    public char getRepresentacao() {
-        return 'R';
+
+    public char getRepresentacao(){
+        return this.tipoEntidade.representacao;
     }
 
     public int getTotalColisoes() {
@@ -59,16 +62,16 @@ public class Robo implements Entidade, Comunicavel, Sensoreavel{
 
     public void ligar() {
         this.estado = EstadoRobo.LIGADO;
-        System.out.println(id + " foi ligado.");
+        System.out.println(nome + " foi ligado.");
     }
 
     public void desligar() {
         this.estado = EstadoRobo.DESLIGADO;
-        System.out.println(id + " foi desligado.");
+        System.out.println(nome + " foi desligado.");
     }
 
-    public Robo(String id, int posicaoX, int posicaoY, int posicaoZ) {
-        this.id = id;
+    public Robo(String nome, int posicaoX, int posicaoY, int posicaoZ) {
+        this.nome = nome;
         this.direcao = "Norte";
         this.posicaoX = posicaoX;
         this.posicaoY = posicaoY;
@@ -102,76 +105,85 @@ public class Robo implements Entidade, Comunicavel, Sensoreavel{
 
     public int totalColisoes = 0;
 
-    public boolean identificarObstaculo(int x, int y, int z) {
-        for (Obstaculo o : ambiente.listadeObstaculos) {
+    public Boolean identificarObstaculo(int x, int y, int z) { //Checa se existe uma entidade ocupando a posição dada
+
+        for(Entidade e : ambiente.listaEntidades){
+            if(e instanceof Robo){ //Identifica robôs
+                if (this != e && e.getX1() == x && e.getY1() == y && e.getZ() == z) {
     
-            int altura = o.getTipo().getAlturaPadrao();
-    
-            if (x >= o.getPosicaoX1() && x <= o.getPosicaoX2() &&
-                y >= o.getPosicaoY1() && y <= o.getPosicaoY2() &&
-                z <= altura) {
-    
-                if (o instanceof SabioMagico) {
-                    SabioMagico sabio = (SabioMagico) o;
-                    if (!sabio.desafiar()) {
-                        totalColisoes++;
-                        return true; // bloqueado pelo sábio
-                    }
-                    // Se o desafio for vencido, continua procurando outros obstáculos
-                    continue;
-                } else {
-                    if (!o.getTipo().podePassar(this)) {
-                        System.out.println("Obstáculo detectado! Obstáculo: " + o.getTipo() + " impede a passagem.");
-                        totalColisoes++;
-                        return true; // bloqueado por obstáculo comum
+                    totalColisoes++; //colisao com rôbo
+        
+                    System.out.println("Obstáculo detectado! Robô: " + e.getNome());
+                    return true;
+                }    
+            }
+            else if(e instanceof Obstaculo){
+                int altura = e.getZ();
+
+                if (x >= e.getX1() && x <= e.getX2() &&
+                    y >= e.getY1() && y <= e.getY2() &&
+                    z <= altura) { //Se o obstáculo ocupa o mesmo espaço do rôbo 
+
+                    if (e instanceof SabioMagico) {
+                        SabioMagico sabio = (SabioMagico) e;
+                        if (!sabio.desafiar()) {
+                            totalColisoes++;  //colisao com o sábio mágico
+                            return true;
+                        } 
+                        else{ //Deixou passar
+                            return false; 
+                        }
+                    } 
+                    else{
+                        Obstaculo o = (Obstaculo) e;
+                        if (!o.getTipoObstaculo().podePassar(this)) { //se o Rôbo não passa pelo tipo de obstáculo
+                            System.out.println("Obstáculo detectado! Obstáculo: " + o.getTipoObstaculo() + " impede a passagem.");
+                            totalColisoes++;  //colisao com obstáculo
+                            return true;
+                        }
                     }
                 }
-            }
-        }
-    
-        return false; // nenhum obstáculo impede a passagem
-    }
-
-
-    public Boolean identificarRoboNoCaminho(int x, int y, int z){
-        for (Robo robo : this.ambiente.listadeRobos) {
-            if (this != robo && robo.posicaoX == x && robo.posicaoY == y && robo.posicaoZ == z) {
-                totalColisoes++; 
-                System.out.println("Obstáculo detectado! Robô: " + robo.getId());
-                return true;
             }
         }
     
         return false;
     }
 
-    public Boolean identificarObstaculoSemSabio(int x, int y, int z) {
-        for (Obstaculo o : ambiente.listadeObstaculos) {
-    
-            int altura = o.getTipo().getAlturaPadrao();
-    
-            if (x >= o.getPosicaoX1() && x <= o.getPosicaoX2() &&
-                y >= o.getPosicaoY1() && y <= o.getPosicaoY2() &&
-                z <= altura) {
-    
-                if (o instanceof SabioMagico) {
-                    totalColisoes++;  
-                    return true;
-                } else {
-                    if (!o.getTipo().podePassar(this)) {
-                        System.out.println("Obstáculo detectado! Obstáculo: " + o.getTipo() + " impede a passagem.");
-                        totalColisoes++;  
+
+    public Boolean identificarObstaculoSemSabio(int x, int y, int z){ //Método criado para não ocorrerem erros na hora de rodar a função contarObstaculos()
+
+        for(Entidade e : ambiente.listaEntidades){
+            if(e.getTipoEntidade()==TipoEntidade.ROBO){//Se for um Rôbo
+                if(e instanceof Robo){
+                    Robo robo = (Robo) e;
+                    if (this != robo && robo.posicaoX == x && robo.posicaoY == y && robo.posicaoZ == z) {
+                        totalColisoes++; //Colisao com rôbo
+                        System.out.println("Obstáculo detectado! Robô: " + robo.getNome());
                         return true;
                     }
                 }
-            }
-        }
-    
-        for (Robo robo : this.ambiente.listadeRobos) {
-            if (this != robo && robo.posicaoX == x && robo.posicaoY == y && robo.posicaoZ == z) {
-                totalColisoes++; 
-                System.out.println("Obstáculo detectado! Robô: " + robo.getId());
-                return true;
+                else{//Se for um obstáculo
+                    int altura = e.getZ();
+            
+                    if (x >= e.getX1() && x <= e.getX2() &&
+                        y >= e.getY1() && y <= e.getY2() &&
+                        z <= altura) {
+            
+                        if (e instanceof SabioMagico) {
+                            totalColisoes++;//Colisão com sábio mágico  
+                            return true;
+                        } 
+                        else {
+                            Obstaculo o = (Obstaculo) e;
+                            if (!o.getTipoObstaculo().podePassar(this)) {//Não pode passar
+                                System.out.println("Obstáculo detectado! Obstáculo: " + o.getNome() + " impede a passagem.");
+                                totalColisoes++; //Colisão com obstáculo
+                                return true;
+                            }
+                        }
+                    }
+                }
+
             }
         }
     
@@ -181,44 +193,28 @@ public class Robo implements Entidade, Comunicavel, Sensoreavel{
     
     //Método para exibir a posição atual do robô
     public void exibirPosicao(){
-        System.out.println(this.id+" esta na posicao ("+this.posicaoX+", "+this.posicaoY+", "+this.posicaoZ+"). Direção "+this.direcao);
-    }
-
-    public void setX(int x) {
-        this.posicaoX = x;
-    }
-    
-    public void setY(int y) {
-        this.posicaoY = y;
-    }
-    
-    public void setZ(int z) {
-        this.posicaoZ = z;
+        System.out.println(this.nome +" esta na posicao ("+this.posicaoX+", "+this.posicaoY+", "+this.posicaoZ+"). Direção "+this.direcao);
     }
 
     //proximos 3 metodos foram herdados da interface comunicavel e usam a classe centralComunicacao, preferi implementar as interfaces no robo geral pq acredito que todos robos irão usar
-    @Override
     public void enviarMensagem(Comunicavel destinatario, String mensagem) throws RoboDesligadoException {
         if (this.estado == EstadoRobo.DESLIGADO) {
-            throw new RoboDesligadoException("Robô " + this.id + " está desligado e não pode enviar mensagens.");
+            throw new RoboDesligadoException("Robô " + this.nome + " está desligado e não pode enviar mensagens.");
         }
-        CentralComunicacao.enviar(this, destinatario, mensagem);
+        CentralComunicacao.enviarMensagem(this, destinatario, mensagem);
     }
     
-    @Override
     public void receberMensagem(String mensagem) throws RoboDesligadoException {
         if (this.estado == EstadoRobo.DESLIGADO) {
-            throw new RoboDesligadoException("Robô " + this.id + " está desligado e não pode receber mensagens.");
+            throw new RoboDesligadoException("Robô " + this.nome + " está desligado e não pode receber mensagens.");
         }
-        System.out.println("[" + this.id + "] recebeu mensagem: " + mensagem);
+        System.out.println("[" + this.nome + "] recebeu mensagem: " + mensagem);
     }
 
-    @Override
     public void acionarSensores() throws RoboDesligadoException {
         if (this.estado == EstadoRobo.DESLIGADO) {
-            throw new RoboDesligadoException("Robô " + this.id + " está desligado e não pode usar sensores.");
+            throw new RoboDesligadoException("Robô " + this.nome + " está desligado e não pode usar sensores.");
         }
         usarSensores();
     }
-    
 }

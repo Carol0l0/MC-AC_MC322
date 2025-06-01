@@ -2,8 +2,9 @@ public enum TipoEntidade {
     ROBO('r', "rôbos andam pelo ambiente de diferentes maneiras, mas os obstáculos podem bloquear a sua"),
     OBSTACULO('o', "bloqueia a passagem dos rôbos"),
     CAIXADESOM('c', "obstáculo que emite som"),
-    SABIOMAGICO('m', "deixa voce passar se responder corretamente a charada");
-
+    SABIOMAGICO('m', "deixa voce passar se responder corretamente a charada"),
+    VAZIO('x', "não há nada aqui");
+    
     public final char representacao;
     public final String descricao;
 

@@ -1,5 +1,5 @@
 // Classe que representa um robô terrestre blindado
-public class RoboTerrestreBlindado extends RoboTerrestre {
+public class RoboTerrestreBlindado extends RoboTerrestre implements Atacante {
 
     private int resistencia;        // Define a resistência do robô antes de ser destruído
     private boolean funcionando;    // Indica se o robô ainda pode operar
@@ -136,4 +136,11 @@ public class RoboTerrestreBlindado extends RoboTerrestre {
         return funcionando;
     }
 
+    //herdado da interface atacar, pode remover uma entidade
+    @Override
+    public void atacar(String alvo) {
+
+        System.out.println(this.getId() + " está atacando o alvo: " + alvo);
+        
+    }
 }

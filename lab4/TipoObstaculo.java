@@ -1,10 +1,10 @@
 public enum TipoObstaculo {
 
-    CAIXADESOM("Caixa de Som", 3, true, true),              //Bloqueia todos e emite som
-    ARVOREMISTICA("Árvore Mística", 5,true, true),            //Bloqueia todos
-    LAGODEACIDO("Lago de Ácido",0, true, false),            //Bloqueia qualquer tipo de robô terrestre
-    FORTEVENTANIA("Forte Ventania",50,false, true),          //Bloqueia qualquer tipo de robô aéreo
-    SABIOMAGICO("Sábio Mágico",50,true, true);             //Só da passagem caso acerte a pergunta
+    CAIXADESOM("Caixa de Som", 3, true, true),            //Bloqueia todos e emite som
+    ARVOREMISTICA("Árvore Mística", 5,true, true),        //Bloqueia todos
+    LAGODEACIDO("Lago de Ácido",0, true, false),          //Bloqueia qualquer tipo de robô terrestre
+    FORTEVENTANIA("Forte Ventania",50,false, true),       //Bloqueia qualquer tipo de robô aéreo
+    SABIOMAGICO("Sábio Mágico",50,true, true);            //Só da passagem caso acerte a pergunta
 
     private final int alturaPadrao;
     private final boolean bloqueiaPassagemTerrestres;

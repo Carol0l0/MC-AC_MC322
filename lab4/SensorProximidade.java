@@ -19,31 +19,33 @@ public class SensorProximidade extends Sensor {
         int y = this.robo.getY1();
         int z = this.robo.getZ();
 
-        for (Obstaculo o : this.robo.ambiente.listadeObstaculos) {
-            int xMin = Math.min(o.getX1(), o.getX2());
-            int xMax = Math.max(o.getX1(), o.getX2());
-            int yMin = Math.min(o.getY1(), o.getY2());
-            int yMax = Math.max(o.getY1(), o.getY2());
-            int zMin = 0;
-            int zMax = o.getZ();
+        for(Entidade e : this.robo.ambiente.listaEntidades){
+            if(e instanceof Robo){ //Se for um rôbo
+                boolean dentroX =  e.getX1()>= x - raio &&  e.getX1()<= x + raio;
+                boolean dentroY =  e.getY1()>= y - raio &&  e.getY1()<= y + raio;
+                boolean dentroZ =  e.getZ()>= z - raio &&  e.getZ()<= z + raio;
 
-            boolean dentroX = xMax >= x - raio && xMin <= x + raio;
-            boolean dentroY = yMax >= y - raio && yMin <= y + raio;
-            boolean dentroZ = zMax >= z - raio && zMin <= z + raio;
-
-            if (dentroX && dentroY && dentroZ) {
-                this.obstaculosNoRaio.add(o);
+                if (dentroX && dentroY && dentroZ && this.robo!=e) {
+                    Robo r = (Robo) e;
+                    this.robosNoRaio.add(r);
+                }
             }
-        }
+            else{ // Obstáculo
+                int xMin = Math.min(e.getX1(), e.getX2());
+                int xMax = Math.max(e.getX1(), e.getX2());
+                int yMin = Math.min(e.getY1(), e.getY2());
+                int yMax = Math.max(e.getY1(), e.getY2());
+                int zMin = 0;
+                int zMax = e.getZ();
 
-        for(Robo r : this.robo.ambiente.listadeRobos){
+                boolean dentroX = xMax >= x - raio && xMin <= x + raio;
+                boolean dentroY = yMax >= y - raio && yMin <= y + raio;
+                boolean dentroZ = zMax >= z - raio && zMin <= z + raio;
 
-            boolean dentroX =  r.posicaoX>= x - raio &&  r.posicaoX<= x + raio;
-            boolean dentroY =  r.posicaoY>= y - raio &&  r.posicaoY<= y + raio;
-            boolean dentroZ =  r.posicaoZ>= z - raio &&  r.posicaoZ<= z + raio;
-
-            if (dentroX && dentroY && dentroZ && this.robo!=r) {
-                this.robosNoRaio.add(r);
+                if (dentroX && dentroY && dentroZ) {
+                    Obstaculo o = (Obstaculo) e;
+                    this.obstaculosNoRaio.add(o);
+                }
             }
         }
 
