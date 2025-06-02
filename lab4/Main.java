@@ -298,25 +298,7 @@ public class Main {
                         System.out.println("Robôs inválidos.");
                     }
                     break;
-                case 5: 
-                System.out.println("Escolha o robô:");
-                System.out.println("1. Robô 1 (" + roboBlindado.getClass().getSimpleName() + ")");
-                System.out.println("2. Robô 2 (" + roboAereoXY.getClass().getSimpleName() + ")");
-                System.out.println("3. Robô 3 (" + roboCargueiro.getClass().getSimpleName() + ")");
-                System.out.println("4. Robô 4 (" + roboAereoYX.getClass().getSimpleName() + ")");
-                System.out.print("Opção: ");
-                opcaoRobo = scanner.nextInt();
-                Robo roboSelecionado2 = null;
-                switch (opcaoRobo) {
-                    case 1: roboSelecionado2 = roboBlindado; break;
-                    case 2: roboSelecionado2 = roboAereoXY; break;
-                    case 3: roboSelecionado2 = roboCargueiro; break;
-                    case 4: roboSelecionado2 = roboAereoYX; break;
-                    default:
-                    System.out.println("Opção inválida.");
-
-                    roboSelecionado2.acionarSensores();
-                    
+                case 5:
                     break;
                 
                 case 6: //Ligar e desligar robôs
