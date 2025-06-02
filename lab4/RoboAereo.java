@@ -14,6 +14,7 @@ class RoboAereo extends Robo{
         if(!identificarObstaculo(this.posicaoX, this.posicaoY, this.posicaoZ+metros)){
             if (posicaoZ + metros <= altitudeMax) {
                 posicaoZ += metros;
+                this.exibirPosicao();
             } else {
                 System.out.println("Você excedeu os limites de altitude");
             }
@@ -29,6 +30,7 @@ class RoboAereo extends Robo{
         if(!identificarObstaculo(this.posicaoX, this.posicaoY, this.posicaoZ-metros)){
             if (posicaoZ - metros <= altitudeMax) {
                 posicaoZ -= metros;
+                this.exibirPosicao();
             } else {
                 System.out.println("Você excedeu os limites de altitude");
             }

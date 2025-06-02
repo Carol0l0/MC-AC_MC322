@@ -86,6 +86,8 @@ public class Ambiente{
     
             listaEntidades.add(e);
             if(e.getTipoEntidade()==TipoEntidade.ROBO){ //entidade é um robô
+                Robo r = (Robo) e;
+                r.setAmbiente(this);
                 mapa[x1][y1][z]=TipoEntidade.ROBO;
             }
             else{ //Entidade é um obstáculo

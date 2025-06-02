@@ -70,14 +70,14 @@ public class Main {
                     System.out.println("============================");
                     break;
                 case 2: //Realizar ação em algum robô
-                System.out.println("Escolha o robô:");
-                System.out.println("1. Robô 1 (" + roboBlindado.getClass().getSimpleName() + ")");
-                System.out.println("2. Robô 2 (" + roboAereoXY.getClass().getSimpleName() + ")");
-                System.out.println("3. Robô 3 (" + roboCargueiro.getClass().getSimpleName() + ")");
-                System.out.println("4. Robô 4 (" + roboAereoYX.getClass().getSimpleName() + ")");
-                System.out.print("Opção: ");
-                int opcaoAcao;
-                opcaoRobo = scanner.nextInt();
+                    System.out.println("Escolha o robô:");
+                    System.out.println("1. Robô 1 (" + roboBlindado.getClass().getSimpleName() + ")");
+                    System.out.println("2. Robô 2 (" + roboAereoXY.getClass().getSimpleName() + ")");
+                    System.out.println("3. Robô 3 (" + roboCargueiro.getClass().getSimpleName() + ")");
+                    System.out.println("4. Robô 4 (" + roboAereoYX.getClass().getSimpleName() + ")");
+                    System.out.print("Opção: ");
+                    int opcaoAcao;
+                    opcaoRobo = scanner.nextInt();
                 
                     switch (opcaoRobo) { //Escolhe em qual robô vai realizar a ação
                         case 1: //Robô Blindado
