@@ -243,11 +243,109 @@ public class Main {
                     ambiente.visualizarAmbiente(z);
                     break;
                 case 4: //COMUNICAVEL
-                
+                    String mensagem;
+                    Robo remetente = null, destinatario = null;
+                    System.out.println("Escolha o remetente:");
+                    System.out.println("1. Robô 1 (" + roboBlindado.getClass().getSimpleName() + ")");
+                    System.out.println("2. Robô 2 (" + roboAereoXY.getClass().getSimpleName() + ")");
+                    System.out.println("3. Robô 3 (" + roboCargueiro.getClass().getSimpleName() + ")");
+                    System.out.println("4. Robô 4 (" + roboAereoYX.getClass().getSimpleName() + ")");
+                    opcaoRobo = scanner.nextInt();
+                    switch (opcaoRobo) {
+                        case 1:
+                            remetente=roboBlindado;
+                            break;
+                        case 2:
+                            remetente=roboAereoXY;
+                            break;
+                        case 3:
+                            remetente=roboCargueiro;
+                            break;
+                        case 4:
+                            remetente=roboAereoYX;
+                            break;
+                        default:
+                            System.out.println("Opção inválida.");
+                            break;
+                    }
+                    System.out.println("Escolha o destinatario:");
+                    System.out.println("1. Robô 1 (" + roboBlindado.getClass().getSimpleName() + ")");
+                    System.out.println("2. Robô 2 (" + roboAereoXY.getClass().getSimpleName() + ")");
+                    System.out.println("3. Robô 3 (" + roboCargueiro.getClass().getSimpleName() + ")");
+                    System.out.println("4. Robô 4 (" + roboAereoYX.getClass().getSimpleName() + ")");
+                    opcaoRobo = scanner.nextInt();
+                    switch (opcaoRobo) {
+                        case 1:
+                            destinatario=roboBlindado;
+                            break;
+                        case 2:
+                            destinatario=roboAereoXY;
+                            break;
+                        case 3:
+                            destinatario=roboCargueiro;
+                            break;
+                        case 4:
+                            destinatario=roboAereoYX;
+                            break;
+                        default:
+                            System.out.println("Opção inválida.");
+                            break;
+                    }
+                    mensagem=scanner.nextLine();
+                    try{
+                        remetente.enviarMensagem(destinatario, mensagem);
+                        destinatario.receberMensagem(mensagem);
+                    }
+                    catch(RoboDesligadoException ex){
+                        System.out.println("Robô desligado");
+                    }
+
                     break;
                 case 5: //SENSORIAVEL
+                    System.out.println("Escolha o Robô:");
+                    System.out.println("1. Robô 1 (" + roboBlindado.getClass().getSimpleName() + ")");
+                    System.out.println("2. Robô 2 (" + roboAereoXY.getClass().getSimpleName() + ")");
+                    System.out.println("3. Robô 3 (" + roboCargueiro.getClass().getSimpleName() + ")");
+                    System.out.println("4. Robô 4 (" + roboAereoYX.getClass().getSimpleName() + ")");
+                    opcaoRobo = scanner.nextInt();
+                    switch (opcaoRobo) {
+                        case 1:
+                            try{
+                                roboBlindado.acionarSensores();;
+                            }
+                            catch(RoboDesligadoException ex){
+                                System.out.println("Robô desligado");
+                            }
+                            break;
+                        case 2:
+                            try{
+                                roboAereoXY.acionarSensores();;
+                            }
+                            catch(RoboDesligadoException ex){
+                                System.out.println("Robô desligado");
+                            }
+                            break;
+                        case 3:
+                            try{
+                                roboCargueiro.acionarSensores();;
+                            }
+                            catch(RoboDesligadoException ex){
+                                System.out.println("Robô desligado");
+                            }
+                            break;
+                        case 4:
+                            try{
+                                roboAereoYX.acionarSensores();;
+                            }
+                            catch(RoboDesligadoException ex){
+                                System.out.println("Robô desligado");
+                            }
+                            break;
+                        default:
+                            System.out.println("Opção inválida.");
+                            break;
+                    }
                     break;
-                
                 case 6: //Ligar e desligar robôs
                     System.out.println("===== ATIVAR/DESLIGAR ROBÔ =====");
                     System.out.println("Escolha o robô:");
@@ -290,6 +388,10 @@ public class Main {
                             }
                     break;
                 case 7: //Vizualizar mensagem
+                    roboBlindado.central.exibirMensagens();
+                    roboAereoXY.central.exibirMensagens();
+                    roboCargueiro.central.exibirMensagens();
+                    roboAereoYX.central.exibirMensagens();
                     break;
                 case 0:
                     System.out.println("Encerrando...");

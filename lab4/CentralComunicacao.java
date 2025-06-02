@@ -14,7 +14,7 @@ public class CentralComunicacao {
     }
 
     //verifica se tanto o remetente quanto o destinatário são do tipo entidade correta, e aí chama o enviar
-    public static void enviarMensagem(Comunicavel remetente, Comunicavel destinatario, String mensagem) {
+    public void enviarMensagem(Comunicavel remetente, Comunicavel destinatario, String mensagem) {
         if (!(remetente instanceof Robo) || !(destinatario instanceof Robo)) {
             System.out.println("Um dos envolvidos não é uma entidade válida.");
             return;

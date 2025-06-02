@@ -11,6 +11,7 @@ public abstract class Robo implements Entidade, Comunicavel, Sensoreavel{
     protected int posicaoY;
     protected int posicaoZ;
     private ArrayList<Sensor> sensores;
+    protected CentralComunicacao central;
     protected EstadoRobo estado;
     protected TipoEntidade tipoEntidade = TipoEntidade.ROBO;
 
@@ -96,6 +97,7 @@ public abstract class Robo implements Entidade, Comunicavel, Sensoreavel{
         this.posicaoZ = posicaoZ;
         this.sensores = new ArrayList<>();
         this.estado = EstadoRobo.DESLIGADO; 
+        this.central = new CentralComunicacao();
     }
 
     public void adicionarSensor(Sensor sensor) {
@@ -241,7 +243,7 @@ public abstract class Robo implements Entidade, Comunicavel, Sensoreavel{
         if (this.estado == EstadoRobo.DESLIGADO) {
             throw new RoboDesligadoException("Robô " + this.id + " está desligado e não pode enviar mensagens.");
         }
-        CentralComunicacao.enviarMensagem(this, destinatario, mensagem);
+        central.enviarMensagem(this, destinatario, mensagem);
     }
     
     public void receberMensagem(String mensagem) throws RoboDesligadoException {
