@@ -40,19 +40,21 @@ public class Main {
         ambiente.adicionarEntidade(forteVento);
         ambiente.adicionarEntidade(lago);
 
+        CentralComunicacao central = new CentralComunicacao();
+
         //Menu Interativo
         int opcao;
         int opcaoRobo;
         do {
             System.out.println("\nMENU INTERATIVO");
-            System.out.println("1. Listar robôs por tipos e estados"); //FEITO
-            System.out.println("2. Selecionar robô para mover/executar tarefa"); //FEITO
-            System.out.println("3. Visualizar mapa 2D do ambiente"); //FEITO
+            System.out.println("1. Listar robôs por tipos e estados"); 
+            System.out.println("2. Selecionar robô para mover/executar tarefa"); 
+            System.out.println("3. Visualizar mapa 2D do ambiente"); 
             System.out.println("4. Enviar mensagem");
             System.out.println("5. Usar sensor");
-            System.out.println("6. Ativar/Desligar robô");  //FEITO
+            System.out.println("6. Ativar/Desligar robô"); 
             System.out.println("7. Registro mensagens trocadas entre robôs");
-            System.out.println("0. Sair"); //FEITO
+            System.out.println("0. Sair"); 
             System.out.print("Escolha uma opção: ");
             opcao = scanner.nextInt();
 
@@ -176,8 +178,8 @@ public class Main {
                             case 2: //Carregar peso
                                 carga=scanner.nextInt();
                                 roboCargueiro.carregarEntrega(carga);
-                                break;
-                            case 3: //Descarregar peso
+                                break; 
+                            case 3:
                                 carga=scanner.nextInt();
                                 roboCargueiro.descarregarEntrega(carga);
                                 break;
@@ -242,10 +244,79 @@ public class Main {
                     int z = scanner.nextInt();
                     ambiente.visualizarAmbiente(z);
                     break;
-                case 4: //COMUNICAVEL
+                    case 4: // Enviar mensagem
+
+                    System.out.println("===== ENVIAR MENSAGEM ENTRE ROBÔS =====");
+                    System.out.println("Escolha o robô remetente:");
+                    System.out.println("1. Robô 1 (" + roboBlindado.getClass().getSimpleName() + ")");
+                    System.out.println("2. Robô 2 (" + roboAereoXY.getClass().getSimpleName() + ")");
+                    System.out.println("3. Robô 3 (" + roboCargueiro.getClass().getSimpleName() + ")");
+                    System.out.println("4. Robô 4 (" + roboAereoYX.getClass().getSimpleName() + ")");
+                    System.out.print("Opção: ");
+                    int remetenteOp = scanner.nextInt();
+                    
+                    Comunicavel remetente = null;
+                    switch (remetenteOp) {
+                        case 1: remetente = roboBlindado; break;
+                        case 2: remetente = roboAereoXY; break;
+                        case 3: remetente = roboCargueiro; break;
+                        case 4: remetente = roboAereoYX; break;
+                        default:
+                            System.out.println("Opção inválida.");
+                            break;
+                    }
                 
+                    System.out.println("Escolha o robô destinatário:");
+                    System.out.println("1. Robô 1 (" + roboBlindado.getClass().getSimpleName() + ")");
+                    System.out.println("2. Robô 2 (" + roboAereoXY.getClass().getSimpleName() + ")");
+                    System.out.println("3. Robô 3 (" + roboCargueiro.getClass().getSimpleName() + ")");
+                    System.out.println("4. Robô 4 (" + roboAereoYX.getClass().getSimpleName() + ")");
+                    System.out.print("Opção: ");
+                    int destinatarioOp = scanner.nextInt();
+                
+                    Comunicavel destinatario = null;
+                    switch (destinatarioOp) {
+                        case 1: destinatario = roboBlindado; break;
+                        case 2: destinatario = roboAereoXY; break;
+                        case 3: destinatario = roboCargueiro; break;
+                        case 4: destinatario = roboAereoYX; break;
+                        default:
+                            System.out.println("Opção inválida.");
+                            break;
+                    }
+                
+                    scanner.nextLine(); 
+                    System.out.print("Digite a mensagem: ");
+                    String mensagem = scanner.nextLine();
+                
+                    if (remetente != null && destinatario != null) {
+                        CentralComunicacao.enviarMensagem(remetente, destinatario, mensagem);
+                        central.registrarMensagem("Robô " + remetenteOp, mensagem);
+
+
+                    } else {
+                        System.out.println("Robôs inválidos.");
+                    }
                     break;
-                case 5: //SENSORIAVEL
+                case 5: 
+                System.out.println("Escolha o robô:");
+                System.out.println("1. Robô 1 (" + roboBlindado.getClass().getSimpleName() + ")");
+                System.out.println("2. Robô 2 (" + roboAereoXY.getClass().getSimpleName() + ")");
+                System.out.println("3. Robô 3 (" + roboCargueiro.getClass().getSimpleName() + ")");
+                System.out.println("4. Robô 4 (" + roboAereoYX.getClass().getSimpleName() + ")");
+                System.out.print("Opção: ");
+                opcaoRobo = scanner.nextInt();
+                Robo roboSelecionado2 = null;
+                switch (opcaoRobo) {
+                    case 1: roboSelecionado2 = roboBlindado; break;
+                    case 2: roboSelecionado2 = roboAereoXY; break;
+                    case 3: roboSelecionado2 = roboCargueiro; break;
+                    case 4: roboSelecionado2 = roboAereoYX; break;
+                    default:
+                    System.out.println("Opção inválida.");
+
+                    roboSelecionado2.acionarSensores();
+                    
                     break;
                 
                 case 6: //Ligar e desligar robôs
@@ -289,7 +360,9 @@ public class Main {
                                 }
                             }
                     break;
-                case 7: //Vizualizar mensagem
+                    case 7:
+                    System.out.println("Mensagens trocadas entre os robôs:");
+                    central.exibirMensagens();
                     break;
                 case 0:
                     System.out.println("Encerrando...");
