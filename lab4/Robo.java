@@ -14,10 +14,6 @@ public abstract class Robo implements Entidade, Comunicavel, Sensoreavel{
     protected CentralComunicacao central;
     protected EstadoRobo estado;
     protected TipoEntidade tipoEntidade = TipoEntidade.ROBO;
-
-    public EstadoRobo getEstado(){
-        return this.estado;
-    }
     
     public String getId() {
         return this.id;
@@ -75,6 +71,10 @@ public abstract class Robo implements Entidade, Comunicavel, Sensoreavel{
         return totalColisoes;
     }
     
+    public EstadoRobo getEstado(){
+        return estado;
+    }
+    
     public void setAmbiente(Ambiente a){
         this.ambiente=a;
     }
@@ -109,7 +109,7 @@ public abstract class Robo implements Entidade, Comunicavel, Sensoreavel{
             s.monitorar();
         }
     }
-
+ 
     //Método para mover o robô dentro do ambiente, verificando obstáculos e limites de borda
     public boolean mover(int deltaX, int deltaY){
         if(this.ambiente.dentroDosLimites(this.posicaoX+deltaX, this.posicaoY+deltaY, 0) && !identificarObstaculo(this.posicaoX+deltaX, this.posicaoY+deltaY, this.posicaoZ)){

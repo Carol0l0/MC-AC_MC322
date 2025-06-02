@@ -40,19 +40,21 @@ public class Main {
         ambiente.adicionarEntidade(forteVento);
         ambiente.adicionarEntidade(lago);
 
+        CentralComunicacao central = new CentralComunicacao();
+
         //Menu Interativo
         int opcao;
         int opcaoRobo;
         do {
             System.out.println("\nMENU INTERATIVO");
-            System.out.println("1. Listar robôs por tipos e estados"); //FEITO
-            System.out.println("2. Selecionar robô para mover/executar tarefa"); //FEITO
-            System.out.println("3. Visualizar mapa 2D do ambiente"); //FEITO
+            System.out.println("1. Listar robôs por tipos e estados"); 
+            System.out.println("2. Selecionar robô para mover/executar tarefa"); 
+            System.out.println("3. Visualizar mapa 2D do ambiente"); 
             System.out.println("4. Enviar mensagem");
             System.out.println("5. Usar sensor");
-            System.out.println("6. Ativar/Desligar robô");  //FEITO
+            System.out.println("6. Ativar/Desligar robô"); 
             System.out.println("7. Registro mensagens trocadas entre robôs");
-            System.out.println("0. Sair"); //FEITO
+            System.out.println("0. Sair"); 
             System.out.print("Escolha uma opção: ");
             opcao = scanner.nextInt();
 
@@ -176,8 +178,8 @@ public class Main {
                             case 2: //Carregar peso
                                 carga=scanner.nextInt();
                                 roboCargueiro.carregarEntrega(carga);
-                                break;
-                            case 3: //Descarregar peso
+                                break; 
+                            case 3:
                                 carga=scanner.nextInt();
                                 roboCargueiro.descarregarEntrega(carga);
                                 break;
