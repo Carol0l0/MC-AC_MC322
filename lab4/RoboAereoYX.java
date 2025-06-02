@@ -11,7 +11,7 @@ public class RoboAereoYX extends RoboAereo implements LigaDesliga{
     //Método para recarregar completamente a bateria do robô.
     @Override
     public void executarTarefa() {//Carrega o Robô
-        this.nivelBateria = 50;     //Define o nível da bateria de volta para 50%
+        this.nivelBateria = 100;     //Define o nível da bateria de volta para 100%
         System.out.println(getId() + " foi recarregado. Nível de bateria: " + nivelBateria + "%.");
     }
 
@@ -30,7 +30,7 @@ public class RoboAereoYX extends RoboAereo implements LigaDesliga{
 
                 if (dx <= 1 && dy <= 1 && dz == 0) { // adjacente no mesmo plano
                     Robo r = (Robo) e;
-                    if(r.gEstadoRobo()==EstadoRobo.LIGADO){
+                    if(r.getEstado()==EstadoRobo.LIGADO){
                         r.desligar();
                         System.out.println(this.getId() + " desligou " + r.getId());
                     }

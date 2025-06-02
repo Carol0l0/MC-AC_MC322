@@ -13,6 +13,10 @@ public abstract class Robo implements Entidade, Comunicavel, Sensoreavel{
     private ArrayList<Sensor> sensores;
     protected EstadoRobo estado;
     protected TipoEntidade tipoEntidade = TipoEntidade.ROBO;
+
+    public EstadoRobo getEstado(){
+        return this.estado;
+    }
     
     public String getId() {
         return this.id;
@@ -68,10 +72,6 @@ public abstract class Robo implements Entidade, Comunicavel, Sensoreavel{
 
     public int getTotalColisoes() {
         return totalColisoes;
-    }
-    
-    public EstadoRobo getEstado(){
-        return estado;
     }
     
     public void setAmbiente(Ambiente a){

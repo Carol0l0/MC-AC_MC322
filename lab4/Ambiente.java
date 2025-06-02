@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 
 // Classe que representa o ambiente onde os robôs se movimentam
 public class Ambiente{
@@ -72,6 +71,10 @@ public class Ambiente{
             if (!dentroDosLimites(x1, y1, z) || !dentroDosLimites(x2, y2, z)) {
                 throw new ForaDosLimitesException("Posição da entidade '" + e.getDescricao() + "' está fora dos limites.");
             }
+
+            if(!e.podeAdicionar(this)){
+                throw new PosicaoOcupadaException("Espaço já ocupado por outra entidade!");
+            }
     
             if (e.getTipoEntidade() == TipoEntidade.ROBO) {
                 for (Entidade existente : listaEntidades) {
@@ -94,11 +97,13 @@ public class Ambiente{
                     }
                 }
             }
-            System.out.println("\nEntidade '" + e.getTipoEntidade() + "' adicionada com sucesso!");
+            System.out.println("\nEntidade '" + e.getId() + "' adicionada com sucesso!");
     
-        } catch (ForaDosLimitesException | NomeDuplicadoException ex ) {
+        } catch (ForaDosLimitesException | NomeDuplicadoException | PosicaoOcupadaException ex ) {
             System.out.println("Erro ao adicionar entidade: " + ex.getMessage());
         }
+
+
     }
 
     //Remover entidade do mapa e da lista (+)
@@ -182,7 +187,7 @@ public class Ambiente{
                 throw new ForaDosLimitesException("Posição da entidade '" + c.getDescricao() + "' está fora dos limites.");
             }
     
-            if (c.podeAdicionar(this)) {
+            if (!c.podeAdicionar(this)) {
                 throw new PosicaoOcupadaException("Espaço já ocupado por outra entidade.");
             }
     
@@ -203,7 +208,7 @@ public class Ambiente{
                 }
             }
 
-            System.out.println("\nEntidade '" + TipoEntidade.CAIXADESOM + "' adicionada com sucesso!");
+            System.out.println("\nEntidade '" + c.getId() + "' adicionada com sucesso!");
     
         } catch (ForaDosLimitesException | PosicaoOcupadaException ex ) {
             System.out.println("Erro ao adicionar entidade: " + ex.getMessage());
