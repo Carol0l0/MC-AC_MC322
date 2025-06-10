@@ -167,9 +167,11 @@ public class RoboTerrestreBlindado extends RoboTerrestre implements Atacante {
             Entidade entidade = ambiente.qualObstaculo(destinoX, destinoY, posicaoZ);
     
             if (entidade != null 
-                && entidade.getTipoEntidade()!=TipoEntidade.VAZIO
+                && entidade.getTipoEntidade() != TipoEntidade.VAZIO
                 && !entidade.getId().equals(this.getId())) {
+    
                 atacar(entidade.getId());
+                System.out.println(getId() + " eliminou um(a) " + entidade.getTipoEntidade());
                 return;
             }
     
@@ -178,9 +180,10 @@ public class RoboTerrestreBlindado extends RoboTerrestre implements Atacante {
                 return;
             }
         }
+    
+        System.out.println("Fim da varredura. Nada foi encontrado.");
     }
     
     
-    
-    
+
 }

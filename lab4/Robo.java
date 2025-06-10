@@ -107,7 +107,7 @@ public abstract class Robo implements Entidade, Comunicavel, Sensoreavel{
             s.monitorar();
         }
     }
- 
+
     //Método para mover o robô dentro do ambiente, verificando obstáculos e limites de borda
     public boolean mover(int deltaX, int deltaY){
         if(this.ambiente.dentroDosLimites(this.posicaoX+deltaX, this.posicaoY+deltaY, 0) && !identificarObstaculo(this.posicaoX+deltaX, this.posicaoY+deltaY, this.posicaoZ)){
@@ -237,12 +237,14 @@ public abstract class Robo implements Entidade, Comunicavel, Sensoreavel{
     }
 
     //proximos 3 metodos foram herdados da interface comunicavel e usam a classe centralComunicacao, preferi implementar as interfaces no robo geral pq acredito que todos robos irão usar
+    @Override
     public void enviarMensagem(Comunicavel destinatario, String mensagem) throws RoboDesligadoException {
         if (this.estado == EstadoRobo.DESLIGADO) {
             throw new RoboDesligadoException("Robô " + this.id + " está desligado e não pode enviar mensagens.");
         }
-        CentralComunicacao.enviarMensagem(this, destinatario, mensagem);
-    }
+    
+        destinatario.receberMensagem("Mensagem de " + this.id + ": " + mensagem);
+    }    
     
     public void receberMensagem(String mensagem) throws RoboDesligadoException {
         if (this.estado == EstadoRobo.DESLIGADO) {

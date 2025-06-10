@@ -27,11 +27,11 @@ public class Main {
         ambiente.adicionarEntidade(roboAereoYX);
 
         //Criação de obstáculos
-        Obstaculo arvore  = new Obstaculo(40, 40, 40, 40, TipoObstaculo.ARVOREMISTICA);
-        SabioMagico sabio = new SabioMagico(5, 5, 5, 5);//TipoObstaculo.SABIOMAGICO
-        CaixaDeSom caixa = new CaixaDeSom(15, 15, 15, 15, 5);//TipoObstaculo.CAIXADESOM
-        Obstaculo forteVento = new Obstaculo(25, 25, 29, 29, TipoObstaculo.FORTEVENTANIA);
-        Obstaculo lago = new Obstaculo(2, 2, 4, 4, TipoObstaculo.LAGODEACIDO);
+        Obstaculo arvore  = new Obstaculo(40, 40, 40, 40, TipoObstaculo.ARVOREMISTICA);         //ArvoreMistica
+        SabioMagico sabio = new SabioMagico(5, 5, 5, 5);                                        //SabioMagico
+        CaixaDeSom caixa = new CaixaDeSom(15, 15, 15, 15, 5);                       //CaixaDeSom
+        Obstaculo forteVento = new Obstaculo(25, 25, 29, 29, TipoObstaculo.FORTEVENTANIA);      //ForteVentania
+        Obstaculo lago = new Obstaculo(2, 2, 4, 4, TipoObstaculo.LAGODEACIDO);                  //LagoDeAcido
         
         //Adição de obstaculos no ambiente
         ambiente.adicionarEntidade(arvore);
@@ -57,6 +57,7 @@ public class Main {
             System.out.println("0. Sair"); 
             System.out.print("Escolha uma opção: ");
             opcao = scanner.nextInt();
+            scanner.nextLine();
 
             switch (opcao) {
                 case 1: //Mostrar estados dos robôs
@@ -71,7 +72,7 @@ public class Main {
                     roboAereoYX.exibirPosicao();
                     System.out.println("============================");
                     break;
-                case 2: //Realizar ação em algum robô
+                case 2: //Realizar ação com algum robô
                     System.out.println("Escolha o robô:");
                     System.out.println("1. Robô 1 (" + roboBlindado.getClass().getSimpleName() + ")");
                     System.out.println("2. Robô 2 (" + roboAereoXY.getClass().getSimpleName() + ")");
@@ -85,10 +86,11 @@ public class Main {
                         case 1: //Robô Blindado
                             System.out.println("Escolha a ação:");
                             System.out.println("1. Mover");
-                            System.out.println("2. Recuperar Dano");
+                            System.out.println("2. Recuperar Resistência");
                             System.out.println("3. Executar Tarefa (Atacar)");
                             System.out.print("Opção: ");
                             opcaoAcao=scanner.nextInt();
+                            scanner.nextLine();
 
                             switch (opcaoAcao) {
                                 case 1: //Move Blindado
@@ -101,17 +103,16 @@ public class Main {
                                         System.out.println("Robô movido para " + roboBlindado.getX1() + "," + roboBlindado.getY1() + " com sucesso!");
                                     }
                                     ambiente.detectarColisoes();
-
                                     break;
-                                case 2: //Recupera dano
-                                    System.out.print("Você quer recuperar quanto dano?");
-                                    int dano;
-                                    dano=scanner.nextInt();
-                                    roboBlindado.recuperaDano(dano);
+                                case 2:
+                                System.out.print("Quanto você quer recarregar? ");
+                                    delta = scanner.nextInt();
+                                    roboBlindado.recuperaDano(delta);
                                     break;
                                 case 3: //Ataca
                                     roboBlindado.executarTarefa();
                                     break;
+                                    
                                 default:
                                     System.out.println("Opção inválida.");
                                     break;
@@ -244,27 +245,26 @@ public class Main {
                     int z = scanner.nextInt();
                     ambiente.visualizarAmbiente(z);
                     break;
-                    case 4: // Enviar mensagem
-
-                    System.out.println("===== ENVIAR MENSAGEM ENTRE ROBÔS =====");
-                    System.out.println("Escolha o robô remetente:");
-                    System.out.println("1. Robô 1 (" + roboBlindado.getClass().getSimpleName() + ")");
-                    System.out.println("2. Robô 2 (" + roboAereoXY.getClass().getSimpleName() + ")");
-                    System.out.println("3. Robô 3 (" + roboCargueiro.getClass().getSimpleName() + ")");
-                    System.out.println("4. Robô 4 (" + roboAereoYX.getClass().getSimpleName() + ")");
-                    System.out.print("Opção: ");
-                    int remetenteOp = scanner.nextInt();
+                case 4: //Enviar mensagem
+                System.out.println("===== ENVIAR MENSAGEM ENTRE ROBÔS =====");
+                System.out.println("Escolha o robô remetente:");
+                System.out.println("1. Robô 1 (" + roboBlindado.getClass().getSimpleName() + ")");
+                System.out.println("2. Robô 2 (" + roboAereoXY.getClass().getSimpleName() + ")");
+                System.out.println("3. Robô 3 (" + roboCargueiro.getClass().getSimpleName() + ")");
+                System.out.println("4. Robô 4 (" + roboAereoYX.getClass().getSimpleName() + ")");
+                System.out.print("Opção: ");
+                int remetenteOp = scanner.nextInt();
                     
-                    Comunicavel remetente = null;
-                    switch (remetenteOp) {
-                        case 1: remetente = roboBlindado; break;
-                        case 2: remetente = roboAereoXY; break;
-                        case 3: remetente = roboCargueiro; break;
-                        case 4: remetente = roboAereoYX; break;
-                        default:
-                            System.out.println("Opção inválida.");
-                            break;
-                    }
+                Comunicavel remetente = null;
+                switch (remetenteOp) {
+                    case 1: remetente = roboBlindado; break;
+                    case 2: remetente = roboAereoXY; break;
+                    case 3: remetente = roboCargueiro; break;
+                    case 4: remetente = roboAereoYX; break;
+                    default:
+                        System.out.println("Opção inválida.");
+                        break;
+                }
                 
                     System.out.println("Escolha o robô destinatário:");
                     System.out.println("1. Robô 1 (" + roboBlindado.getClass().getSimpleName() + ")");
@@ -273,7 +273,8 @@ public class Main {
                     System.out.println("4. Robô 4 (" + roboAereoYX.getClass().getSimpleName() + ")");
                     System.out.print("Opção: ");
                     int destinatarioOp = scanner.nextInt();
-                
+                    scanner.nextLine();
+
                     Comunicavel destinatario = null;
                     switch (destinatarioOp) {
                         case 1: destinatario = roboBlindado; break;
@@ -285,7 +286,6 @@ public class Main {
                             break;
                     }
                 
-                    scanner.nextLine(); 
                     System.out.print("Digite a mensagem: ");
                     String mensagem = scanner.nextLine();
                 
@@ -298,9 +298,58 @@ public class Main {
                         System.out.println("Robôs inválidos.");
                     }
                     break;
-                case 5:
-                    break;
-                
+                case 5: //Usar sensor
+                System.out.println("Digite o nome do robô (Blind, Voa XY, Cargueiro, Voa YX):");
+                String nomeRoboSensor = scanner.nextLine().trim();
+            
+                Robo roboSensorSelecionado = null;
+            
+                switch (nomeRoboSensor.toLowerCase()) {
+                    case "blind" -> roboSensorSelecionado = roboBlindado;
+                    case "voa xy" -> roboSensorSelecionado = roboAereoXY;
+                    case "cargueiro" -> roboSensorSelecionado = roboCargueiro;
+                    case "voa yx" -> roboSensorSelecionado = roboAereoYX;
+                    default -> {
+                        System.out.println("Nome de robô inválido.");
+                        break;
+                    }
+                }
+            
+                if (roboSensorSelecionado == null) break;
+            
+                System.out.println("Escolha o tipo de sensor:");
+                System.out.println("1. Sensor de Proximidade");
+                System.out.println("2. Sensor Sonoro");
+                int tipoSensor = scanner.nextInt();
+                scanner.nextLine(); 
+            
+                Sensor sensor = null;
+                switch (tipoSensor) {
+                    case 1 -> sensor = new SensorProximidade(roboSensorSelecionado, 2);
+                    case 2 -> sensor = new SensorSonoro(2, roboSensorSelecionado);
+                    default -> {
+                        System.out.println("Tipo de sensor inválido.");
+                        break;
+                    }
+                }
+            
+                if (sensor != null) {
+                    roboSensorSelecionado.adicionarSensor(sensor);
+                    System.out.println("Sensor adicionado com sucesso ao robô " + nomeRoboSensor);
+            
+                    if (roboSensorSelecionado instanceof Sensoreavel sensoreavel) {
+                        try {
+                            sensoreavel.acionarSensores();
+                        } catch (RoboDesligadoException e) {
+                            System.out.println("Erro: " + e.getMessage());
+                        }
+                    } else {
+                        System.out.println("Este robô não possui sensores ativáveis.");
+                    }
+                }
+            
+                break;
+            
                 case 6: //Ligar e desligar robôs
                     System.out.println("===== ATIVAR/DESLIGAR ROBÔ =====");
                     System.out.println("Escolha o robô:");
@@ -342,10 +391,11 @@ public class Main {
                                 }
                             }
                     break;
-                    case 7:
-                    System.out.println("Mensagens trocadas entre os robôs:");
-                    central.exibirMensagens();
-                    break;
+                case 7: //Registrar mensagens trocadas pelos robos
+                System.out.println("Mensagens trocadas entre os robôs:");
+                central.exibirMensagens();
+                break;
+
                 case 0:
                     System.out.println("Encerrando...");
                     break;

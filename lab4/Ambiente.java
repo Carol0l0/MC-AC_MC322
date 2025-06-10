@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-// Classe que representa o ambiente onde os robôs se movimentam
+//Classe que representa o ambiente onde os robôs se movimentam
 public class Ambiente{
     
     private int aX; //tamanho eixo x
@@ -59,7 +59,7 @@ public class Ambiente{
         return false;
     }
 
-    //tem o msm funcionamento do adicionarRobo mas para entidades em geral e considerei 3 exceptions, se n cair nelas ataliza lista e mapa (+)
+    //tem o msm funcionamento do adicionarRobo mas para entidades em geral e considerei 3 exceptions, se n cair nelas ataliza lista e mapa 
     public void adicionarEntidade(Entidade e) {
         int x1 = e.getX1();
         int x2=e.getX2();
@@ -108,7 +108,7 @@ public class Ambiente{
 
     }
 
-    //Remover entidade do mapa e da lista (+)
+    //Remover entidade do mapa e da lista 
     public void removerEntidade(Entidade e) {
         int x1 = e.getX1();
         int x2 = e.getX2();
@@ -166,7 +166,7 @@ public class Ambiente{
         return null;
     }
 
-    //Encontra Rôbo pela lista (+)
+    //Encontra Rôbo pela lista 
     public Robo buscarRoboPorNome(String nome) {
         for (Entidade e : listaEntidades) {
             if (e instanceof Robo r) {
@@ -178,7 +178,7 @@ public class Ambiente{
         return null;
     }
     
-    //Adiciona caixa de som (não sei se posso retirar)
+    //Adiciona caixa de som 
     public void adicionaCaixaDeSom(CaixaDeSom c){
         int X = c.getX1();
         int Y = c.getY1();
@@ -218,7 +218,7 @@ public class Ambiente{
     
     }
 
-    //remove caixa de som do ambiente (não sei se posso retirar)
+    //remove caixa de som do ambiente 
     public void removeCaixaDeSom(CaixaDeSom c){
         int x = c.getX1();
         int y = c.getY1();
@@ -247,7 +247,6 @@ public class Ambiente{
         
     }
 
-    //(CONSERTAR) acredito que criar um getColisão em entidades, e tentar calcular colisões de robos-robos e robos-obstaculos (+)
     public void detectarColisoes(){ //Conta o número total de colisões até agora
     
         int totalColisoes = 0;
@@ -292,7 +291,7 @@ public class Ambiente{
         }
     }
     
-    // Usa método da classe robo para chamar sensor (+)
+    // Usa método da classe robo para chamar sensor 
     public void executarSensores() {
         for (Entidade e : listaEntidades) {
             if (e instanceof Robo) {
@@ -305,7 +304,7 @@ public class Ambiente{
         }
     }
     
-    // Move entidade(+)
+    // Move entidade
     public void moverEntidade(Entidade e, int novoX1, int novoY1){
         int largura = e.getX2() - e.getX1(); // diferença entre X2 e X1
         int profundidade = e.getY2() - e.getY1();
