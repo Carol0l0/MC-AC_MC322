@@ -58,6 +58,10 @@ public abstract class Robo implements Entidade, Comunicavel, Sensoreavel{
         return tipoEntidade;
     }
 
+    public void setTipoEntidade(TipoEntidade tipo) {
+        this.tipoEntidade = tipo;
+    }
+    
     public String getDescricao(){
         return this.tipoEntidade.descricao;
     }
