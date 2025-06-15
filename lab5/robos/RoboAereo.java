@@ -1,7 +1,7 @@
 package robos;
-import ambiente.Ambiente;
+import ambientes.Ambiente;
 
-class RoboAereo extends Robo{
+public class RoboAereo extends Robo{
 
     private int altitudeMax; //altura máxima
 

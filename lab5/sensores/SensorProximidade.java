@@ -24,7 +24,7 @@ public class SensorProximidade extends Sensor {
         int y = this.robo.getY1();
         int z = this.robo.getZ();
 
-        for(Entidade e : this.robo.ambiente.listaEntidades){
+        for(Entidade e : this.robo.getAmbiente().listaEntidades){
             if(e instanceof Robo){ //Se for um rôbo
                 boolean dentroX =  e.getX1()>= x - raio &&  e.getX1()<= x + raio;
                 boolean dentroY =  e.getY1()>= y - raio &&  e.getY1()<= y + raio;

@@ -1,5 +1,5 @@
 package entidades;
-import ambiente.Ambiente;
+import ambientes.Ambiente;
 
 public interface Entidade { // utilizada em Rôbo e Obstáculo
 

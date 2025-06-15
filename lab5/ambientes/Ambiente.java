@@ -1,4 +1,4 @@
-package ambiente;
+package ambientes;
 import java.util.ArrayList;
 
 import entidades.Entidade;
@@ -167,7 +167,7 @@ public class Ambiente{
         return false;
     }
 
-    Entidade qualObstaculo(int x, int y, int z){
+    public Entidade qualObstaculo(int x, int y, int z){
         for(Entidade e : listaEntidades){
             if(e.getTipoEntidade()!=TipoEntidade.ROBO){
                 if(e.getX1()<=x && x<=e.getX2() && e.getY1()<=y && y<=e.getY2() && z<=e.getZ()){

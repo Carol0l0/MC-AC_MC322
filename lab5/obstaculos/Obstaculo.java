@@ -1,7 +1,7 @@
 package obstaculos;
 import entidades.Entidade;
 import entidades.TipoEntidade;
-import ambiente.Ambiente;
+import ambientes.Ambiente;
 
 public class Obstaculo implements Entidade{
     private int posicaoX1;

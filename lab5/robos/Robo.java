@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import entidades.Entidade;
 import entidades.TipoEntidade;
 import sensores.Sensor;
-import ambiente.Ambiente;
+import ambientes.Ambiente;
 import comunicacao.Comunicavel;
 import exception.RoboDesligadoException;
 import exception.ForaDosLimitesException;
@@ -92,6 +92,10 @@ public abstract class Robo implements Entidade, Comunicavel, Sensoreavel{
     
     public void setAmbiente(Ambiente a){
         this.ambiente=a;
+    }
+
+    public Ambiente getAmbiente(){
+        return this.ambiente;
     }
 
     public void ligar() {

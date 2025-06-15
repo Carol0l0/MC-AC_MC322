@@ -1,6 +1,5 @@
 package sensores;
 import robos.Robo;
-import ambiente.Ambiente;
 
 public class SensorSonoro extends Sensor{
 
@@ -10,7 +9,7 @@ public class SensorSonoro extends Sensor{
 
     @Override
     public int monitorar(){
-        int barulho=this.robo.ambiente.som[this.robo.getX1()][this.robo.getY1()][this.robo.getZ()];
+        int barulho=this.robo.getAmbiente().som[this.robo.getX1()][this.robo.getY1()][this.robo.getZ()];
         System.out.println("A intensidade do som é "+ barulho);
         return barulho;
     }

@@ -1,6 +1,6 @@
 package robos;
 import entidades.Entidade;
-import ambiente.Ambiente;
+import ambientes.Ambiente;
 
 public class RoboAereoYX extends RoboAereo implements LigaDesliga{
 

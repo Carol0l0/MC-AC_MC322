@@ -1,6 +1,6 @@
 import java.util.*;
 
-import ambiente.Ambiente;
+import ambientes.Ambiente;
 import comunicacao.CentralComunicacao;
 import comunicacao.Comunicavel;
 import exception.RoboDesligadoException;
@@ -12,6 +12,7 @@ import robos.RoboAereoXY;
 import robos.RoboAereoYX;
 import robos.RoboTerrestreBlindado;
 import robos.RoboTerrestreDeCarga;
+import robos.TipoColorido;
 import sensores.Sensor;
 import sensores.SensorProximidade;
 import sensores.SensorSonoro;
