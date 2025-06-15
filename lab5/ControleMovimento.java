@@ -1,4 +1,11 @@
 // ControleMovimento.java
+
+import exception.ForaDosLimitesException;
+import exception.ObstaculoException;
+import exception.RoboDesligadoException;
+import robos.EstadoRobo;
+import robos.Robo;
+
 public class ControleMovimento {
     private Robo robo; // Referência ao robô que este controle pertence
 

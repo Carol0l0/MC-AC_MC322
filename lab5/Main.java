@@ -1,5 +1,22 @@
 import java.util.*;
 
+import ambiente.Ambiente;
+import comunicacao.CentralComunicacao;
+import comunicacao.Comunicavel;
+import exception.RoboDesligadoException;
+import obstaculos.CaixaDeSom;
+import obstaculos.Obstaculo;
+import obstaculos.TipoObstaculo;
+import robos.Robo;
+import robos.RoboAereoXY;
+import robos.RoboAereoYX;
+import robos.RoboTerrestreBlindado;
+import robos.RoboTerrestreDeCarga;
+import sensores.Sensor;
+import sensores.SensorProximidade;
+import sensores.SensorSonoro;
+import sensores.Sensoreavel;
+
 public class Main {
 
     public static void main(String[] args) {
