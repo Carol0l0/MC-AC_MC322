@@ -1,6 +1,7 @@
 package ambientes;
 import java.util.ArrayList;
 
+import comunicacao.CentralComunicacao;
 import entidades.Entidade;
 import robos.TipoColorido;
 import entidades.TipoEntidade;
@@ -22,15 +23,17 @@ public class Ambiente{
     public ArrayList<Entidade> listaEntidades;
     public TipoEntidade mapa[][][]; //mostra o que ocupa cada espaço
     public int som[][][]; //registra a intensidade se som no ambiente
+    public CentralComunicacao centralAmbiente;
 
     //Construtor para inicializar o ambiente com as dimensões específicas
-    public Ambiente(int aX, int aY, int aZ){
+    public Ambiente(int aX, int aY, int aZ, CentralComunicacao centralAmbiente){
         this.aX = aX;
         this.aY = aY;
         this.aZ = aZ;
         this.listaEntidades=new ArrayList<Entidade>();
         this.mapa=new TipoEntidade[aX][aY][aZ];
         this.som=new int[aX][aY][aZ];
+        this.centralAmbiente = new CentralComunicacao();
     }
 
     //inicializa o mapa
@@ -101,6 +104,7 @@ public class Ambiente{
             if(e.getTipoEntidade()==TipoEntidade.ROBO){ //entidade é um robô
                 Robo r = (Robo) e;
                 r.setAmbiente(this);
+                r.setCentral(this.centralAmbiente);
                 mapa[x1][y1][z]=TipoEntidade.ROBO;
             }
             else{ //Entidade é um obstáculo

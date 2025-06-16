@@ -19,8 +19,9 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
 
+        CentralComunicacao central = new CentralComunicacao();
         //Criação do ambiente
-        Ambiente ambiente = new Ambiente(50, 50, 50);
+        Ambiente ambiente = new Ambiente(50, 50, 50, central);
         ambiente.inicializarMapa();
 
         //Instanciamento e ligando robôs
@@ -52,8 +53,6 @@ public class Main {
         ambiente.adicionaCaixaDeSom(caixa);
         ambiente.adicionarEntidade(forteVento);
         ambiente.adicionarEntidade(lago);
-
-        CentralComunicacao central = new CentralComunicacao();
 
         //Menu Interativo
         int opcao;
@@ -304,7 +303,7 @@ public class Main {
                 
                     if (remetente != null && destinatario != null) {
                         CentralComunicacao.enviarMensagem(remetente, destinatario, mensagem);
-                        central.registrarMensagem("Robô " + remetenteOp, mensagem);
+                        ambiente.centralAmbiente.registrarMensagem("Robô " + remetenteOp, mensagem);
 
 
                     } else {
@@ -406,7 +405,7 @@ public class Main {
                     break;
                 case 7: //Registrar mensagens trocadas pelos robos
                 System.out.println("Mensagens trocadas entre os robôs:");
-                central.exibirMensagens();
+                ambiente.centralAmbiente.exibirMensagens();
                 break;
 
                 case 0:
