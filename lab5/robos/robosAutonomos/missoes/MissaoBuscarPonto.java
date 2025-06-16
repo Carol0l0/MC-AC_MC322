@@ -1,24 +1,17 @@
-package missoes;
+package robos.robosAutonomos.missoes;
 // MissaoBuscarPonto.java
 
 import exception.RoboDesligadoException;
-import robos.AgenteInteligente;
+import robos.robosAutonomos.*;
 
 public class MissaoBuscarPonto implements Missao {
-    private String nome;
     private String descricao;
     private int targetX, targetY;
 
     public MissaoBuscarPonto(int targetX, int targetY) {
-        this.nome = "Missão de Busca de Ponto Específico";
         this.targetX = targetX;
         this.targetY = targetY;
         this.descricao = "O robô irá mover-se até a coordenada (" + targetX + ", " + targetY + ").";
-    }
-
-    @Override
-    public String getNome() {
-        return nome;
     }
 
     @Override
@@ -28,7 +21,7 @@ public class MissaoBuscarPonto implements Missao {
 
     @Override
     public boolean executar(AgenteInteligente agente) {
-        System.out.println("--- Iniciando Missão de Busca de Ponto: " + getNome() + " ---");
+        System.out.println("--- Iniciando Missão de Busca de Ponto: " + "(" + targetX + ", " + targetY + ")" + " ---");
         System.out.println("Agente: " + agente.getId() + " - " + getDescricao());
 
         try {

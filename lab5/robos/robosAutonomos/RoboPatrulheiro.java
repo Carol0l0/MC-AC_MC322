@@ -1,4 +1,4 @@
-package robos;
+package robos.robosAutonomos;
 // RoboPatrulheiro.java
 
 import entidades.TipoEntidade;
@@ -18,6 +18,12 @@ public class RoboPatrulheiro extends AgenteInteligente{
     public void executarMissao() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'executarMissao'");
+    }
+
+    @Override
+    public void executarTarefa() {
+        // TODO Auto-generated method stub
+        
     }
 
 }

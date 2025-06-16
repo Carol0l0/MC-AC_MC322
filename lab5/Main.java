@@ -4,19 +4,14 @@ import ambientes.Ambiente;
 import comunicacao.CentralComunicacao;
 import comunicacao.Comunicavel;
 import exception.RoboDesligadoException;
-import obstaculos.CaixaDeSom;
-import obstaculos.Obstaculo;
-import obstaculos.TipoObstaculo;
+import obstaculos.*;
 import robos.Robo;
 import robos.RoboAereoXY;
 import robos.RoboAereoYX;
 import robos.RoboTerrestreBlindado;
 import robos.RoboTerrestreDeCarga;
 import robos.TipoColorido;
-import sensores.Sensor;
-import sensores.SensorProximidade;
-import sensores.SensorSonoro;
-import sensores.Sensoreavel;
+import sensores.*;
 
 public class Main {
 

@@ -1,28 +1,23 @@
-package missoes;
+package robos.robosAutonomos.missoes;
 // MissaoPatrulhar.java
 import java.util.List;
 
 import exception.RoboDesligadoException;
-import robos.AgenteInteligente;
+import robos.robosAutonomos.*;
+
 
 import java.util.ArrayList; // Para o exemplo do Main
 import java.util.Arrays;    // Para o exemplo do Main
 
 public class MissaoPatrulhar implements Missao {
-    private String nome;
     private String descricao;
     private List<int[]> caminho; // Lista de coordenadas [x, y] a serem patrulhadas
 
     public MissaoPatrulhar(List<int[]> caminho) {
-        this.nome = "Missão de Patrulha em Caminho Definido";
         this.caminho = caminho;
         this.descricao = "O robô seguirá o caminho predefinido de " + caminho.size() + " pontos.";
     }
 
-    @Override
-    public String getNome() {
-        return nome;
-    }
 
     @Override
     public String getDescricao() {
@@ -31,7 +26,7 @@ public class MissaoPatrulhar implements Missao {
 
     @Override
     public boolean executar(AgenteInteligente agente) {
-        System.out.println("--- Iniciando Missão de Patrulha: " + getNome() + " ---");
+        System.out.println("--- Iniciando Missão de Patrulha: ---");
         System.out.println("Agente: " + agente.getId() + " - " + getDescricao());
 
         if (caminho == null || caminho.isEmpty()) {

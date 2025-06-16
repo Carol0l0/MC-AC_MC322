@@ -25,6 +25,7 @@ public abstract class Robo implements Entidade, Comunicavel, Sensoreavel{
     private ArrayList<Sensor> sensores;
     protected EstadoRobo estado;
     protected TipoEntidade tipoEntidade = TipoEntidade.ROBO;
+    protected ControleMovimento controleMov;
     
     public String getId() {
         return this.id;
@@ -64,6 +65,10 @@ public abstract class Robo implements Entidade, Comunicavel, Sensoreavel{
 
     public void setY2(int y){
         this.posicaoY=y;
+    }
+
+    public void setZ(int z){
+        this.posicaoZ=z;
     }
     
     public TipoEntidade getTipoEntidade(){
@@ -115,7 +120,8 @@ public abstract class Robo implements Entidade, Comunicavel, Sensoreavel{
         this.posicaoY = posicaoY;
         this.posicaoZ = posicaoZ;
         this.sensores = new ArrayList<>();
-        this.estado = EstadoRobo.DESLIGADO; 
+        this.estado = EstadoRobo.DESLIGADO;
+        this.controleMov = new ControleMovimento(this); 
     }
 
     public void adicionarSensor(Sensor sensor) {
