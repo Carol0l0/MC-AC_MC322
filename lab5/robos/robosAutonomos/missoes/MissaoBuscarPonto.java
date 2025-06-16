@@ -34,7 +34,7 @@ public class MissaoBuscarPonto implements Missao {
 
             if (moveu) {
                 System.out.println(agente.getId() + " chegou ao ponto alvo. Posição atual: (" + agente.getX1() + ", " + agente.getY1() + ", " + agente.getZ() + ")");
-                agente.acionarSensores(); // Aciona sensores ao chegar
+                agente.gerenciadorSens.acionarSensores(); // Aciona sensores ao chegar
                 System.out.println("--- Missão de Busca de Ponto concluída com sucesso por " + agente.getId() + " ---");
                 return true;
             } else {

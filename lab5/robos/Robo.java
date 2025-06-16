@@ -4,17 +4,15 @@ import java.util.ArrayList;
 
 import entidades.Entidade;
 import entidades.TipoEntidade;
-import sensores.Sensor;
 import ambientes.Ambiente;
 import comunicacao.Comunicavel;
 import exception.RoboDesligadoException;
 import exception.ForaDosLimitesException;
 import exception.ObstaculoException;
-import sensores.Sensoreavel;
 import obstaculos.Obstaculo;
 import obstaculos.SabioMagico;
 
-public abstract class Robo implements Entidade, Comunicavel, Sensoreavel{
+public abstract class Robo implements Entidade, Comunicavel{
     
     private String id;
     protected String direcao;
@@ -22,10 +20,11 @@ public abstract class Robo implements Entidade, Comunicavel, Sensoreavel{
     protected int posicaoX;
     protected int posicaoY;
     protected int posicaoZ;
-    private ArrayList<Sensor> sensores;
     protected EstadoRobo estado;
     protected TipoEntidade tipoEntidade = TipoEntidade.ROBO;
     protected ControleMovimento controleMov;
+    protected ModuloComunicacao moduloCom;
+    public GerenciadorSensores gerenciadorSens;
     
     public String getId() {
         return this.id;
@@ -119,19 +118,10 @@ public abstract class Robo implements Entidade, Comunicavel, Sensoreavel{
         this.posicaoX = posicaoX;
         this.posicaoY = posicaoY;
         this.posicaoZ = posicaoZ;
-        this.sensores = new ArrayList<>();
         this.estado = EstadoRobo.DESLIGADO;
         this.controleMov = new ControleMovimento(this); 
-    }
-
-    public void adicionarSensor(Sensor sensor) {
-        sensores.add(sensor);
-    }
-
-    public void usarSensores() {
-        for (Sensor s : sensores) {
-            s.monitorar();
-        }
+        this.moduloCom = new ModuloComunicacao(this, null);
+        this.gerenciadorSens = new GerenciadorSensores(this); //reponsável pela utilização de sensores
     }
 
     //Método para mover o robô dentro do ambiente, verificando obstáculos e limites de borda
@@ -277,13 +267,6 @@ public abstract class Robo implements Entidade, Comunicavel, Sensoreavel{
             throw new RoboDesligadoException("Robô " + this.id + " está desligado e não pode receber mensagens.");
         }
         System.out.println("[" + this.id + "] recebeu mensagem: " + mensagem);
-    }
-
-    public void acionarSensores() throws RoboDesligadoException {
-        if (this.estado == EstadoRobo.DESLIGADO) {
-            throw new RoboDesligadoException("Robô " + this.id + " está desligado e não pode usar sensores.");
-        }
-        usarSensores();
     }
 
     public void moverPara(int x, int y, int z) throws RoboDesligadoException, ForaDosLimitesException, ObstaculoException {

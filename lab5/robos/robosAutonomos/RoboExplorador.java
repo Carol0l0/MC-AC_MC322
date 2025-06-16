@@ -1,28 +1,38 @@
 package robos.robosAutonomos;
 // RoboExplorador.java
 
-import entidades.TipoEntidade;
+import java.util.Scanner;
+
+import robos.robosAutonomos.missoes.*;
 
 public class RoboExplorador extends AgenteInteligente{
 
-    private int v_max;       
-
+    MissaoBuscarPonto missaoBusca;
     // Construtor
-    public RoboExplorador(String id, int x1, int y1, int z, int v_max) {
-        super(id, x1, y1, z); 
-        this.v_max = v_max;
-        this.setTipoEntidade(TipoEntidade.ROBO); 
+    public RoboExplorador(String id, int x1, int y1, int z) {
+        super(id, x1, y1, z);
     }
 
     @Override
     public void executarMissao() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'executarMissao'");
+        this.missaoBusca.executar(this);
+    }
+
+    public void explorar(int x, int y){
+        missaoBusca= new MissaoBuscarPonto(x, y);
+        this.executarMissao();
     }
 
     @Override
     public void executarTarefa() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'executarTarefa'");
+        Scanner coordenadas = new Scanner(System.in);
+        System.out.print("x = "); //pede as coordenadas onde o rôbo vai explorar
+        int x = coordenadas.nextInt();
+
+        System.out.print("y = ");
+        int y = coordenadas.nextInt();
+        this.explorar(x, y); //executa a missão
+        coordenadas.close();
     }
+    
 }

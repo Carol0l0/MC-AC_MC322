@@ -5,10 +5,6 @@ import java.util.List;
 import exception.RoboDesligadoException;
 import robos.robosAutonomos.*;
 
-
-import java.util.ArrayList; // Para o exemplo do Main
-import java.util.Arrays;    // Para o exemplo do Main
-
 public class MissaoPatrulhar implements Missao {
     private String descricao;
     private List<int[]> caminho; // Lista de coordenadas [x, y] a serem patrulhadas
@@ -54,7 +50,7 @@ public class MissaoPatrulhar implements Missao {
 
                 if (moveu) {
                     System.out.println(agente.getId() + " chegou ao ponto (" + agente.getX1() + ", " + agente.getY1() + ", " + agente.getZ() + ").");
-                    agente.acionarSensores(); // Aciona sensores no ponto de patrulha
+                    agente.gerenciadorSens.acionarSensores(); // Aciona sensores no ponto de patrulha
                 } else {
                     System.out.println(agente.getId() + " não conseguiu chegar ao ponto (" + destinoX + ", " + destinoY + "). Missão interrompida.");
                     return false; // Missão falhou se não conseguiu alcançar um ponto

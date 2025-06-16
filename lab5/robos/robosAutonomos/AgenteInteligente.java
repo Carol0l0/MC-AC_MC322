@@ -1,6 +1,7 @@
 package robos.robosAutonomos;
 
 import robos.robosAutonomos.missoes.*;
+import exception.RoboDesligadoException;
 import robos.Robo;
 
 public abstract class AgenteInteligente extends Robo {
@@ -19,6 +20,6 @@ public abstract class AgenteInteligente extends Robo {
         return missao!=null;
     }
 
-    public abstract void executarMissao();
+    public abstract void executarMissao() throws RoboDesligadoException;
 
 }

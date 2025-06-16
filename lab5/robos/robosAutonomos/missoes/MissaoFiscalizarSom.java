@@ -5,11 +5,11 @@ import robos.robosAutonomos.*;
 import sensores.SensorSonoro;
 import exception.RoboDesligadoException;
 
-public class MissaoMonitorarSom implements Missao{
+public class MissaoFiscalizarSom implements Missao{
     public String descricao;
     int somPermitido;
 
-    public MissaoMonitorarSom(int somPermitido) { 
+    public MissaoFiscalizarSom(int somPermitido) { 
         this.somPermitido=somPermitido;
         this.descricao="O robô irá checar se o som em sua posição está dentro dos limites permitidos para evitar incômodos";
     }
@@ -28,11 +28,11 @@ public class MissaoMonitorarSom implements Missao{
             SensorSonoro sensorSom=new SensorSonoro(0, agente);
             if(sensorSom.monitorar()>somPermitido){
                 System.out.println("A intensidade sonora está acima do permitido: "+this.somPermitido);
-                System.out.println("--- Missão de Monitoramento de Som concluída com sucesso por " + agente.getId() + " ---");
+                System.out.println("--- Missão de Fiscalização de Som concluída com sucesso por " + agente.getId() + " ---");
                 return false;
             }
             System.out.println("A intensidade sonora está dentro do permitido: "+this.somPermitido);
-            System.out.println("--- Missão de Monitoramento de Som concluída com sucesso por " + agente.getId() + " ---");
+            System.out.println("--- Missão de Fiscalização de Som concluída com sucesso por " + agente.getId() + " ---");
             return true;
         }
     }

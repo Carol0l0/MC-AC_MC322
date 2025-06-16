@@ -7,6 +7,7 @@ import entidades.TipoEntidade;
 import exception.ForaDosLimitesException;
 import exception.NomeDuplicadoException;
 import exception.PosicaoOcupadaException;
+import exception.RoboDesligadoException;
 import exception.UsavelApenasPorRobosException;
 import obstaculos.CaixaDeSom;
 import robos.Colorido;
@@ -307,7 +308,13 @@ public class Ambiente{
     public void executarSensores() {
         for (Entidade e : listaEntidades) {
             if (e instanceof Robo) {
-                ((Robo) e).usarSensores();
+                try{
+                    ((Robo) e).gerenciadorSens.acionarSensores();
+                }
+                catch(RoboDesligadoException ex){
+                    System.out.println("Robô "+e.getId()+" desligado!");
+                }
+                
             } else {
                 throw new UsavelApenasPorRobosException(
                     "A entidade '" + e.getId() + "' do tipo " + e.getTipoEntidade() + " não pode usar sensores."
