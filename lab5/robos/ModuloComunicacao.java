@@ -1,9 +1,9 @@
-package comunicacao;
+package robos;
 // ModuloComunicacao.java
 
+import comunicacao.CentralComunicacao;
+import comunicacao.Comunicavel;
 import exception.RoboDesligadoException;
-import robos.EstadoRobo;
-import robos.Robo;
 
 public class ModuloComunicacao {
     private Robo robo; // Referência ao robô que este módulo pertence
@@ -14,11 +14,15 @@ public class ModuloComunicacao {
         this.central = central;
     }
 
+    public void setCentral(CentralComunicacao central){
+        this.central = central;
+    }
+
     /**
      * Envia uma mensagem para outro comunicável, registrando na Central de Comunicação.
-     * @param destinatario O objeto que implementa Comunicavel (geralmente outro Robo).
-     * @param mensagem A mensagem a ser enviada.
-     * @throws RoboDesligadoException Se o robô estiver desligado.
+     * param destinatario O objeto que implementa Comunicavel (geralmente outro Robo).
+     * param mensagem A mensagem a ser enviada.
+     * throws RoboDesligadoException Se o robô estiver desligado.
      */
     public void enviarMensagem(Comunicavel destinatario, String mensagem) throws RoboDesligadoException {
         if (this.robo.getEstado() == EstadoRobo.DESLIGADO) {
@@ -34,8 +38,8 @@ public class ModuloComunicacao {
 
     /**
      * Recebe uma mensagem (simulação de recebimento).
-     * @param mensagem A mensagem recebida.
-     * @throws RoboDesligadoException Se o robô estiver desligado.
+     * param mensagem A mensagem recebida.
+     * throws RoboDesligadoException Se o robô estiver desligado.
      */
     public void receberMensagem(String mensagem) throws RoboDesligadoException {
         if (this.robo.getEstado() == EstadoRobo.DESLIGADO) {

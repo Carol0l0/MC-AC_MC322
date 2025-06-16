@@ -14,7 +14,7 @@ public class SabioMagico extends Obstaculo{
 
     public boolean desafiar() {
         Charada charada = banco.getCharadaAleatoria();
-        Scanner scanner = new Scanner(System.in);
+        Scanner dialogo = new Scanner(System.in);
 
         System.out.println("✧･ﾟ: *✧･ﾟ:* 　　 *:･ﾟ✧*:･ﾟ✧");
         System.out.println("As névoas se abrem...");
@@ -23,9 +23,11 @@ public class SabioMagico extends Obstaculo{
         System.out.println("✧･ﾟ: *✧･ﾟ:* 　　 *:･ﾟ✧*:･ﾟ✧");
         System.out.println("Para conseguir passar, uma charada você deve acertar! " + charada.getEnunciado());
         System.out.print("Digite sua resposta: ");
-        String respostaJogador = scanner.nextLine().trim().toLowerCase();
+        String respostaJogador = dialogo.nextLine().trim().toLowerCase();
 
         String respostaCorreta = charada.getResposta().trim().toLowerCase();
+
+        dialogo.close();
 
         if (respostaJogador.equals(respostaCorreta)) {
             System.out.println("O Sábio Mágico levanta a mão e o ar ao redor começa a brilhar como se estivesse tocado por uma aurora.\n" + //

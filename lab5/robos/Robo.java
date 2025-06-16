@@ -1,10 +1,10 @@
 //Classe que representa um robô genérico
 package robos;
-import java.util.ArrayList;
 
 import entidades.Entidade;
 import entidades.TipoEntidade;
 import ambientes.Ambiente;
+import comunicacao.CentralComunicacao;
 import comunicacao.Comunicavel;
 import exception.RoboDesligadoException;
 import exception.ForaDosLimitesException;
@@ -100,6 +100,10 @@ public abstract class Robo implements Entidade, Comunicavel{
 
     public Ambiente getAmbiente(){
         return this.ambiente;
+    }
+
+    public void setCentral(CentralComunicacao central){
+        this.moduloCom.setCentral(central);
     }
 
     public void ligar() {
@@ -255,18 +259,11 @@ public abstract class Robo implements Entidade, Comunicavel{
     //proximos 3 metodos foram herdados da interface comunicavel e usam a classe centralComunicacao, preferi implementar as interfaces no robo geral pq acredito que todos robos irão usar
     @Override
     public void enviarMensagem(Comunicavel destinatario, String mensagem) throws RoboDesligadoException {
-        if (this.estado == EstadoRobo.DESLIGADO) {
-            throw new RoboDesligadoException("Robô " + this.id + " está desligado e não pode enviar mensagens.");
-        }
-    
-        destinatario.receberMensagem("Mensagem de " + this.id + ": " + mensagem);
+        this.moduloCom.enviarMensagem(destinatario, mensagem);
     }    
     
     public void receberMensagem(String mensagem) throws RoboDesligadoException {
-        if (this.estado == EstadoRobo.DESLIGADO) {
-            throw new RoboDesligadoException("Robô " + this.id + " está desligado e não pode receber mensagens.");
-        }
-        System.out.println("[" + this.id + "] recebeu mensagem: " + mensagem);
+        this.moduloCom.receberMensagem(mensagem);
     }
 
     public void moverPara(int x, int y, int z) throws RoboDesligadoException, ForaDosLimitesException, ObstaculoException {

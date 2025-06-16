@@ -347,7 +347,7 @@ public class Main {
                 }
             
                 if (sensor != null) {
-                    roboSensorSelecionado.adicionarSensor(sensor);
+                    roboSensorSelecionado.gerenciadorSens.adicionarSensor(sensor);
                     System.out.println("Sensor adicionado com sucesso ao robô " + nomeRoboSensor);
             
                     if (roboSensorSelecionado instanceof Sensoreavel sensoreavel) {
