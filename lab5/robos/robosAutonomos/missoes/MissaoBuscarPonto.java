@@ -7,13 +7,20 @@ import robos.robosAutonomos.*;
 public class MissaoBuscarPonto implements Missao {
     private String descricao;
     private int targetX, targetY;
+    private TipoMissao tipoM;
 
     public MissaoBuscarPonto(int targetX, int targetY) {
         this.targetX = targetX;
         this.targetY = targetY;
+        this.tipoM = TipoMissao.BUSCAPORPONTO;
         this.descricao = "O robô irá mover-se até a coordenada (" + targetX + ", " + targetY + ").";
     }
 
+    @Override
+    public TipoMissao getTipoMissao() {
+        return this.tipoM;
+    }
+    
     @Override
     public String getDescricao() {
         return descricao;
@@ -50,4 +57,5 @@ public class MissaoBuscarPonto implements Missao {
             return false;
         }
     }
+
 }

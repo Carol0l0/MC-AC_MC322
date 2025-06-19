@@ -6,12 +6,20 @@ import sensores.SensorSonoro;
 import exception.RoboDesligadoException;
 
 public class MissaoFiscalizarSom implements Missao{
-    public String descricao;
-    int somPermitido;
+    private String descricao;
+    private int somPermitido;
+    private TipoMissao tipoM;
+
 
     public MissaoFiscalizarSom(int somPermitido) { 
         this.somPermitido=somPermitido;
+        this.tipoM=TipoMissao.FISCALIZARSOM;
         this.descricao="O robô irá checar se o som em sua posição está dentro dos limites permitidos para evitar incômodos";
+    }
+
+    @Override
+    public TipoMissao getTipoMissao(){
+        return this.tipoM;
     }
     
     @Override

@@ -7,13 +7,19 @@ import robos.robosAutonomos.*;
 
 public class MissaoPatrulhar implements Missao {
     private String descricao;
+    private TipoMissao tipoM;
     private List<int[]> caminho; // Lista de coordenadas [x, y] a serem patrulhadas
 
     public MissaoPatrulhar(List<int[]> caminho) {
         this.caminho = caminho;
+        this.tipoM = TipoMissao.PATRULHAR;
         this.descricao = "O robô seguirá o caminho predefinido de " + caminho.size() + " pontos.";
     }
 
+    @Override
+    public TipoMissao getTipoMissao(){
+        return this.tipoM;
+    }
 
     @Override
     public String getDescricao() {
