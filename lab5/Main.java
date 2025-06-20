@@ -348,15 +348,11 @@ public class Main {
                 if (sensor != null) {
                     roboSensorSelecionado.gerenciadorSens.adicionarSensor(sensor);
                     System.out.println("Sensor adicionado com sucesso ao robô " + nomeRoboSensor);
-            
-                    if (roboSensorSelecionado instanceof Sensoreavel sensoreavel) {
-                        try {
-                            sensoreavel.acionarSensores();
-                        } catch (RoboDesligadoException e) {
-                            System.out.println("Erro: " + e.getMessage());
-                        }
-                    } else {
-                        System.out.println("Este robô não possui sensores ativáveis.");
+                    
+                    try {
+                        roboSensorSelecionado.gerenciadorSens.acionarSensores();
+                    } catch (RoboDesligadoException e) {
+                        System.out.println("Erro: " + e.getMessage());
                     }
                 }
             
