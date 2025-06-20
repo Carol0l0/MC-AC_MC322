@@ -3,16 +3,20 @@ package robos.robosAutonomos.missoes;
 import java.util.List;
 
 import exception.RoboDesligadoException;
+import robos.Robo;
 import robos.robosAutonomos.*;
 
 public class MissaoPatrulhar implements Missao {
     private String descricao;
     private TipoMissao tipoM;
     private List<int[]> caminho; // Lista de coordenadas [x, y] a serem patrulhadas
+    private Log log;
+    private Robo robo;
 
-    public MissaoPatrulhar(List<int[]> caminho) {
+    public MissaoPatrulhar(List<int[]> caminho, Robo robo) {
         this.caminho = caminho;
         this.tipoM = TipoMissao.PATRULHAR;
+        this.robo = robo;
         this.descricao = "O robô seguirá o caminho predefinido de " + caminho.size() + " pontos.";
     }
 
@@ -27,11 +31,17 @@ public class MissaoPatrulhar implements Missao {
     }
 
     @Override
+    public Robo getRobo(){
+        return this.robo;
+    }
+
+    @Override
     public boolean executar(AgenteInteligente agente) {
         System.out.println("--- Iniciando Missão de Patrulha: ---");
         System.out.println("Agente: " + agente.getId() + " - " + getDescricao());
 
         if (caminho == null || caminho.isEmpty()) {
+            log.adicionarLinha(agente.getId() + ": O caminho de patrulha está vazio ou não foi definido.");
             System.out.println(agente.getId() + ": O caminho de patrulha está vazio ou não foi definido.");
             return false;
         }
@@ -55,9 +65,11 @@ public class MissaoPatrulhar implements Missao {
                 boolean moveu = agente.mover(deltaX, deltaY);
 
                 if (moveu) {
+                    log.adicionarPosicao(agente.getX1(), agente.getY1(), this);
                     System.out.println(agente.getId() + " chegou ao ponto (" + agente.getX1() + ", " + agente.getY1() + ", " + agente.getZ() + ").");
-                    agente.gerenciadorSens.acionarSensores(); // Aciona sensores no ponto de patrulha
+                    log.adicionarLinha(agente.gerenciadorSens.acionarSensores()); // Aciona sensores no ponto de patrulha
                 } else {
+                    log.adicionarLinha(agente.getId() + " não conseguiu chegar ao ponto (" + destinoX + ", " + destinoY + "). Missão interrompida.");
                     System.out.println(agente.getId() + " não conseguiu chegar ao ponto (" + destinoX + ", " + destinoY + "). Missão interrompida.");
                     return false; // Missão falhou se não conseguiu alcançar um ponto
                 }
@@ -74,9 +86,11 @@ public class MissaoPatrulhar implements Missao {
             System.out.println("--- Missão de Patrulha concluída com sucesso por " + agente.getId() + " ---");
             return true;
         } catch (RoboDesligadoException e) {
+            log.adicionarLinha("Erro na Missão de Patrulha para " + agente.getId() + ": " + e.getMessage());
             System.out.println("Erro na Missão de Patrulha para " + agente.getId() + ": " + e.getMessage());
             return false;
         } catch (Exception e) { // Captura outras exceções como ForaDosLimitesException, ObstaculoException
+            log.adicionarLinha("Erro inesperado durante a Missão de Patrulha para " + agente.getId() + ": " + e.getMessage());
             System.out.println("Erro inesperado durante a Missão de Patrulha para " + agente.getId() + ": " + e.getMessage());
             e.printStackTrace();
             return false;

@@ -14,15 +14,25 @@ public class RoboExplorador extends AgenteInteligente{
     }
 
     @Override
-    public void executarMissao() {
+    public void executarMissao() {//chama missao.executar()
         this.missaoBusca.executar(this);
     }
 
+    /*
+     cria uma nova missão busca por ponto baseado nas coordenadas escolhidas
+     chama executarMissao()
+    */
     public void explorar(int x, int y){
-        missaoBusca= new MissaoBuscarPonto(x, y);
+        missaoBusca= new MissaoBuscarPonto(x, y, this);
         this.executarMissao();
     }
 
+
+    /*
+     função que vai ser utilizada na main
+     lê as posições para onde vai o rôbo
+     chama explorar(x, y)
+    */
     @Override
     public void executarTarefa() {
         Scanner coordenadas = new Scanner(System.in);

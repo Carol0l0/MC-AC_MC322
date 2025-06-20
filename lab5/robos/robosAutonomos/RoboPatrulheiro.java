@@ -15,10 +15,15 @@ public class RoboPatrulheiro extends AgenteInteligente{
     }
 
     @Override
-    public void executarMissao() {
+    public void executarMissao() {//chama missao.executar()
         this.missaoPatrulha.executar(this);
     }
     
+    /*
+     registra as coordenadas do caminho baseada no tamanho dele
+     cria uma nova missão patrulhar
+     chama executarMissao()
+    */
     public void patrulhar(int tam_caminho) {
         Scanner registro = new Scanner(System.in);
         List<int[]> caminho = new ArrayList<>(tam_caminho);
@@ -34,10 +39,15 @@ public class RoboPatrulheiro extends AgenteInteligente{
             caminho.add(new int[]{x, y});
         }
         registro.close();
-        missaoPatrulha = new MissaoPatrulhar(caminho);
+        missaoPatrulha = new MissaoPatrulhar(caminho, this);
         this.executarMissao();
     }
 
+    /*
+     função que vai ser utilizada na main
+     lê o tamanho do caminho
+     chama patrulhar(tam_caminho)
+    */
     @Override
     public void executarTarefa() { //realiza uma patrulha
         Scanner entrada_tamanho = new Scanner(System.in);

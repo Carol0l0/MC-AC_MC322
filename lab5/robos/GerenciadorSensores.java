@@ -25,18 +25,22 @@ public class GerenciadorSensores implements Sensoreavel{
         }
     }
 
-    public void acionarSensores() throws RoboDesligadoException { //confere se o rôbo está ligado e utiliza os sensores
+    public String acionarSensores() throws RoboDesligadoException { //confere se o rôbo está ligado e utiliza os sensores
         if (this.robo.getEstado() == EstadoRobo.DESLIGADO) {
-            throw new RoboDesligadoException("Robô " + this.robo.getId() + " está desligado e não pode usar sensores.");
+            System.out.println("Robô " + this.robo.getId() + " está desligado e não pode usar sensores.");
+            return "Robô " + this.robo.getId() + " está desligado e não pode usar sensores.";
         }
         if(sensores.isEmpty()){
             System.out.println("Nenhum sensor configurado para este robô.");
-            return;
+            return "Nenhum sensor configurado para este robô.";
         }
+        String resposta="";
+        resposta+="Sensores de " + this.robo.getId() + " em ação:";
         System.out.println("Sensores de " + this.robo.getId() + " em ação:");
         for (Sensor s : sensores) {
-            s.monitorar();
+            resposta+="\n"+s.monitorar();
         }
+        return resposta;
     }
 
     public ArrayList<Sensor> getSensores() {

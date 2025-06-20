@@ -216,10 +216,10 @@ public class Ambiente{
             
             int x=c.getX1(), y=c.getY1(), z=0, intensidade=c.getIntensidade();
             for (int i=intensidade; i>0; i--) {//Modifica a matriz do som
-                for (int j=x-i; j<=x+i; j++) {
-                    for (int k=y-i; k<=y+i; k++) {
-                        for (int l=z-i; l<=z+i; l++) {
-                            if (j>=0 && j<10 && k>=0 && k<10 && l>=0 && l<10) {
+                for (int j=x-i; j<=x+i; j++){
+                    for (int k=y-i; k<=y+i; k++){
+                        for (int l=z-i; l<=z+i; l++){
+                            if (j>=0 && j<10 && k>=0 && k<10 && l>=0 && l<10){
                                 this.som[j][k][l]++;
                             }
                         }

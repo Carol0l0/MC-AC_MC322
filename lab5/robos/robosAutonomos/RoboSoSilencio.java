@@ -12,12 +12,16 @@ public class RoboSoSilencio extends AgenteInteligente {
     }
 
     @Override
-    public void executarMissao() throws RoboDesligadoException{
+    public void executarMissao() throws RoboDesligadoException{//chama missao.executar()
         this.missaoSoS.executar(this);
     }
 
+    /*
+     cria uma nova missão fiscalizar baseada no Som Máximo Permitido
+     chama executarMissao()
+    */
     public void fiscalizar(int somPermitido){
-        missaoSoS= new MissaoFiscalizarSom(somPermitido);
+        missaoSoS= new MissaoFiscalizarSom(somPermitido, this);
         try {
             this.executarMissao();
         } catch (RoboDesligadoException e) {
@@ -25,6 +29,11 @@ public class RoboSoSilencio extends AgenteInteligente {
         }
     }
 
+    /*
+     função que vai ser utilizada na main
+     lê o som máximo permitido
+     chama fiscalizar(som máximo)
+    */
     @Override
     public void executarTarefa() {
         Scanner som = new Scanner(System.in);

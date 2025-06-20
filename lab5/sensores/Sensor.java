@@ -15,7 +15,7 @@ public class Sensor {
         return raio;
     }
 
-    public int monitorar() {
-        return 0; 
+    public String monitorar() {
+        return "0"; 
     }
 }
