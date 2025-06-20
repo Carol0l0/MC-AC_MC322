@@ -52,7 +52,7 @@ public class Main {
         //Instanciamento e ligando robôs autônomos
         RoboExplorador roboExplorador = new RoboExplorador("Explorer", 5, 5, 0);
         roboExplorador.ligar();
-        RoboPatrulheiro roboPatrulheiro = new RoboPatrulheiro("Patrol", 1, 1, 0);
+        RoboPatrulheiro roboPatrulheiro = new RoboPatrulheiro("Patrol", 2, 2, 0);
         roboPatrulheiro.ligar();
         RoboSoSilencio roboSilencioso = new RoboSoSilencio("Silencer", 15, 15, 0);
         roboSilencioso.ligar();
@@ -69,37 +69,58 @@ public class Main {
 
         //Criação de obstáculos
         Obstaculo arvore  = new Obstaculo(40, 40, 40, 40, TipoObstaculo.ARVOREMISTICA);         //ArvoreMistica
-        SabioMagico sabio = new SabioMagico(5, 5, 5, 5);                                        //SabioMagico
-        CaixaDeSom caixa = new CaixaDeSom(15, 15, 15, 15, 5);                       //CaixaDeSom
-        Obstaculo forteVento = new Obstaculo(25, 25, 29, 29, TipoObstaculo.FORTEVENTANIA);      //ForteVentania
-        Obstaculo lago = new Obstaculo(2, 2, 4, 4, TipoObstaculo.LAGODEACIDO);                  //LagoDeAcido
+        SabioMagico sabio = new SabioMagico(12, 12, 12, 12);                                    //SabioMagico
+        CaixaDeSom caixa = new CaixaDeSom(16, 16, 16, 16, 5);                       //CaixaDeSom
+        Obstaculo forteVento = new Obstaculo(26, 26, 26, 26, TipoObstaculo.FORTEVENTANIA);      //ForteVentania
+        Obstaculo lago = new Obstaculo(3, 3, 4, 4, TipoObstaculo.LAGODEACIDO);                  //LagoDeAcido
         
         //Adição de obstaculos no ambiente
         ambiente.adicionarEntidade(arvore);
         ambiente.adicionarEntidade(sabio);
-        ambiente.adicionaCaixaDeSom(caixa);
+        ambiente.adicionaCaixaDeSom(caixa); 
         ambiente.adicionarEntidade(forteVento);
-        ambiente.adicionarEntidade(lago);
+        ambiente.adicionarEntidade(lago); 
 
-        //adicionando sensores nos autonomos
-        //fazer isso dps
+        //Adição dos sensores nos autônomos
+        roboExplorador.gerenciadorSens.adicionarSensor(new SensorProximidade(roboExplorador, 5));
+        roboPatrulheiro.gerenciadorSens.adicionarSensor(new SensorProximidade(roboPatrulheiro, 7));
+        roboSilencioso.gerenciadorSens.adicionarSensor(new SensorSonoro(5, roboSilencioso)); 
+
+        String ANSI_RESET = "\u001B[0m";
+        String ANSI_BLUE = "\u001B[34m";
+        String ANSI_GREEN = "\u001B[32m";
+        String ANSI_YELLOW = "\u001B[33m";
+        String ANSI_CYAN = "\u001B[36m";
+        String ANSI_PURPLE = "\u001B[35m";
+        
+        System.out.println(ANSI_BLUE + "╔══════════════════════════════════════════════╗" + ANSI_RESET);
+        System.out.println(ANSI_BLUE + "║" + ANSI_YELLOW + "       BEM-VINDO AO SIMULADOR DE ROBÔS        " + ANSI_BLUE + "║" + ANSI_RESET);
+        System.out.println(ANSI_BLUE + "╠══════════════════════════════════════════════╣" + ANSI_RESET);
+        System.out.println(ANSI_BLUE + "║" + ANSI_GREEN + "   Prepare-se para explorar e interagir!      " + ANSI_BLUE + "║" + ANSI_RESET);
+        System.out.println(ANSI_BLUE + "║" + ANSI_CYAN + "    Navegue, observe e comande seus robôs!    " + ANSI_BLUE + "║" + ANSI_RESET);
+        System.out.println(ANSI_BLUE + "╠══════════════════════════════════════════════╣" + ANSI_RESET);
+        System.out.println(ANSI_BLUE + "║" + ANSI_PURPLE + "🤖 Desenvolvido por: Maria Clara/Ana Carolina " + ANSI_BLUE + "║" + ANSI_RESET);
+        System.out.println(ANSI_BLUE + "╚══════════════════════════════════════════════╝" + ANSI_RESET);
+        System.out.println();
+        
 
         //Menu Interativo
         int opcao;
         int opcaoRobo;
         do {
-            System.out.println("\nMENU INTERATIVO");
-            System.out.println("1. Listar robôs por tipos e estados"); 
-            System.out.println("2. Selecionar robô para mover/executar tarefa"); 
-            System.out.println("3. Visualizar mapa 2D do ambiente"); 
-            System.out.println("4. Enviar mensagem");
-            System.out.println("5. Usar sensor");
-            System.out.println("6. Ativar/Desligar robô"); 
-            System.out.println("7. Registro mensagens trocadas entre robôs");
-            System.out.println("8. Iniciar Missão de Robô Autônomo"); 
-            System.out.println("9. Salvar log de missões dos robôs autônomos"); 
-            System.out.println("0. Sair"); 
-            System.out.print("Escolha uma opção: ");
+            System.out.println("\n" + ANSI_YELLOW + "MENU INTERATIVO" + ANSI_RESET);
+            System.out.println(ANSI_CYAN + "1" + ANSI_RESET + ". Listar robôs por tipos e estados"); 
+            System.out.println(ANSI_CYAN + "2" + ANSI_RESET + ". Selecionar robô para mover/executar tarefa"); 
+            System.out.println(ANSI_CYAN + "3" + ANSI_RESET + ". Visualizar mapa 2D do ambiente"); 
+            System.out.println(ANSI_CYAN + "4" + ANSI_RESET + ". Enviar mensagem");
+            System.out.println(ANSI_CYAN + "5" + ANSI_RESET + ". Usar sensor");
+            System.out.println(ANSI_CYAN + "6" + ANSI_RESET + ". Ativar/Desligar robô"); 
+            System.out.println(ANSI_CYAN + "7" + ANSI_RESET + ". Registro mensagens trocadas entre robôs");
+            System.out.println(ANSI_CYAN + "8" + ANSI_RESET + ". Iniciar Missão de Robô Autônomo"); 
+            System.out.println(ANSI_CYAN + "9" + ANSI_RESET + ". Salvar log de missões dos robôs autônomos"); 
+            System.out.println(ANSI_CYAN + "0" + ANSI_RESET + ". Sair"); 
+            System.out.print(ANSI_GREEN + "Escolha uma opção: " + ANSI_RESET);
+            
             opcao = scanner.nextInt();
             scanner.nextLine();
 
@@ -536,7 +557,7 @@ public class Main {
                 break;
                 case 0:
                 System.out.println("Encerrando...");
-                
+                //aqui salva todas as infos finais
                 System.out.println("Salvando logs finais antes de sair...");
                 if (roboExplorador.getLog() != null) {
                     roboExplorador.getLog().salvarLogEmArquivo("log_final_explorador.txt");
