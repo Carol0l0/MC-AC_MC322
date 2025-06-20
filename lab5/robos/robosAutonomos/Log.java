@@ -9,15 +9,17 @@ public class Log {
         texto.add(m.getRobo().getId()+" andou para ("+x+", "+y+")");
     }
 
-    public void adicionarSensorAtivado(Missao m){
-        
-        texto.add("");
-    }
-
-    public void adicionarLinha(String s){
+    public void adicionarLinha(String s){//Adiciona qualque mensagem
         texto.add(s);
     }
 
+    /*
+    Mostra:
+    - as posições visitadas,
+    - os sensores acionados, 
+    - os obstáculos detectados,
+    - os erros detectados dos robos agentes
+     */
     public void exibirLog(){
         System.out.println("--- Log das Missões ---");
         for(String linha : texto){
