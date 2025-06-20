@@ -33,7 +33,6 @@ public abstract class Robo implements Entidade, Comunicavel{
         this.posicaoY = posicaoY;
         this.posicaoZ = posicaoZ;
         this.estado = EstadoRobo.LIGADO;
-        this.ambiente = ambiente;
         this.controleMov = new ControleMovimento(this); 
         this.moduloCom = new ModuloComunicacao(this, null);
         this.gerenciadorSens = new GerenciadorSensores(this); //reponsável pela utilização de sensores

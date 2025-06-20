@@ -21,7 +21,7 @@ public class RoboSoSilencio extends AgenteInteligente {
      chama executarMissao()
     */
     public void fiscalizar(int somPermitido){
-        missaoSoS= new MissaoFiscalizarSom(somPermitido, this);
+        missaoSoS= new MissaoFiscalizarSom(somPermitido, this, this.getLog());
         try {
             this.executarMissao();
         } catch (RoboDesligadoException e) {
@@ -42,5 +42,4 @@ public class RoboSoSilencio extends AgenteInteligente {
         som.close();
     }
 
-    
 }

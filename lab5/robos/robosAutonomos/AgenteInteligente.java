@@ -7,9 +7,11 @@ import robos.Robo;
 public abstract class AgenteInteligente extends Robo {
 
     protected Missao missao;
+    private Log log; 
 
     public AgenteInteligente(String id, int posicaoX, int posicaoY, int posicaoZ) {
         super(id, posicaoX, posicaoY, posicaoZ);
+        this.log = new Log(id + "_log.txt");
     }
 
     public void definirMissao ( Missao m) {
@@ -18,6 +20,10 @@ public abstract class AgenteInteligente extends Robo {
 
     public boolean temMissao () {
         return missao!=null;
+    }
+
+    public Log getLog() { 
+        return this.log;
     }
 
     public abstract void executarMissao() throws RoboDesligadoException;

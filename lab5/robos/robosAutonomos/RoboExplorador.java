@@ -23,7 +23,7 @@ public class RoboExplorador extends AgenteInteligente{
      chama executarMissao()
     */
     public void explorar(int x, int y){
-        missaoBusca= new MissaoBuscarPonto(x, y, this);
+        missaoBusca = new MissaoBuscarPonto(x, y, this, this.getLog());
         this.executarMissao();
     }
 
@@ -43,6 +43,10 @@ public class RoboExplorador extends AgenteInteligente{
         int y = coordenadas.nextInt();
         this.explorar(x, y); //executa a missão
         coordenadas.close();
+    }
+
+    public void setLog(Log log) {
+        
     }
     
 }

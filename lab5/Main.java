@@ -19,6 +19,7 @@ import robos.TipoColorido;
 import sensores.Sensor;
 import sensores.SensorProximidade;
 import sensores.SensorSonoro;
+import sensores.Sensoreavel;
 
 
 import robos.robosAutonomos.RoboExplorador;
@@ -80,6 +81,9 @@ public class Main {
         ambiente.adicionarEntidade(forteVento);
         ambiente.adicionarEntidade(lago);
 
+        //adicionando sensores nos autonomos
+        //fazer isso dps
+
         //Menu Interativo
         int opcao;
         int opcaoRobo;
@@ -93,6 +97,7 @@ public class Main {
             System.out.println("6. Ativar/Desligar robô"); 
             System.out.println("7. Registro mensagens trocadas entre robôs");
             System.out.println("8. Iniciar Missão de Robô Autônomo"); 
+            System.out.println("9. Salvar log de missões dos robôs autônomos"); 
             System.out.println("0. Sair"); 
             System.out.print("Escolha uma opção: ");
             opcao = scanner.nextInt();
@@ -513,19 +518,46 @@ public class Main {
                     System.out.println("Seleção de robô inválida. Por favor, tente novamente.");
                 }
                 break;
-            case 0:
+                case 9: // Salvar Log de Missões em Arquivo 
+                System.out.print("Digite o nome do arquivo para salvar o log (ex: log_missoes.txt): ");
+                String nomeArquivoLog = scanner.nextLine();
+
+                System.out.println("\nSalvando logs dos robôs autônomos...");
+                if (roboExplorador.getLog() != null) {
+                    roboExplorador.getLog().salvarLogEmArquivo("log_" + roboExplorador.getId() + "_" + nomeArquivoLog);
+                }
+                if (roboPatrulheiro.getLog() != null) {
+                    roboPatrulheiro.getLog().salvarLogEmArquivo("log_" + roboPatrulheiro.getId() + "_" + nomeArquivoLog);
+                }
+                if (roboSilencioso.getLog() != null) {
+                    roboSilencioso.getLog().salvarLogEmArquivo("log_" + roboSilencioso.getId() + "_" + nomeArquivoLog);
+                }
+                System.out.println("Processo de salvamento de logs concluído.");
+                break;
+                case 0:
                 System.out.println("Encerrando...");
+                
+                System.out.println("Salvando logs finais antes de sair...");
+                if (roboExplorador.getLog() != null) {
+                    roboExplorador.getLog().salvarLogEmArquivo("log_final_explorador.txt");
+                }
+                if (roboPatrulheiro.getLog() != null) {
+                    roboPatrulheiro.getLog().salvarLogEmArquivo("log_final_patrulheiro.txt");
+                }
+                if (roboSilencioso.getLog() != null) {
+                    roboSilencioso.getLog().salvarLogEmArquivo("log_final_silencioso.txt");
+                }
+                System.out.println("Logs finais salvos.");
                 break;
             default:
                 System.out.println("Opção inválida.");
-            }
-            
-            } while (opcao != 0);
-            
-            scanner.close();
-            }
-            }
+        }
 
+    } while (opcao != 0);
+
+    scanner.close();
+}
+}
 
 
 

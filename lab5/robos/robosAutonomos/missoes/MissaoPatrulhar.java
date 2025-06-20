@@ -10,15 +10,15 @@ public class MissaoPatrulhar implements Missao {
     private String descricao;
     private TipoMissao tipoM;
     private List<int[]> caminho; // Lista de coordenadas [x, y] a serem patrulhadas
-    private Log log;
+    private Log log; // Atributo para o log
     private Robo robo;
 
-    public MissaoPatrulhar(List<int[]> caminho, Robo robo) {
+    public MissaoPatrulhar(List<int[]> caminho, Robo robo, Log log) { // Adicionar Log ao construtor
         this.caminho = caminho;
         this.tipoM = TipoMissao.PATRULHAR;
         this.robo = robo;
         this.descricao = "O robô seguirá o caminho predefinido de " + caminho.size() + " pontos.";
-        this.log = new Log();
+        this.log = log; // Inicializar o atributo log
     }
 
     @Override
@@ -38,6 +38,7 @@ public class MissaoPatrulhar implements Missao {
 
     @Override
     public boolean executar(AgenteInteligente agente) {
+        log.adicionarLinha("--- Iniciando Missão de Patrulha por " + agente.getId() + " ---");
         System.out.println("--- Iniciando Missão de Patrulha: ---");
         System.out.println("Agente: " + agente.getId() + " - " + getDescricao());
 
@@ -49,37 +50,45 @@ public class MissaoPatrulhar implements Missao {
 
         try {
             for (int i = 0; i < caminho.size(); i++) {
-                int[] pontoAlvo = caminho.get(i);
-                int destinoX = pontoAlvo[0];
-                int destinoY = pontoAlvo[1];
+                int[] ponto = caminho.get(i);
+                int destinoX = ponto[0];
+                int destinoY = ponto[1];
 
-                System.out.println(agente.getId() + " patrulhando para ponto " + (i + 1) + ": (" + destinoX + ", " + destinoY + ")");
+                log.adicionarLinha(agente.getId() + " movendo-se para o ponto " + (i + 1) + ": (" + destinoX + ", " + destinoY + ")");
+                System.out.println(agente.getId() + " movendo-se para o ponto " + (i + 1) + ": (" + destinoX + ", " + destinoY + ")");
 
-                // Calcular deltaX e deltaY para chegar ao ponto alvo
+                // Calcular deltaX e deltaY
                 int deltaX = destinoX - agente.getX1();
                 int deltaY = destinoY - agente.getY1();
 
                 boolean moveu = agente.mover(deltaX, deltaY);
 
-                if (moveu) {
-                    log.adicionarPosicao(agente.getX1(), agente.getY1(), this);
-                    System.out.println(agente.getId() + " chegou ao ponto (" + agente.getX1() + ", " + agente.getY1() + ", " + agente.getZ() + ").");
-                    log.adicionarLinha(agente.gerenciadorSens.acionarSensores()); // Aciona sensores no ponto de patrulha
-                } else {
+                if (!moveu) {
                     log.adicionarLinha(agente.getId() + " não conseguiu chegar ao ponto (" + destinoX + ", " + destinoY + "). Missão interrompida.");
                     System.out.println(agente.getId() + " não conseguiu chegar ao ponto (" + destinoX + ", " + destinoY + "). Missão interrompida.");
+                    log.adicionarLinha("--- Missão de Patrulha falhou por " + agente.getId() + " ---");
                     return false; // Missão falhou se não conseguiu alcançar um ponto
                 }
 
+                log.adicionarPosicao(agente.getX1(), agente.getY1(), this); // Registrar a nova posição
+                String sensorLog = agente.gerenciadorSens.acionarSensores();
+                if (sensorLog != null && !sensorLog.isEmpty()) {
+                    log.adicionarLinha(sensorLog);
+                }
+
+                // Pequena pausa para simular o tempo
                 try {
                     Thread.sleep(700);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
+                    log.adicionarLinha("Missão de Patrulha interrompida para " + agente.getId() + ".");
                     System.out.println("Missão de Patrulha interrompida.");
+                    log.adicionarLinha("--- Missão de Patrulha falhou por " + agente.getId() + " ---");
                     return false;
                 }
             }
             System.out.println("--- Missão de Patrulha concluída com sucesso por " + agente.getId() + " ---");
+            log.adicionarLinha("--- Missão de Patrulha concluída com sucesso por " + agente.getId() + " ---");
             return true;
         } catch (RoboDesligadoException e) {
             log.adicionarLinha("Erro na Missão de Patrulha para " + agente.getId() + ": " + e.getMessage());
