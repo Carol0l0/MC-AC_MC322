@@ -26,6 +26,20 @@ public abstract class Robo implements Entidade, Comunicavel{
     protected ModuloComunicacao moduloCom;
     public GerenciadorSensores gerenciadorSens;
     
+    public Robo(String id, int posicaoX, int posicaoY, int posicaoZ) {
+        this.id = id;
+        this.direcao = "Norte";
+        this.posicaoX = posicaoX;
+        this.posicaoY = posicaoY;
+        this.posicaoZ = posicaoZ;
+        this.estado = EstadoRobo.LIGADO;
+        this.ambiente = ambiente;
+        this.controleMov = new ControleMovimento(this); 
+        this.moduloCom = new ModuloComunicacao(this, null);
+        this.gerenciadorSens = new GerenciadorSensores(this); //reponsável pela utilização de sensores
+        
+    }
+
     public String getId() {
         return this.id;
     }
@@ -114,18 +128,6 @@ public abstract class Robo implements Entidade, Comunicavel{
     public void desligar() {
         this.estado = EstadoRobo.DESLIGADO;
         System.out.println(id + " foi desligado.");
-    }
-
-    public Robo(String id, int posicaoX, int posicaoY, int posicaoZ) {
-        this.id = id;
-        this.direcao = "Norte";
-        this.posicaoX = posicaoX;
-        this.posicaoY = posicaoY;
-        this.posicaoZ = posicaoZ;
-        this.estado = EstadoRobo.LIGADO;
-        this.controleMov = new ControleMovimento(this); 
-        this.moduloCom = new ModuloComunicacao(this, null);
-        this.gerenciadorSens = new GerenciadorSensores(this); //reponsável pela utilização de sensores
     }
 
     //Método para mover o robô dentro do ambiente, verificando obstáculos e limites de borda

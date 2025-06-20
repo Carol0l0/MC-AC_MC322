@@ -18,6 +18,7 @@ public class MissaoFiscalizarSom implements Missao{
         this.tipoM=TipoMissao.FISCALIZARSOM;
         this.robo = robo;
         this.descricao="O robô irá checar se o som em sua posição está dentro dos limites permitidos para evitar incômodos";
+        this.log = new Log();
     }
 
     @Override

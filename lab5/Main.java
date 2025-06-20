@@ -3,15 +3,29 @@ import java.util.*;
 import ambientes.Ambiente;
 import comunicacao.CentralComunicacao;
 import comunicacao.Comunicavel;
+import entidades.Entidade;
 import exception.RoboDesligadoException;
-import obstaculos.*;
+import obstaculos.Obstaculo;
+import obstaculos.TipoObstaculo;
 import robos.Robo;
 import robos.RoboAereoXY;
 import robos.RoboAereoYX;
 import robos.RoboTerrestreBlindado;
 import robos.RoboTerrestreDeCarga;
+import obstaculos.CaixaDeSom;
+import obstaculos.SabioMagico;
 import robos.TipoColorido;
-import sensores.*;
+
+import sensores.Sensor;
+import sensores.SensorProximidade;
+import sensores.SensorSonoro;
+
+
+import robos.robosAutonomos.RoboExplorador;
+import robos.robosAutonomos.RoboPatrulheiro;
+import robos.robosAutonomos.RoboSoSilencio;
+import robos.robosAutonomos.missoes.Missao; 
+import robos.robosAutonomos.Log; 
 
 public class Main {
 
@@ -24,7 +38,7 @@ public class Main {
         Ambiente ambiente = new Ambiente(50, 50, 50, central);
         ambiente.inicializarMapa();
 
-        //Instanciamento e ligando robôs
+        //Instanciamento e ligando robôs não autônomos
         RoboTerrestreBlindado roboBlindado = new RoboTerrestreBlindado("Blind", 1, 1, 0, 20);
         roboBlindado.ligar();
         RoboAereoXY roboAereoXY = new RoboAereoXY("Voa XY", 10, 10, 10, 50, TipoColorido.GREEN);
@@ -34,11 +48,23 @@ public class Main {
         RoboAereoYX roboAereoYX = new RoboAereoYX("Voa YX", 20, 20, 20, 50);
         roboAereoYX.ligar();
 
+        //Instanciamento e ligando robôs autônomos
+        RoboExplorador roboExplorador = new RoboExplorador("Explorer", 5, 5, 0);
+        roboExplorador.ligar();
+        RoboPatrulheiro roboPatrulheiro = new RoboPatrulheiro("Patrol", 1, 1, 0);
+        roboPatrulheiro.ligar();
+        RoboSoSilencio roboSilencioso = new RoboSoSilencio("Silencer", 15, 15, 0);
+        roboSilencioso.ligar();
+
         //Adição dos robôs no ambiente
         ambiente.adicionarEntidade(roboBlindado);
         ambiente.adicionarEntidade(roboAereoXY);
         ambiente.adicionarEntidade(roboCargueiro);
         ambiente.adicionarEntidade(roboAereoYX);
+        ambiente.adicionarEntidade(roboExplorador);
+        ambiente.adicionarEntidade(roboPatrulheiro);
+        ambiente.adicionarEntidade(roboSilencioso);
+
 
         //Criação de obstáculos
         Obstaculo arvore  = new Obstaculo(40, 40, 40, 40, TipoObstaculo.ARVOREMISTICA);         //ArvoreMistica
@@ -66,6 +92,7 @@ public class Main {
             System.out.println("5. Usar sensor");
             System.out.println("6. Ativar/Desligar robô"); 
             System.out.println("7. Registro mensagens trocadas entre robôs");
+            System.out.println("8. Iniciar Missão de Robô Autônomo"); 
             System.out.println("0. Sair"); 
             System.out.print("Escolha uma opção: ");
             opcao = scanner.nextInt();
@@ -313,9 +340,9 @@ public class Main {
                 case 5: //Usar sensor
                 System.out.println("Digite o nome do robô (Blind, Voa XY, Cargueiro, Voa YX):");
                 String nomeRoboSensor = scanner.nextLine().trim();
-            
+                    
                 Robo roboSensorSelecionado = null;
-            
+                    
                 switch (nomeRoboSensor.toLowerCase()) {
                     case "blind" -> roboSensorSelecionado = roboBlindado;
                     case "voa xy" -> roboSensorSelecionado = roboAereoXY;
@@ -326,15 +353,15 @@ public class Main {
                         break;
                     }
                 }
-            
+                
                 if (roboSensorSelecionado == null) break;
-            
+                
                 System.out.println("Escolha o tipo de sensor:");
                 System.out.println("1. Sensor de Proximidade");
                 System.out.println("2. Sensor Sonoro");
                 int tipoSensor = scanner.nextInt();
                 scanner.nextLine(); 
-            
+                
                 Sensor sensor = null;
                 switch (tipoSensor) {
                     case 1 -> sensor = new SensorProximidade(roboSensorSelecionado, 2);
@@ -344,7 +371,7 @@ public class Main {
                         break;
                     }
                 }
-            
+                
                 if (sensor != null) {
                     roboSensorSelecionado.gerenciadorSens.adicionarSensor(sensor);
                     System.out.println("Sensor adicionado com sucesso ao robô " + nomeRoboSensor);
@@ -355,9 +382,8 @@ public class Main {
                         System.out.println("Erro: " + e.getMessage());
                     }
                 }
-            
+                
                 break;
-            
                 case 6: //Ligar e desligar robôs
                     System.out.println("===== ATIVAR/DESLIGAR ROBÔ =====");
                     System.out.println("Escolha o robô:");
@@ -403,16 +429,106 @@ public class Main {
                 System.out.println("Mensagens trocadas entre os robôs:");
                 ambiente.centralAmbiente.exibirMensagens();
                 break;
-
-                case 0:
-                    System.out.println("Encerrando...");
-                    break;
-                default:
-                    System.out.println("Opção inválida.");
+                case 8: // Executar Missão Autônoma
+                System.out.println("Escolha o robô:");
+                System.out.println("1. Robô 1 (" + roboExplorador.getClass().getSimpleName() + ")");
+                System.out.println("2. Robô 2 (" + roboPatrulheiro.getClass().getSimpleName() + ")");
+                System.out.println("3. Robô 3 (" + roboSilencioso.getClass().getSimpleName() + ")"); 
+            
+                System.out.print("Opção: ");
+                int opcaoRobo2 = scanner.nextInt(); 
+            
+                Robo agente = null; 
+            
+                switch (opcaoRobo2) {
+                    case 1:
+                        agente = roboExplorador;
+                        break;
+                    case 2:
+                        agente = roboPatrulheiro;
+                        break;
+                    case 3:
+                        agente = roboSilencioso;
+                        break;
+                    default:
+                        System.out.println("Robô inválido.");
+                        break;
+                }
+            
+                if (agente != null) {
+                    System.out.println("\nEscolha o tipo de missão para " + agente.getId() + ":");
+                    System.out.println("1. Missão de Busca por Ponto (Explorador)");
+                    System.out.println("2. Missão de Patrulha (Patrulheiro)");
+                    System.out.println("3. Missão de Fiscalizar Som (Só Silêncio)");
+                    System.out.print("Escolha: ");
+            
+                    try {
+                        int tipoMissao = scanner.nextInt();
+                        scanner.nextLine(); 
+            
+                        switch (tipoMissao) {
+                            case 1:
+                                if (agente instanceof RoboExplorador) {
+                                    System.out.print("Digite a coordenada X alvo: ");
+                                    int targetX = scanner.nextInt();
+                                    System.out.print("Digite a coordenada Y alvo: ");
+                                    int targetY = scanner.nextInt();
+                                    ((RoboExplorador) agente).explorar(targetX, targetY);
+                                } else {
+                                    System.out.println("Este robô não é um Robo Explorador e não pode executar esta missão.");
+                                }
+                                break;
+            
+                            case 2:
+                                if (agente instanceof RoboPatrulheiro) {
+                                    System.out.print("Digite o número de pontos no caminho de patrulha: ");
+                                    int numPontos = scanner.nextInt();
+                                    scanner.nextLine();
+                                    ((RoboPatrulheiro) agente).patrulhar(numPontos);
+                                } else {
+                                    System.out.println("Este robô não é um Robo Patrulheiro e não pode executar esta missão.");
+                                }
+                                break;
+            
+                            case 3:
+                                if (agente instanceof RoboSoSilencio) {
+                                    System.out.print("Digite o nível de som máximo permitido: ");
+                                    int somMax = scanner.nextInt();
+                                    scanner.nextLine(); // Consume the newline character
+                                    ((RoboSoSilencio) agente).fiscalizar(somMax);
+                                } else {
+                                    System.out.println("Este robô não é um Robo So Silencio e não pode executar esta missão.");
+                                }
+                                break;
+            
+                            default:
+                                System.out.println("Tipo de missão inválido.");
+                                break;
+                        }
+                    } catch (InputMismatchException e) {
+                        System.out.println("Entrada inválida. Por favor, digite um número.");
+                        scanner.nextLine(); 
+                    }
+                } else {
+                    System.out.println("Seleção de robô inválida. Por favor, tente novamente.");
+                }
+                break;
+            case 0:
+                System.out.println("Encerrando...");
+                break;
+            default:
+                System.out.println("Opção inválida.");
+            }
+            
+            } while (opcao != 0);
+            
+            scanner.close();
+            }
             }
 
-        } while (opcao != 0);
 
-        scanner.close();
-    }
-}
+
+
+
+
+

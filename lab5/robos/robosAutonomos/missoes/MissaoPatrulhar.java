@@ -18,6 +18,7 @@ public class MissaoPatrulhar implements Missao {
         this.tipoM = TipoMissao.PATRULHAR;
         this.robo = robo;
         this.descricao = "O robô seguirá o caminho predefinido de " + caminho.size() + " pontos.";
+        this.log = new Log();
     }
 
     @Override
@@ -58,10 +59,6 @@ public class MissaoPatrulhar implements Missao {
                 int deltaX = destinoX - agente.getX1();
                 int deltaY = destinoY - agente.getY1();
 
-                // Mover o robô em direção ao ponto alvo
-                // Para uma movimentação mais complexa (ex: passo a passo),
-                // você precisaria de um algoritmo de pathfinding aqui.
-                // Por simplicidade, faremos um movimento direto.
                 boolean moveu = agente.mover(deltaX, deltaY);
 
                 if (moveu) {
@@ -74,7 +71,6 @@ public class MissaoPatrulhar implements Missao {
                     return false; // Missão falhou se não conseguiu alcançar um ponto
                 }
 
-                // Pequena pausa para simular o tempo
                 try {
                     Thread.sleep(700);
                 } catch (InterruptedException e) {

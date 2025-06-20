@@ -30,6 +30,10 @@ public class Obstaculo implements Entidade{
 
     }
 
+    public Obstaculo(int x1, int y1, int x2, int y2, TipoObstaculo arvoremistica) {
+        //TODO Auto-generated constructor stub
+    }
+
     public Boolean podeAdicionar(Ambiente a) {
         for(Entidade e : a.listaEntidades){
             if(e.getTipoEntidade()==TipoEntidade.ROBO){ //conferindo se o rôbo impede a adição

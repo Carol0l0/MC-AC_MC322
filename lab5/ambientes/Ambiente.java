@@ -13,6 +13,7 @@ import exception.UsavelApenasPorRobosException;
 import obstaculos.CaixaDeSom;
 import robos.Colorido;
 import robos.Robo;
+import obstaculos.*;
 
 //Classe que representa o ambiente onde os robôs se movimentam
 public class Ambiente{
@@ -196,25 +197,25 @@ public class Ambiente{
     }
     
     //Adiciona caixa de som 
-    public void adicionaCaixaDeSom(CaixaDeSom c){
-        int X = c.getX1();
-        int Y = c.getY1();
-        int Z = c.getZ();
+    public void adicionaCaixaDeSom(CaixaDeSom caixa){
+        int X = caixa.getX1();
+        int Y = caixa.getY1();
+        int Z = caixa.getZ();
     
         try {
             if (!dentroDosLimites(X, Y, Z)) {
-                throw new ForaDosLimitesException("Posição da entidade '" + c.getDescricao() + "' está fora dos limites.");
+                throw new ForaDosLimitesException("Posição da entidade '" + caixa.getDescricao() + "' está fora dos limites.");
             }
     
-            if (!c.podeAdicionar(this)) {
+            if (!caixa.podeAdicionar(this)) {
                 throw new PosicaoOcupadaException("Espaço já ocupado por outra entidade.");
             }
     
-            listaEntidades.add(c); //adiciona nalista de entidades
+            listaEntidades.add(caixa); //adiciona nalista de entidades
             
             mapa[X][Y][Z]=TipoEntidade.CAIXADESOM;//modifica o mapa
             
-            int x=c.getX1(), y=c.getY1(), z=0, intensidade=c.getIntensidade();
+            int x=caixa.getX1(), y=caixa.getY1(), z=0, intensidade=caixa.getIntensidade();
             for (int i=intensidade; i>0; i--) {//Modifica a matriz do som
                 for (int j=x-i; j<=x+i; j++){
                     for (int k=y-i; k<=y+i; k++){
@@ -227,7 +228,7 @@ public class Ambiente{
                 }
             }
 
-            System.out.println("\nEntidade '" + c.getId() + "' adicionada com sucesso!");
+            System.out.println("\nEntidade '" + caixa.getId() + "' adicionada com sucesso!");
     
         } catch (ForaDosLimitesException | PosicaoOcupadaException ex ) {
             System.out.println("Erro ao adicionar entidade: " + ex.getMessage());

@@ -7,6 +7,7 @@ public class RoboAereoXY extends RoboAereo implements Colorido{
     public RoboAereoXY(String nome, int posicaoX, int posicaoY, int posicaoZ, int altitudeMax, TipoColorido cor){
         super(nome, posicaoX, posicaoY, posicaoZ, altitudeMax);
         this.cor=cor;
+        
     }
 
     public void setCor(TipoColorido cor){ //define a cor

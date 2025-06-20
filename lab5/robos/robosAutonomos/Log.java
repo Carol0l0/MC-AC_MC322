@@ -9,7 +9,7 @@ public class Log {
         texto.add(m.getRobo().getId()+" andou para ("+x+", "+y+")");
     }
 
-    public void adicionarLinha(String s){//Adiciona qualque mensagem
+    public void adicionarLinha(String s){//Adiciona qualquer mensagem
         texto.add(s);
     }
 

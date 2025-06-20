@@ -18,6 +18,7 @@ public class MissaoBuscarPonto implements Missao {
         this.robo = robo;
         this.tipoM = TipoMissao.BUSCAPORPONTO;
         this.descricao = "O robô irá mover-se até a coordenada (" + targetX + ", " + targetY + ").";
+        this.log = new Log();
     }
 
     @Override
