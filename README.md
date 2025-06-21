@@ -2,6 +2,9 @@
 Ana Carolina Vieira Araújo (248734)
 Maria Clara Martinez Oliveira (281315)
 
+**Versão final do código**
+
+
 **Anteriormente no lab 4**
 
 Em relação ao laboratório anterior, foram implementadas mudanças significativas com o objetivo de aprimorar a estrutura, a organização e a escalabilidade do projeto. A principal modificação consistiu na criação de uma interface comum denominada `Entidade`, que estabeleceu um padrão de comportamento para todos os elementos presentes no ambiente, como robôs, obstáculos e o sábio mágico. Essa padronização permitiu o uso do polimorfismo, facilitando o tratamento genérico das entidades e a expansão do sistema de forma mais modular. Ressaltamos que relacionado a `CaixaDeSom` e `SábioMágico` tiveram alguns métodos que julgamos melhor tratar por fora do escopo das entidades para menor complexidade de seus métodos.
