@@ -34,7 +34,6 @@ public class RoboPatrulheiro extends AgenteInteligente{
 
             caminho.add(new int[]{x, y});
         }
-        registro.close();
         missaoPatrulha = new MissaoPatrulhar(caminho, this, this.getLog());
         this.executarMissao();
     }
@@ -45,7 +44,6 @@ public class RoboPatrulheiro extends AgenteInteligente{
         Scanner entrada_tamanho = new Scanner(System.in);
         int tam_caminho=entrada_tamanho.nextInt(); //pede o tamanho do caminho da patrulha
         this.patrulhar(tam_caminho);
-        entrada_tamanho.close();
     }
 
 

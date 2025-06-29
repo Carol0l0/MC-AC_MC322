@@ -117,8 +117,7 @@ public class Main {
             System.out.println(ANSI_CYAN + "6" + ANSI_RESET + ". Ativar/Desligar robô"); 
             System.out.println(ANSI_CYAN + "7" + ANSI_RESET + ". Registro mensagens trocadas entre robôs");
             System.out.println(ANSI_CYAN + "8" + ANSI_RESET + ". Iniciar Missão de Robô Autônomo"); 
-            System.out.println(ANSI_CYAN + "9" + ANSI_RESET + ". Salvar log de missões dos robôs autônomos"); 
-            System.out.println(ANSI_CYAN + "0" + ANSI_RESET + ". Sair"); 
+            System.out.println(ANSI_CYAN + "9" + ANSI_RESET + ". Salvar log de missẽs dos robôs e encerrar programa"); 
             System.out.print(ANSI_GREEN + "Escolha uma opção: " + ANSI_RESET);
             
             opcao = scanner.nextInt();
@@ -539,23 +538,7 @@ public class Main {
                     System.out.println("Seleção de robô inválida. Por favor, tente novamente.");
                 }
                 break;
-                case 9: // Salvar Log de Missões em Arquivo 
-                System.out.print("Digite o nome do arquivo para salvar o log (ex: log_missoes.txt): ");
-                String nomeArquivoLog = scanner.nextLine();
-
-                System.out.println("\nSalvando logs dos robôs autônomos...");
-                if (roboExplorador.getLog() != null) {
-                    roboExplorador.getLog().salvarLogEmArquivo("log_" + roboExplorador.getId() + "_" + nomeArquivoLog);
-                }
-                if (roboPatrulheiro.getLog() != null) {
-                    roboPatrulheiro.getLog().salvarLogEmArquivo("log_" + roboPatrulheiro.getId() + "_" + nomeArquivoLog);
-                }
-                if (roboSilencioso.getLog() != null) {
-                    roboSilencioso.getLog().salvarLogEmArquivo("log_" + roboSilencioso.getId() + "_" + nomeArquivoLog);
-                }
-                System.out.println("Processo de salvamento de logs concluído.");
-                break;
-                case 0:
+                case 9:
                 System.out.println("Encerrando...");
                 //aqui salva todas as infos finais
                 System.out.println("Salvando logs finais antes de sair...");
@@ -579,7 +562,6 @@ public class Main {
     scanner.close();
 }
 }
-
 
 
 

@@ -3,18 +3,27 @@ import entidades.Entidade;
 import entidades.TipoEntidade;
 import ambientes.Ambiente;
 
+/**
+ * Representa um obstáculo genérico no ambiente do simulador.
+ * Implementa a interface Entidade.
+ */
 public class Obstaculo implements Entidade{
+    // Coordenadas X e Y que definem a área ocupada pelo obstáculo.
     private int posicaoX1;
     private int posicaoY1;
     private int posicaoX2;
     private int posicaoY2;
+    // Altura do obstáculo.
     private int altura;
+    // O tipo específico deste obstáculo (ex: CAIXADESOM, ARVOREMISTICA).
     private TipoObstaculo tipo_o;
+    // O tipo geral de entidade (sempre OBSTACULO para esta classe).
     protected TipoEntidade tipo_e;
 
+    
     public Obstaculo(int x1, int y1, int x2, int y2, TipoObstaculo tipo_o) {
 
-        //garantindo que x1<x2 e y1<y2
+        // Garantindo que x1<x2 e y1<y2
         int minX = Math.min(x1, x2);
         int maxX = Math.max(x1, x2);
         int minY = Math.min(y1, y2);
@@ -25,14 +34,21 @@ public class Obstaculo implements Entidade{
         this.posicaoX2 = maxX;
         this.posicaoY2 = maxY;
         this.tipo_o = tipo_o;
-        this.altura = tipo_o.getAlturaPadrao();
-        this.tipo_e = TipoEntidade.OBSTACULO;
+        this.altura = tipo_o.getAlturaPadrao(); // Altura padrão definida pelo tipo.
+        this.tipo_e = TipoEntidade.OBSTACULO; // Define como tipo geral OBSTACULO.
 
     }
 
+    /**
+     * Verifica se o obstáculo pode ser adicionado ao ambiente sem colidir.
+     * Considera robôs e outros obstáculos já existentes.
+     * @param a O ambiente onde se tenta adicionar o obstáculo.
+     * @return Verdadeiro se puder ser adicionado, falso caso contrário.
+     */
     public Boolean podeAdicionar(Ambiente a) {
         for(Entidade e : a.listaEntidades){
-            if(e.getTipoEntidade()==TipoEntidade.ROBO){ //conferindo se o rôbo impede a adição
+            // Verifica se um robô impede a adição do obstáculo.
+            if(e.getTipoEntidade()==TipoEntidade.ROBO){ 
                 int x=e.getX1();
                 int y=e.getY1();
                 int z=e.getZ();
@@ -42,7 +58,7 @@ public class Obstaculo implements Entidade{
                     return false;
                 }
             }
-            else{ //conferindo se os obstáculos impedem a adição
+            else{ // Verifica se outro obstáculo impede a adição.
                 if(this.posicaoX2 >= e.getX1() && this.posicaoX1 <= e.getX2() &&
                 this.posicaoY2 >= e.getY1() && this.posicaoY1 <= e.getY2()) {
                     System.out.println("Obstáculo detectado! " + e.getId());

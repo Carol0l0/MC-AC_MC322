@@ -3,8 +3,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Armazena e fornece charadas aleatórias para o Sábio Mágico.
+ */
+
 public class BancoDeCharadas {
+    // Lista de charadas disponíveis.
     private final List<Charada> charadas;
+    // Gerador de números aleatórios para selecionar charadas.
     private final Random random;
 
     public BancoDeCharadas() {
@@ -13,6 +19,9 @@ public class BancoDeCharadas {
         carregarCharadas();
     }
 
+    /**
+     * Carrega uma lista predefinida de charadas no banco.
+     */
     private void carregarCharadas() {
         charadas.add(new Charada("Quanto mais você tira de mim, maior eu fico. Quem sou?", "buraco"));
         charadas.add(new Charada("Sou invisível, mas posso te carregar por mundos inteiros. Estou em livros e feitiços. O que sou?", "imaginação"));
@@ -26,6 +35,10 @@ public class BancoDeCharadas {
 
     }
 
+    /**
+     * Retorna uma charada aleatória do banco.
+     * @return Uma instância de Charada.
+     */
     public Charada getCharadaAleatoria() {
         int index = random.nextInt(charadas.size());
         return charadas.get(index);
